@@ -2,7 +2,6 @@
 
 import useSWR from "swr";
 
-import { Sidebar } from "@/components/sidebar";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "./auth";
 import { useEffect } from "react";

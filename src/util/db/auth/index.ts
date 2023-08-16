@@ -1,5 +1,13 @@
 import { getRobloxContext, refreshTokens, robloxUserInfo } from "@/util/roblox/auth.server";
-import type { User } from "@prisma/client";
+
+interface User {
+    username: string;
+    sessionToken: string;
+    userId: string;
+    isActive: boolean;
+    isBeta: boolean;
+    email: string;
+  }
 
 import { NextRequest } from "next/server";
 import { prisma } from "..";

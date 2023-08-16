@@ -5,7 +5,7 @@ dotenv.config();
 
 export const encryptCookie = async (
     cookie: string
-): Promise<{ encryptedData: string, iv: string, secret: string }> => {
+): Promise<{ encryptedData: string, iv: string }> => {
     try {
         const iv = randomBytes(16);
         const secret = process.env.COOKIE_KEY;
