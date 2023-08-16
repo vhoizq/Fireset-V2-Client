@@ -162,7 +162,7 @@ export default function Home() {
             </Popover.Group>
             <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
               <a
-                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https%3A%2F%2Flocalhost:3000%2Fapi%2Fauth%2Fredirect&response_type=code&scope=identify%20email%20guilds"
+                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https%3A%2F%2Ffireset.xyz%2Fapi%2Fauth%2Fredirect&response_type=code&scope=identify%20email%20guilds"
                 className="transition duration-200 inline-flex rounded-md border border-transparent bg-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
               >
                 Login to Dashboard
@@ -218,7 +218,7 @@ export default function Home() {
                   </div>
                   <div className="mt-6">
                     <a
-                      href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https%3A%2F%2Flocalhost:3000%2Fapi%2Fauth%2Fredirect&response_type=code&scope=identify%20email%20guilds"
+                      href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https%3A%2F%2Ffireset.xyz%2Fapi%2Fauth%2Fredirect&response_type=code&scope=identify%20email%20guilds"
                       className="transition duration-200 inline-flex rounded-md border border-transparent bg-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
                     >
                       Login to Dashboard
@@ -261,7 +261,7 @@ export default function Home() {
                     </p>
                     <div className="mt-6">
                       <a
-                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://localhost:3000/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
+                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
                         className="transition duration-200 inline-flex rounded-md border border-transparent bg-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
                       >
                         Get started today
