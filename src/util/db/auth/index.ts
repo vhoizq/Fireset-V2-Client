@@ -26,9 +26,8 @@ export const verifyAuth = async (
 ): Promise<User | false> => {
     try {
         const clientCookie = req.cookies.get("fireset-client-id");
-        const userCookie = req.cookies.get("fireset-user-id");
-
-        if (clientCookie && userCookie) {
+       
+        if (clientCookie) {
             console.log("Got Data")
             const { data: user, error: userError } = await supabase
                 .from("User")

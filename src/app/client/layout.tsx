@@ -27,7 +27,7 @@ export default function ClientLayout({
   const { data, error, isLoading } = useSWR("/api/context", fetch);
   if (error) {
     console.log("Got Error");
-    router.replace("/auth/login");
+    router.replace("/");
   }
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function ClientLayout({
           if (body && body.data && auth.setUser) {
             auth.setUser(body.data as User);
           } else if (body && body.error) {
-            router.replace("/auth/login");
+            router.replace("/");
           }
         } catch (error) {}
       };

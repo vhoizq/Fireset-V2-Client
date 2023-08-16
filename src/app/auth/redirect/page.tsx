@@ -10,7 +10,7 @@ export default function RedirectPage() {
   const router = useRouter();
   const params = useSearchParams();
   useEffect(() => {
-    fetch(`https://fireset.xyz/api/auth/redirect?${params}`)
+    fetch(`https://localhost:3000/api/auth/redirect?${params}`)
       .then(async (response) => {
         let body;
         try {
