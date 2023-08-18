@@ -39,6 +39,7 @@ import axios from "axios";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
+import ClientStatuses from '@/components/client/ClientStatuses'
 
 const user = {
   name: "Tom Cook",
@@ -549,6 +550,10 @@ export default function ClientPage() {
                       </div>
                     </dl>
                   </div>
+
+                  <ClientStatuses client={client?.data[0].id} />
+
+
                 </div>
               </div>
             </div>

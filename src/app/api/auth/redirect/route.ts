@@ -77,7 +77,7 @@ export const GET = async (
                         {
                             status: 200,
                             headers: {
-                                "Set-Cookie": `fireset-client-id=${accessToken}; Max-Age=${60 * 60 * 24}; Path=/`
+                                "Set-Cookie": `fireset-client-id=${accessToken}; Max-Age=${60 * 60 * 24}; Path=/, fireset-user-id=${accessToken}; Max-Age=${60 * 60 * 24}; Path=/`
                             }
                         }
                     );
