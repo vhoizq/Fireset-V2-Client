@@ -28,7 +28,7 @@ const fetchClients = async () => {
   }
 };
 
-export const ClientsList = (props: { client: Client }) => {
+export const ClientsList = (props: { client: any }) => {
   const [open, setOpen] = useState(false);
 
   const {
@@ -111,9 +111,11 @@ export const ClientsList = (props: { client: Client }) => {
 
       const body = await newGroupResponse.json();
 
+      console.log(body);
+
       if (newGroupResponse.status === 200) {
         setOpen(false);
-        if (body.data) {
+        if (body.success) {
           toast.dismiss();
           toast.success(
             `Successfully added status to ${props.client.botName}.`
@@ -137,14 +139,16 @@ export const ClientsList = (props: { client: Client }) => {
 
   async function remove(args: any) {
     console.log(args);
+
+    toast.loading("We are processing your request...");
+
     const data = {
       statusId: `${args}`,
     };
-    toast.loading("We are processing your request...");
 
     try {
       const newGroupResponse = await fetch(
-        `/api/clients/status/${props.client.id}/remove`,
+        `/api/clients/status/remove/${props.client.id}`,
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -158,7 +162,7 @@ export const ClientsList = (props: { client: Client }) => {
 
       if (newGroupResponse.status === 200) {
         setOpen(false);
-        if (body.data) {
+        if (body.success) {
           toast.dismiss();
           toast.success(
             `Successfully removed status from ${props.client.botName}.`
@@ -264,7 +268,7 @@ export const ClientsList = (props: { client: Client }) => {
                                       PLAYING
                                     </option>
                                     <option value="LISTENING">LISTENING</option>
-                                    <option value="WATCHNING">WATCHING</option>
+                                    <option value="WATCHING">WATCHING</option>
                                   </select>
                                 </div>
                               </div>
@@ -297,18 +301,18 @@ export const ClientsList = (props: { client: Client }) => {
         </Dialog>
       </Transition.Root>
 
-      <div className="w-full">
+      <div className=" ">
         <dt className="text-sm font-medium text-gray-500">Custom Statuses</dt>
 
-        {clients && clients[0]?.botStatuses?.length >= 0 ? (
+        {props.client && props.client.botStatuses?.length >= 1 ? (
           <div>
             <ul
               role="list"
-              className="divide-y mt-1 divide-gray-200 rounded-md border border-gray-200 w-full"
+              className="divide-y  mt-1 divide-gray-200 rounded-md border border-gray-200 mr-10"
             >
-              {clients[0].botStatuses.map((b: any) => (
+              {props.client.botStatuses.map((b: any) => (
                 <li
-                  className="flex items-center justify-between py-3 pl-3 pr-4 text-sm w-full"
+                  className="flex items-center justify-between  py-3 pl-3 pr-4 text-sm w-full"
                   key={b.id}
                 >
                   <div className="flex w-0 flex-1 items-center">

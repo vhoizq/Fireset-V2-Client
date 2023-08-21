@@ -104,17 +104,18 @@ const metrics = [
 ];
 const footerNavigation = {
   solutions: [
-    { name: "Staff Management", href: "/app/workspaces" },
-    { name: "Custom Discord Bots", href: "/app/workspaces" },
+    { name: "Staff Management", href: "/client" },
+    { name: "Custom Discord Bots", href: "/client" },
   ],
   support: [
-    { name: "Contact Us", href: "#" },
-    { name: "Discord Server", href: "#" },
+    { name: "Contact Us", href: "https://discord.gg/mYEkZBVwZK" },
+    { name: "Discord Server", href: "https://discord.gg/mYEkZBVwZK" },
   ],
 
   legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
+    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms of Service", href: "/terms" },
+    { name: "Code of Conduct", href: "/conduct" },
   ],
 };
 

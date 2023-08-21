@@ -5,7 +5,7 @@ import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
 
 import { HiX } from "react-icons/hi";
-import { useAuth } from "./auth";
+import { useAuth } from "../auth";
 import { Toaster, toast } from "react-hot-toast";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";

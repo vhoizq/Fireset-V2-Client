@@ -5,12 +5,13 @@ export default function TermsPage() {
         <div
             className="flex flex-col gap-4 w-screen min-h-screen bg-gray-50  py-36 px-64"
         >
+                         <div className="absolute inset-0 bg-[url(https://play.tailwindcss.com/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
             <span
                 className="text-indigo-950 text-3xl font-bold"
             >Code of Conduct</span>
             <span
                 className="text-indigo-950 text-sm mb-12"
-            >{`Welcome to fireset! We are committed to fostering a vibrant and inclusive community where individuals can connect, chat, create content, and freely interact. To ensure a positive and respectful environment for all users, we have established this Code of Conduct. By using our website and participating in our community, you agree to abide by the following guidelines:`}</span>
+            >{`Welcome to Fireset! We are committed to fostering a vibrant and inclusive community where individuals can connect, chat, create content, and freely interact. To ensure a positive and respectful environment for all users, we have established this Code of Conduct. By using our website and participating in our community, you agree to abide by the following guidelines:`}</span>
             <div
                 className="flex flex-col gap-2"
             >
@@ -120,22 +121,16 @@ export default function TermsPage() {
             <div
                 className="flex flex-row gap-4 mt-12"
             >
-                <Image
-                    width={64}
-                    height={64}
-                    className="my-auto"
-                    src={"/branding/TransparentBoltTextDark.png"}
-                    alt={"Logo"}
-                />
+              
                 <div
                     className="flex flex-col my-auto"
                 >
                     <span
                         className="text-indigo-950 text-lg font-semibold"
-                    >Posted on June 21, 2023 at 07:00 PM Eastern Time</span>
+                    >Posted on August 20, 2023 at 11:00 AM Eastern Time</span>
                     <span
                         className="text-indigo-950 text-sm"
-                    >Authored by Edward, edvwards, approved by fireset</span>
+                    >Approved by Fireset Leadership</span>
                 </div>
             </div>
         </div>

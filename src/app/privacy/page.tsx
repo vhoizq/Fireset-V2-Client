@@ -5,6 +5,8 @@ export default function PrivacyPage() {
         <div
             className="flex flex-col gap-4 w-screen min-h-screen bg-gray-50  py-36 px-64"
         >
+             <div className="absolute inset-0 bg-[url(https://play.tailwindcss.com/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+
             <span
                 className="text-indigo-950 text-3xl font-bold"
             >Privacy Policy</span>
@@ -19,10 +21,7 @@ export default function PrivacyPage() {
                 >Section 1: Information we Collect</span>
                 <span
                     className="text-indigo-950 text-sm"
-                >1.1 Personal Information: When you voluntarily provide us with your email address through direct input, we collect and store that information. Additionally, when you authenticate with our website using the Roblox OAuth 2.0 system, we collect your name from Roblox.</span>
-                <span
-                    className="text-indigo-950 text-sm"
-                >1.2 Emails: Providing a valid email is not required to use our application. It is recommended for users to receive enhanced monitoring and an elevated experience. Users will not be punished for choosing not to provide an email.</span>
+                >1.1 Personal Information: When you voluntarily provide us with your email address through direct input, we collect and store that information. Additionally, when you authenticate with our website using the Discord OAuth system, we collect your name from Discord.</span>
             </div>
             <div
                 className="flex flex-col gap-2"
@@ -45,7 +44,7 @@ export default function PrivacyPage() {
                 >3.1 Third-Party Service Providers: We may share your email addresses with Sendgrid, a trusted third-party email service provider, to facilitate the delivery of emails and improve our communication with you. Sendgrid is contractually obligated to handle your information securely and in compliance with applicable privacy laws.</span>
                 <span
                     className="text-indigo-950 text-sm"
-                >3.2 Public Account Information: Public information provided through authentication with Roblox will be available to other users who share a common connection, either through a group or community. If a user wishes to opt into Discord verification through our servers, their display name and username will be publicly visible.</span>
+                >3.2 Public Account Information: Public information provided through authentication with Discord will be available to other users who share a common connection.</span>
             </div>
             <div
                 className="flex flex-col gap-2"
@@ -65,7 +64,7 @@ export default function PrivacyPage() {
                 >Section 5: User Rights</span>
                 <span
                     className="text-indigo-950 text-sm"
-                >5.1 Access and Control: You have the right to access, modify, or delete your personal information held by us. If you wish to exercise any of these rights, use the settings page on fireset&apos;s client portal.</span>
+                >5.1 Access and Control: You have the right to access, modify, or delete your personal information held by us. If you wish to exercise any of these rights, use the settings page on Fireset&apos;s client portal.</span>
             </div>
             <div
                 className="flex flex-col gap-2"
@@ -105,29 +104,25 @@ export default function PrivacyPage() {
                 >Section 9: Contact Us</span>
                 <span
                     className="text-indigo-950 text-sm"
-                >9.1 If you have any questions, concerns, or requests regarding this Privacy Policy or the handling of your personal information, please contact us at: support@thefireset.io</span>
+                >9.1 If you have any questions, concerns, or requests regarding this Privacy Policy or the handling of your personal information, please contact us via our Discord Community</span>
             </div>
             <div
                 className="flex flex-row gap-4 mt-12"
             >
-                <Image
-                    width={64}
-                    height={64}
-                    className="my-auto"
-                    src={"/branding/TransparentBoltTextDark.png"}
-                    alt={"Logo"}
-                />
+             
                 <div
                     className="flex flex-col my-auto"
                 >
                     <span
                         className="text-indigo-950 text-lg font-semibold"
-                    >Posted on June 03, 2023 at 11:00 AM Eastern Time</span>
+                    >Posted on August 20, 2023 at 10:00 AM Eastern Time</span>
                     <span
                         className="text-indigo-950 text-sm"
-                    >Authored by Edward, edvwards, approved by fireset</span>
+                    >Approved by Fireset Leadership</span>
                 </div>
+                
             </div>
+            
         </div>
     )
 }

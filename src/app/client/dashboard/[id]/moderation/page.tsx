@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { HiX } from "react-icons/hi";
 import { useAuth } from "../../../auth";
@@ -48,6 +49,15 @@ const user = {
     "https://images-ext-1.discordapp.net/external/Gu7KcuWl1IpFcMHL3q_lpyX_qLpb83D1yP5vtJ4N7c0/https/cdn.discordapp.com/avatars/914289232061800459/1c26d51680f735a589b815f803dc3124.png?width=281&height=281",
 };
 
+const people = [
+  {
+    name: "flux;",
+    title: "8/20/2023",
+    email: "Fireset Community",
+  },
+  // More people...
+];
+
 const userNavigation = [
   { name: "Dashboard", href: "/client" },
   { name: "Settings", href: "/client/settings" },
@@ -63,6 +73,7 @@ export default function ClientPage() {
   const router = useRouter();
   const path = usePathname();
 
+  const [open, setOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [version, setVersion] = useState<number>(0);
 
@@ -84,6 +95,12 @@ export default function ClientPage() {
     fetchData
   );
   const cache = useSWR(`/api`, fetch);
+
+  if (client) {
+    if (!client.data[0]) {
+      return router.replace("/client");
+    }
+  }
 
   const navigation = [
     {
@@ -144,88 +161,128 @@ export default function ClientPage() {
     },
   ];
 
-  if (error) {
-    return router.replace("/client");
-  }
-
   return auth.user ? (
     <main>
       <Toaster position="bottom-center" reverseOrder={false} />
       <div>
-        <Transition.Root show={openDelete} as={Fragment}>
-          <Dialog
-            as="div"
-            className="relative z-10"
-            initialFocus={cancelButtonRef}
-            onClose={setDelete}
-          >
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
+        <Transition.Root show={open} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={setOpen}>
+            <div className="fixed inset-0" />
 
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                      <div className="sm:flex sm:items-start">
-                        <div className="mt-3 text-center sm:mt-0  sm:text-left">
-                          <Dialog.Title
-                            as="h3"
-                            className="text-lg font-medium leading-6 text-gray-900"
-                          >
-                            Delete Discord Client
-                          </Dialog.Title>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Are you sure you want to delete{" "}
-                              {client?.data[0].botName}? All of the data will be
-                              permanently removed. This action cannot be undone.
-                            </p>
+            <div className="fixed inset-0 overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transform transition ease-in-out duration-500 sm:duration-700"
+                    enterFrom="translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transform transition ease-in-out duration-500 sm:duration-700"
+                    leaveFrom="translate-x-0"
+                    leaveTo="translate-x-full"
+                  >
+                    <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
+                      <form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+                        <div className="h-0 flex-1 overflow-y-auto">
+                          <div className="bg-indigo-700 py-6 px-4 sm:px-6">
+                            <div className="flex items-center justify-between">
+                              <Dialog.Title className="text-lg font-bold text-white">
+                                Add Custom Status
+                              </Dialog.Title>
+                              <div className="ml-3 flex h-7 items-center">
+                                <button
+                                  type="button"
+                                  className="rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none hover:ring-2 hover:ring-white"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  <span className="sr-only">Close panel</span>
+                                  <XCircleIcon
+                                    className="h-6 w-6"
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="mt-1">
+                              <p className="text-sm text-indigo-300">
+                                Adding a custom status will change your clients
+                                status weather it be <b>Playing</b>,{" "}
+                                <b>Watching</b>, or <b>Listening</b>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-1 flex-col justify-between">
+                            <div className="divide-y divide-gray-200 px-4 sm:px-6">
+                              <div className="space-y-6 pt-6 pb-5">
+                                <div>
+                                  <label
+                                    htmlFor="project-name"
+                                    className="block text-sm font-medium text-gray-900"
+                                  >
+                                    Status Text
+                                  </label>
+                                  <div className="mt-1">
+                                    <input
+                                      type="text"
+                                      name="text"
+                                      id="status-text"
+                                      placeholder="fireset.xyz"
+                                      className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 outline-none sm:text-sm sm:leading-6"
+                                    />
+                                  </div>
+                                </div>
+                                <div>
+                                  <label
+                                    htmlFor="project-name"
+                                    className="block text-sm font-medium text-gray-900"
+                                  >
+                                    Status Type
+                                  </label>
+                                  <div className="mt-1">
+                                    <select
+                                      id="status-type"
+                                      name="type"
+                                      className="transition duration-200 block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-indigo-600  sm:text-sm sm:leading-6"
+                                    >
+                                      <option value="PLAYING" selected>
+                                        PLAYING
+                                      </option>
+                                      <option value="LISTENING">
+                                        LISTENING
+                                      </option>
+                                      <option value="WATCHING">WATCHING</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={() => setDelete(false)}
-                      >
-                        Delete Client
-                      </button>
-                      <button
-                        type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none hover:ring-2 hover:ring-indigo-500 hover:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={() => setDelete(false)}
-                        ref={cancelButtonRef}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
+                        <div className="flex flex-shrink-0 justify-end px-4 py-4">
+                          <button
+                            type="button"
+                            className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => setOpen(false)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                          
+                            type="button"
+                            className="cursor-pointer ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          >
+                            Save Status
+                          </button>
+                        </div>
+                      </form>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
               </div>
             </div>
           </Dialog>
         </Transition.Root>
-
+      
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -303,13 +360,14 @@ export default function ClientPage() {
                             aria-hidden="true"
                           />
                           {item.name}
-                          {item.isPaid ? (
+                          {item.isPaid &&
+                          client?.data[0].botConfigs.isEnterprise === false ? (
                             <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                               <SparklesIcon
                                 className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
                                 aria-hidden="true"
                               />{" "}
-                              PRO
+                              ENTERPRISE
                             </span>
                           ) : null}
                         </a>
@@ -354,13 +412,15 @@ export default function ClientPage() {
                       aria-hidden="true"
                     />
                     {item.name}
-                    {item.isPaid ? (
+
+                    {item.isPaid &&
+                    client?.data[0].botConfigs.isEnterprise === false ? (
                       <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                         <SparklesIcon
                           className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
                           aria-hidden="true"
                         />{" "}
-                        PRO
+                        ENTERPRISE
                       </span>
                     ) : null}
                   </a>
@@ -572,20 +632,129 @@ export default function ClientPage() {
                     <div className="transition durintation-200 mr-6 mt-6 ml-6 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
                       <div className="flex w-full flex-row self-center justify-between">
                         <div className="w-full flex flex-row items-center justify-between  p-6">
-                          <div className="flex-1 ">
+                          <div className=" ">
                             <div className="items-center">
                               <h3 className=" truncate text-md font-bold flex items-center text-gray-900 ">
-                                <FlagIcon
-                                  className="mr-2 h-5 w-5 flex-shrink-0 text-gray-900"
-                                  aria-hidden="true"
-                                />{" "}
-                                Suspicous Activity
+                                Malicious Accounts{" "}
+                                {client?.data[0].botConfigs.isEnterprise ===
+                                false ? (
+                                  <span className="bg-indigo-50 0 ml-2 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                                    <SparklesIcon
+                                      className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                                      aria-hidden="true"
+                                    />{" "}
+                                    ENTERPRISE
+                                  </span>
+                                ) : null}
                               </h3>
                               <span className=" text-xs font-medium text-gray-600 ">
-                                We will store any information regarding users
-                                who are deemed either Alternative Accounts or
-                                known spammers.
+                                Utilizing our dashboard, the identification of
+                                accounts designated as Alternative Accounts or
+                                well-known Community Raiders is an automated
+                                process. This functionality empowers you to make
+                                informed decisions regarding moderation actions
+                                directly from the dashboard, streamlining your
+                                response to such instances effectively.
                               </span>
+                              {client?.data[0].botConfigs.isEnterprise ===
+                              false ? (
+                                <Image
+                                  width={15}
+                                  height={15}
+                                  src={"/static/NoGroups.svg"}
+                                  alt={"no groups"}
+                                  className="w-full mt-3 object-fit max-w-[225px] mx-auto"
+                                />
+                              ) : null}
+
+                              <div className="px-4 w-full ">
+                                <div className="mt-3 flex flex-col">
+                                  <div className=" w-full ">
+                                    <div className="inline-block min-w-full py-2 align-middle ">
+                                      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                                        <table className="min-w-full divide-y divide-gray-300">
+                                          <thead className="bg-gray-50">
+                                            <tr>
+                                              <th
+                                                scope="col"
+                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                              >
+                                                Username
+                                              </th>
+                                              <th
+                                                scope="col"
+                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                              >
+                                                Detected On
+                                              </th>
+                                              <th
+                                                scope="col"
+                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                              >
+                                                Last Seen
+                                              </th>
+
+                                              <th
+                                                scope="col"
+                                                className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                                              >
+                                                <span className="sr-only">
+                                                  Edit
+                                                </span>
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody className="bg-white">
+                                            {people.map((person, personIdx) => (
+                                              <tr
+                                                key={person.email}
+                                                className={
+                                                  personIdx % 2 === 0
+                                                    ? undefined
+                                                    : "bg-gray-50"
+                                                }
+                                              >
+                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                  {person.name}
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                  {person.title}
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                  {person.email}
+                                                </td>
+
+                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                  <a
+                                                    
+                                                    
+                                                    className="text-indigo-600 ml-3 hover:text-indigo-900"
+                                                  >
+                                                    Kick User
+                                                    <span className="sr-only">
+                                                      , {person.name}
+                                                    </span>
+                                                  </a>
+                                                  <a
+                                                    
+                                                    
+                                                    className="text-red-500 ml-3 hover:text-indigo-900"
+                                                  >
+                                                    Ban User
+                                                    <span className="sr-only">
+                                                      , {person.name}
+                                                    </span>
+                                                  </a>
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
 
                             <p className=" text-sm text-gray-400 text-left"></p>

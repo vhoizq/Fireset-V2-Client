@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, Fragment } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { HiX } from "react-icons/hi";
-import { useAuth } from "../../auth";
+import { useAuth } from "../../../auth";
 import {
   BriefcaseIcon,
   BellIcon,
@@ -90,6 +90,8 @@ export default function ClientPage() {
     if (!client.data[0]) {
       return router.replace("/client");
     }
+  }else{
+    return router.replace("/client");
   }
 
   const navigation = [
