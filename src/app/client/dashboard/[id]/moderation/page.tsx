@@ -38,9 +38,17 @@ import {
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Dialog, Menu, Transition, Combobox } from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
+import IncidentReports from "@/components/client/IncidentReports";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = "https://bodxfxgmzdsaxyeqxgbm.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvZHhmeGdtemRzYXh5ZXF4Z2JtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4OTA5MTIwOSwiZXhwIjoyMDA0NjY3MjA5fQ.wZg90UpLqy6BDL9mO7D1_c4DU05gC2rcmTLgX5dPxL0";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const user = {
   name: "Tom Cook",
@@ -53,7 +61,13 @@ const people = [
   {
     name: "flux;",
     title: "8/20/2023",
-    email: "Fireset Community",
+    email: "kat was being rude to me and calling me inappropriate names.",
+  },
+  {
+    name: "Venai Assistant",
+    title: "8/21/2023",
+    email:
+      "User flux; (914289232061800459) was detected being toxic within the community.",
   },
   // More people...
 ];
@@ -81,6 +95,7 @@ export default function ClientPage() {
 
   const cancelButtonRef = useRef(null);
 
+  
   const [state, setState] = useState<boolean>(false);
 
   async function fetchData() {
@@ -89,11 +104,215 @@ export default function ClientPage() {
     return data;
   }
 
+  async function fetchUserGuilds() {
+    const response = await axios.get(
+      `/api/guilds/${path.split("/")[3]}/roles`,
+      {
+        headers: {
+          Authorization: `Bot ${client?.data[0].botToken}`,
+        },
+      }
+    );
+    const data = await response;
+    return data;
+  }
+
+  // Use SWR with the fetched data
+  const { data: guildRoles, error: userGuildsError } = useSWR(
+    `/api/guilds/${path.split("/")[3]}/roles`,
+    fetchUserGuilds
+  );
+
+  async function fetchUserChannels() {
+    const response = await axios.get(
+      `/api/guilds/${path.split("/")[3]}/channels`,
+      {
+        headers: {
+          Authorization: `Bot ${client?.data[0].botToken}`,
+        },
+      }
+    );
+    const data = await response;
+    return data;
+  }
+
+  // Use SWR with the fetched data
+  const { data: guildChannels, error: userGuildsError2 } = useSWR(
+    `/api/guilds/${path.split("/")[3]}/channels`,
+    fetchUserChannels
+  );
+
+  async function addChannel(args: any) {
+    const getDocument = document.getElementById(
+      `mod-channel`
+    ) as HTMLSelectElement;
+
+    const { data: existingData, error: existingError } = await supabase
+      .from("DiscordBots")
+      .select("*")
+      .eq("id", `${client?.data[0].id}`);
+
+    if (existingError) {
+      console.error("Error fetching existing data:", existingError);
+      return;
+    }
+
+    let newData = existingData.map((bot: any) => ({
+      ...bot,
+      botModules: bot.botModules.map((module: any) => {
+        if (module.name === "Moderation") {
+          // Modify this condition as needed
+          return {
+            ...module,
+            modChannel: getDocument.value,
+          };
+        }
+        return module;
+      }),
+    }));
+
+    // Update the data
+    const { data: updatedData, error: updateError } = await supabase
+      .from("DiscordBots")
+      .upsert(newData);
+  }
+
+  async function addRole(args: any) {
+    const getDocument = document.getElementById(
+      `${args}-roles`
+    ) as HTMLSelectElement;
+
+    if (args === "admin") {
+      const { data: existingData, error: existingError } = await supabase
+        .from("DiscordBots")
+        .select("*")
+        .eq("id", `${client?.data[0].id}`);
+
+      if (existingError) {
+        console.error("Error fetching existing data:", existingError);
+        return;
+      }
+
+      let newData = existingData.map((bot: any) => ({
+        ...bot,
+        botModules: bot.botModules.map((module: any) => {
+          if (module.name === "Moderation") {
+            // Modify this condition as needed
+            return {
+              ...module,
+              adminRoles: [...module.adminRoles, getDocument.value],
+            };
+          }
+          return module;
+        }),
+      }));
+
+      // Update the data
+      const { data: updatedData, error: updateError } = await supabase
+        .from("DiscordBots")
+        .upsert(newData);
+    }
+
+    if (args === "mod") {
+      const { data: existingData, error: existingError } = await supabase
+        .from("DiscordBots")
+        .select("*")
+        .eq("id", `${client?.data[0].id}`);
+
+      if (existingError) {
+        console.error("Error fetching existing data:", existingError);
+        return;
+      }
+
+      let newData = existingData.map((bot: any) => ({
+        ...bot,
+        botModules: bot.botModules.map((module: any) => {
+          if (module.name === "Moderation") {
+            // Modify this condition as needed
+            return {
+              ...module,
+              modRoles: [...module.modRoles, getDocument.value],
+            };
+          }
+          return module;
+        }),
+      }));
+
+      // Update the data
+      const { data: updatedData, error: updateError } = await supabase
+        .from("DiscordBots")
+        .upsert(newData);
+    }
+
+    if (args === "safe") {
+      const { data: existingData, error: existingError } = await supabase
+        .from("DiscordBots")
+        .select("*")
+        .eq("id", `${client?.data[0].id}`);
+
+      if (existingError) {
+        console.error("Error fetching existing data:", existingError);
+        return;
+      }
+
+      let newData = existingData.map((bot: any) => ({
+        ...bot,
+        botModules: bot.botModules.map((module: any) => {
+          if (module.name === "Moderation") {
+            // Modify this condition as needed
+            return {
+              ...module,
+              safeRoles: [...module.safeRoles, getDocument.value],
+            };
+          }
+          return module;
+        }),
+      }));
+
+      // Update the data
+      const { data: updatedData, error: updateError } = await supabase
+        .from("DiscordBots")
+        .upsert(newData);
+    }
+  }
+
   // Use SWR with the fetched data
   const { data: client, error } = useSWR(
     `/api/clients/info/${path.split("/")[3]}`,
     fetchData
   );
+
+  function truncateText(text: string, maxLength: number): string {
+    if (typeof text === "string") {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) + "...";
+      }
+      return text;
+    } else {
+      return "Invalid input";
+    }
+  }
+
+  const maxLength: number = 9;
+
+  const admins: string[] = client?.data[0].botModules[0].adminRoles || [];
+
+  const truncatedAdmins: string[] = admins.map((admin) =>
+    truncateText(admin, maxLength)
+  );
+
+  const mods: string[] = client?.data[0].botModules[0].modRoles || [];
+
+  const truncatedMods: string[] = mods.map((mod) =>
+    truncateText(mod, maxLength)
+  );
+
+  const protectedRls: string[] = client?.data[0].botModules[0].safeRoles || [];
+
+  const truncatedProtected: string[] = protectedRls.map((prtc) =>
+    truncateText(prtc, maxLength)
+  );
+
   const cache = useSWR(`/api`, fetch);
 
   if (client) {
@@ -101,6 +320,8 @@ export default function ClientPage() {
       return router.replace("/client");
     }
   }
+
+  
 
   const navigation = [
     {
@@ -161,7 +382,7 @@ export default function ClientPage() {
     },
   ];
 
-  return auth.user ? (
+  return auth.user && guildRoles?.data && guildChannels?.data ? (
     <main>
       <Toaster position="bottom-center" reverseOrder={false} />
       <div>
@@ -184,7 +405,7 @@ export default function ClientPage() {
                     <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                       <form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
                         <div className="h-0 flex-1 overflow-y-auto">
-                          <div className="bg-indigo-700 py-6 px-4 sm:px-6">
+                          <div className="bg-blue-700 py-6 px-4 sm:px-6">
                             <div className="flex items-center justify-between">
                               <Dialog.Title className="text-lg font-bold text-white">
                                 Add Custom Status
@@ -192,7 +413,7 @@ export default function ClientPage() {
                               <div className="ml-3 flex h-7 items-center">
                                 <button
                                   type="button"
-                                  className="rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none hover:ring-2 hover:ring-white"
+                                  className="rounded-md bg-blue-700 text-blue-200 hover:text-white focus:outline-none hover:ring-2 hover:ring-white"
                                   onClick={() => setOpen(false)}
                                 >
                                   <span className="sr-only">Close panel</span>
@@ -204,7 +425,7 @@ export default function ClientPage() {
                               </div>
                             </div>
                             <div className="mt-1">
-                              <p className="text-sm text-indigo-300">
+                              <p className="text-sm text-blue-300">
                                 Adding a custom status will change your clients
                                 status weather it be <b>Playing</b>,{" "}
                                 <b>Watching</b>, or <b>Listening</b>
@@ -227,7 +448,7 @@ export default function ClientPage() {
                                       name="text"
                                       id="status-text"
                                       placeholder="fireset.xyz"
-                                      className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 outline-none sm:text-sm sm:leading-6"
+                                      className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 outline-none sm:text-sm sm:leading-6"
                                     />
                                   </div>
                                 </div>
@@ -242,7 +463,7 @@ export default function ClientPage() {
                                     <select
                                       id="status-type"
                                       name="type"
-                                      className="transition duration-200 block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-indigo-600  sm:text-sm sm:leading-6"
+                                      className="transition form-select duration-200 block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600  sm:text-sm sm:leading-6"
                                     >
                                       <option value="PLAYING" selected>
                                         PLAYING
@@ -261,15 +482,14 @@ export default function ClientPage() {
                         <div className="flex flex-shrink-0 justify-end px-4 py-4">
                           <button
                             type="button"
-                            className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                             onClick={() => setOpen(false)}
                           >
                             Cancel
                           </button>
                           <button
-                          
                             type="button"
-                            className="cursor-pointer ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="cursor-pointer ml-4 inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           >
                             Save Status
                           </button>
@@ -282,7 +502,7 @@ export default function ClientPage() {
             </div>
           </Dialog>
         </Transition.Root>
-      
+
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -311,7 +531,7 @@ export default function ClientPage() {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4">
+                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-white shadow pt-5 pb-4">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -338,7 +558,7 @@ export default function ClientPage() {
                   <div className="flex flex-shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://media.discordapp.net/attachments/1138634319796117635/1139427171182587954/New_Project_41_2_1.png?width=1014&height=279"
+                      src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
                       alt="Fireset"
                     />
                   </div>
@@ -350,21 +570,22 @@ export default function ClientPage() {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-indigo-800 text-white"
-                              : "transition duration-200 text-indigo-100 hover:bg-indigo-600",
+                              ? "bg-gray-100 text-gray-900"
+                              : "transition duration-200 text-gray-900 hover:bg-gray-100",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
-                            className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300"
+                            className="mr-4 h-6 w-6 flex-shrink-0 text-gray-900"
                             aria-hidden="true"
                           />
                           {item.name}
+
                           {item.isPaid &&
                           client?.data[0].botConfigs.isEnterprise === false ? (
-                            <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                            <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                               <SparklesIcon
-                                className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                                className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                                 aria-hidden="true"
                               />{" "}
                               ENTERPRISE
@@ -374,6 +595,17 @@ export default function ClientPage() {
                       ))}
                     </nav>
                   </div>
+                  <a
+                    key="Billing"
+                    href="billig"
+                    className="text-gray-900  hover:bg-gray-100 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  >
+                    <CreditCardIcon
+                      className="mr-3 h-6 w-6 flex-shrink-0 text-gray-900"
+                      aria-hidden="true"
+                    />
+                    Billing Settings
+                  </a>
                 </Dialog.Panel>
               </Transition.Child>
               <div className="w-14 flex-shrink-0" aria-hidden="true">
@@ -386,11 +618,11 @@ export default function ClientPage() {
         {/* Static sidebar for desktop */}
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-grow flex-col overflow-y-auto bg-indigo-700 pt-5">
+          <div className="flex flex-grow flex-col overflow-y-auto bg-white border border-r-gray-100 shadow-lg pt-5">
             <div className="flex flex-shrink-0 items-center px-4">
               <img
                 className="h-8 w-auto"
-                src="https://media.discordapp.net/attachments/1138634319796117635/1139427171182587954/New_Project_41_2_1.png?width=1014&height=279"
+                src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
                 alt="Fireset"
               />
             </div>
@@ -402,22 +634,21 @@ export default function ClientPage() {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? "bg-indigo-800 text-white"
-                        : "transition duration-200 text-indigo-100 hover:bg-indigo-600",
+                        ? "bg-gray-100 text-gray-900"
+                        : "transition duration-200 text-gray-900 hover:bg-gray-100",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
-                      className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                      className="mr-3 h-6 w-6 flex-shrink-0 text-gray-900"
                       aria-hidden="true"
                     />
                     {item.name}
-
                     {item.isPaid &&
                     client?.data[0].botConfigs.isEnterprise === false ? (
-                      <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                      <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                         <SparklesIcon
-                          className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                          className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                           aria-hidden="true"
                         />{" "}
                         ENTERPRISE
@@ -430,15 +661,15 @@ export default function ClientPage() {
             <a
               key="Billing"
               href="billig"
-              className="text-indigo-100 hover:bg-indigo-600 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+              className="text-gray-900  hover:bg-gray-100 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
             >
               <CreditCardIcon
-                className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                className="mr-3 h-6 w-6 flex-shrink-0 text-gray-900"
                 aria-hidden="true"
               />
               Billing Settings
             </a>
-            <div className="flex flex-shrink-0 border-t border-indigo-800 p-4">
+            <div className="flex flex-shrink-0 border-t border-gray-100 p-4">
               <div className="group block w-full flex-shrink-0">
                 <div className="flex items-center">
                   <div>
@@ -449,10 +680,10 @@ export default function ClientPage() {
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-white">
+                    <p className="text-sm font-medium text-gray-800">
                       {client?.data[0].botName}
                     </p>
-                    <p className="text-xs font-medium text-indigo-200 ">
+                    <p className="text-xs font-medium text-gray-400 ">
                       {client?.data[0].clientInfo.clientId}
                     </p>
                   </div>
@@ -465,7 +696,7 @@ export default function ClientPage() {
           <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow">
             <button
               type="button"
-              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 md:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
@@ -473,13 +704,13 @@ export default function ClientPage() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
@@ -490,7 +721,7 @@ export default function ClientPage() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
                       <Avatar
                         className="w-8 h-8 rounded-full my-auto"
@@ -547,10 +778,72 @@ export default function ClientPage() {
                                   Administrator Permission Roles
                                 </h3>
                                 <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who obtains a{" "}
-                                  <b>Administrator Permission Role</b> will be
-                                  granted administrative permissions.
+                                  Anyone who obtains any roles listed here will
+                                  be granted administrative permissions.
                                 </span>
+                                {client?.data[0].botModules[0].adminRoles
+                                  .length === 0 ? (
+                                  <div className="mt-1">
+                                    <span className="text-xs font-medium text-gray-400 ">
+                                      You have not yet selected any{" "}
+                                      <b>Administrator Roles</b>.
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="grid mt-1 grid-cols-3 lg:grid-cols-4 gap-2">
+                                    {truncatedAdmins.map((item, index) => (
+                                      <span
+                                        key={index}
+                                        className="inline-flex items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                      >
+                                        {item}
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          className="h-4 w-4 hover:text-red-400 transition-colors duration-200 cursor-pointer"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke="currentColor"
+                                        >
+                                          <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                          />
+                                        </svg>
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+
+                                <div className="mt-1 flex items-center">
+                                  <select
+                                    id="admin-roles"
+                                    name="type"
+                                    className="transition form-select duration-200 block w-full font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                  >
+                                    {guildRoles.data
+                                      .filter(
+                                        (guild: any) =>
+                                          guild.name !== "@everyone"
+                                      )
+                                      .map((guild: any, index: number) => (
+                                        <option
+                                          key={index}
+                                          defaultValue={guild.name}
+                                        >
+                                          {guild.name}
+                                        </option>
+                                      ))}
+                                  </select>
+                                  <button
+                                    type="button"
+                                    onClick={() => addRole("admin")}
+                                    className="cursor-pointer ml-2 flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-xs whitespace-nowrap font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 mt-1 focus:ring-blue-500 focus:ring-offset-2"
+                                  >
+                                    Add Role
+                                  </button>
+                                </div>
                               </div>
 
                               <p className=" text-sm text-gray-400 text-left"></p>
@@ -570,32 +863,73 @@ export default function ClientPage() {
                                   Moderator Permission Roles
                                 </h3>
                                 <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who obtains a{" "}
-                                  <b>Moderator Permission Role</b> will be
-                                  granted basic moderator permissions.
+                                  Anyone who obtains any roles listed here will
+                                  be granted moderator permissions.
                                 </span>
-                              </div>
 
-                              <p className=" text-sm text-gray-400 text-left"></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                                {client?.data[0].botModules[0].modRoles
+                                  .length === 0 ? (
+                                  <div className="mt-1">
+                                    <span className="text-xs font-medium text-gray-400 ">
+                                      You have not yet selected any{" "}
+                                      <b>Moderator Roles</b>.
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="grid mt-1 grid-cols-3 lg:grid-cols-4 gap-2">
+                                    {truncatedMods.map((item, index) => (
+                                      <span
+                                        key={index}
+                                        className="inline-flex items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                      >
+                                        {item}
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          className="h-4 w-4 hover:text-red-400 transition-colors duration-200 cursor-pointer"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke="currentColor"
+                                        >
+                                          <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                          />
+                                        </svg>
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
 
-                    <div>
-                      <div className="transition durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
-                        <div className="flex w-full flex-row self-center justify-between">
-                          <div className="w-full flex flex-row items-center justify-between  p-6">
-                            <div className="flex-1 ">
-                              <div className="items-center">
-                                <h3 className=" truncate text-md font-bold text-gray-900 ">
-                                  Moderation Logging Channel
-                                </h3>
-                                <span className=" text-xs font-medium text-gray-600 ">
-                                  Your <b>Moderation Logging Channel</b> will
-                                  house all of your moderation case logs.
-                                </span>
+                                <div className="mt-1 flex items-center">
+                                  <select
+                                    id="mod-roles"
+                                    name="type"
+                                    className="transition form-select duration-200 block w-full  font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                  >
+                                    {guildRoles.data
+                                      .filter(
+                                        (guild: any) =>
+                                          guild.name !== "@everyone"
+                                      )
+                                      .map((guild: any, index: number) => (
+                                        <option
+                                          key={index}
+                                          defaultValue={guild.name}
+                                        >
+                                          {guild.name}
+                                        </option>
+                                      ))}
+                                  </select>
+                                  <button
+                                    type="button"
+                                    onClick={() => addRole("mod")}
+                                    className="cursor-pointer ml-2 flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-xs whitespace-nowrap font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 mt-1 focus:ring-blue-500 focus:ring-offset-2"
+                                  >
+                                    Add Role
+                                  </button>
+                                </div>
                               </div>
 
                               <p className=" text-sm text-gray-400 text-left"></p>
@@ -618,6 +952,112 @@ export default function ClientPage() {
                                   Anyone who has a <b>Safeguarded Role</b> will
                                   not be effected by moderation actions.
                                 </span>
+                                {client?.data[0].botModules[0].safeRoles
+                                  .length === 0 ? (
+                                  <div className="mt-1">
+                                    <span className="text-xs font-medium text-gray-400 ">
+                                      You have not yet selected any{" "}
+                                      <b>Safeguarded Roles</b>.
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="grid mt-1 grid-cols-3 lg:grid-cols-4 gap-2">
+                                    {truncatedProtected.map((item, index) => (
+                                      <span
+                                        key={index}
+                                        className="inline-flex items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                      >
+                                        {item}
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          className="h-4 w-4 hover:text-red-400 transition-colors duration-200 cursor-pointer"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke="currentColor"
+                                        >
+                                          <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                          />
+                                        </svg>
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+
+                                <div className="mt-1 flex items-center">
+                                  <select
+                                    id="safe-roles"
+                                    name="type"
+                                    className="transition form-select duration-200 block w-full  font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                  >
+                                    {guildRoles.data
+                                      .filter(
+                                        (guild: any) =>
+                                          guild.name !== "@everyone"
+                                      )
+                                      .map((guild: any, index: number) => (
+                                        <option
+                                          key={index}
+                                          defaultValue={guild.name}
+                                        >
+                                          {guild.name}
+                                        </option>
+                                      ))}
+                                  </select>
+                                  <button
+                                    type="button"
+                                    onClick={() => addRole("safe")}
+                                    className="cursor-pointer ml-2 flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-xs whitespace-nowrap font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 mt-1 focus:ring-blue-500 focus:ring-offset-2"
+                                  >
+                                    Add Role
+                                  </button>
+                                </div>
+                              </div>
+
+                              <p className=" text-sm text-gray-400 text-left"></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="transition durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
+                        <div className="flex w-full flex-row self-center justify-between">
+                          <div className="w-full flex flex-row items-center justify-between  p-6">
+                            <div className="flex-1 ">
+                              <div className="items-center">
+                                <h3 className=" truncate text-md font-bold text-gray-900 ">
+                                  Moderation Logging Channel
+                                </h3>
+                                <span className=" text-xs font-medium text-gray-600 ">
+                                  Your <b>Moderation Logging Channel</b> will
+                                  house all of your moderation case logs.
+                                </span>
+
+                                <div className="mt-1 flex items-center">
+                                  <select
+                                    id="mod-channel"
+                                    name="type"
+                                    onChange={() => addChannel("admin")}
+                                    className="transition form-select duration-200 block w-full  font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                  >
+                                    {guildChannels?.data.map(
+                                      (guild: any, index: number) => (
+                                        <option
+                                          key={index}
+                                          defaultValue={guild.id}
+                                          selected={guild.id === client?.data[0].botModules[0].modChannel}
+                                        >
+                                          {guild.name}
+                                        </option>
+                                      )
+                                    )}
+                                  </select>
+                                </div>
                               </div>
 
                               <p className=" text-sm text-gray-400 text-left"></p>
@@ -635,12 +1075,12 @@ export default function ClientPage() {
                           <div className=" ">
                             <div className="items-center">
                               <h3 className=" truncate text-md font-bold flex items-center text-gray-900 ">
-                                Malicious Accounts{" "}
+                                Community Incident Reports{" "}
                                 {client?.data[0].botConfigs.isEnterprise ===
                                 false ? (
-                                  <span className="bg-indigo-50 0 ml-2 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                                  <span className="bg-blue-50 0 ml-2 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                                     <SparklesIcon
-                                      className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                                      className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                                       aria-hidden="true"
                                     />{" "}
                                     ENTERPRISE
@@ -648,13 +1088,14 @@ export default function ClientPage() {
                                 ) : null}
                               </h3>
                               <span className=" text-xs font-medium text-gray-600 ">
-                                Utilizing our dashboard, the identification of
-                                accounts designated as Alternative Accounts or
-                                well-known Community Raiders is an automated
-                                process. This functionality empowers you to make
-                                informed decisions regarding moderation actions
-                                directly from the dashboard, streamlining your
-                                response to such instances effectively.
+                                Community Incidents are fully backed by your
+                                community, anyone has the ability to file a case
+                                report against anyone within your community whom
+                                is not protected or an active Staff Member. You
+                                can view and manage all of your Community
+                                Incident Reports here, we will automatically
+                                sync all punishments to your community within
+                                the Discord platform.
                               </span>
                               {client?.data[0].botConfigs.isEnterprise ===
                               false ? (
@@ -666,95 +1107,6 @@ export default function ClientPage() {
                                   className="w-full mt-3 object-fit max-w-[225px] mx-auto"
                                 />
                               ) : null}
-
-                              <div className="px-4 w-full ">
-                                <div className="mt-3 flex flex-col">
-                                  <div className=" w-full ">
-                                    <div className="inline-block min-w-full py-2 align-middle ">
-                                      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                        <table className="min-w-full divide-y divide-gray-300">
-                                          <thead className="bg-gray-50">
-                                            <tr>
-                                              <th
-                                                scope="col"
-                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                              >
-                                                Username
-                                              </th>
-                                              <th
-                                                scope="col"
-                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                              >
-                                                Detected On
-                                              </th>
-                                              <th
-                                                scope="col"
-                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                              >
-                                                Last Seen
-                                              </th>
-
-                                              <th
-                                                scope="col"
-                                                className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                                              >
-                                                <span className="sr-only">
-                                                  Edit
-                                                </span>
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tbody className="bg-white">
-                                            {people.map((person, personIdx) => (
-                                              <tr
-                                                key={person.email}
-                                                className={
-                                                  personIdx % 2 === 0
-                                                    ? undefined
-                                                    : "bg-gray-50"
-                                                }
-                                              >
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                  {person.name}
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                  {person.title}
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                  {person.email}
-                                                </td>
-
-                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                  <a
-                                                    
-                                                    
-                                                    className="text-indigo-600 ml-3 hover:text-indigo-900"
-                                                  >
-                                                    Kick User
-                                                    <span className="sr-only">
-                                                      , {person.name}
-                                                    </span>
-                                                  </a>
-                                                  <a
-                                                    
-                                                    
-                                                    className="text-red-500 ml-3 hover:text-indigo-900"
-                                                  >
-                                                    Ban User
-                                                    <span className="sr-only">
-                                                      , {person.name}
-                                                    </span>
-                                                  </a>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
                             </div>
 
                             <p className=" text-sm text-gray-400 text-left"></p>

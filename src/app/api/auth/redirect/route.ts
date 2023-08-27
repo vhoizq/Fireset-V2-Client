@@ -14,42 +14,12 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function getIPAddress() {
-  try {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    const ipAddress = data.ip;
-    console.log(`User's IP Address: ${ipAddress}`);
-  } catch (error) {
-    console.error("Error getting IP address:", error);
-  }
-}
 
-class DeviceFingerprint {
-  constructor() {}
 
-  async generateFingerprint() {
-    const userAgent = window.navigator.userAgent;
-    const language = window.navigator.language;
-    const platform = window.navigator.platform;
-
-    const fingerprint = `${userAgent}-${language}-${platform}`;
-    return fingerprint;
-  }
-}
-
-// Usage
-async function main() {
-  const fingerprintGenerator = new DeviceFingerprint();
-  const fingerprint = await fingerprintGenerator.generateFingerprint();
-  console.log("Device Fingerprint:", fingerprint);
-}
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
-    const ipAddress = getIPAddress();
-    const deviceLogs = main();
-
+  
     const params = req.nextUrl.searchParams;
     console.log(req.nextUrl);
     const code = params.get("code");
@@ -60,7 +30,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       console.log(`Code: ${code}`);
       const response = await axios.post(
         tokenURL,
-        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=https://fireset.xyz/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
+        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
       );
 
       const accessToken = response.data.access_token;
@@ -90,9 +60,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
               username: user.username,
               email: user.email,
               isActive: true,
-              isBeta: false,
-              useAgent: deviceLogs,
-              userGeography: ipAddress
+              isBeta: false
               // Other user data
             };
             const { data: createdData, error: insertionError } = await supabase

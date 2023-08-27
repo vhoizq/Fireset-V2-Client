@@ -31,12 +31,44 @@ const fetchClients = async () => {
   }
 };
 
-export const ClientsList = () => {
+export const ClientsList = (props: { auth: any }) => {
   const {
     data: clients,
     error,
     isValidating,
   } = useSWR("/api/clients", fetchClients);
+
+
+ 
+
+
+  const fetchUserGuilds = async (accessToken: any) => {
+    const response = await axios.get(
+      "https://discord.com/api/v10/users/@me/guilds",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: userGuilds, error: userGuildsError } = useSWR(
+    () => props.auth?.sessionToken,
+    fetchUserGuilds
+  );
+
+  console.log(userGuilds)
+
+
+
+  const hasManageGuildPermission = (permissions: any) => {
+    const numericPermissions = parseInt(permissions, 10);
+    const MANAGE_GUILD = 0x00000020; // Replace with the numeric value of MANAGE_GUILD permission
+
+    return (numericPermissions & MANAGE_GUILD) === MANAGE_GUILD;
+  };
 
   if (error) {
     return (
@@ -83,33 +115,29 @@ export const ClientsList = () => {
 
   return (
     <div className="flex-wrap gap-2 w-full">
-      {clients && clients.length > 0 ? (
-        <div className="mr-6 ml-6 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-          {clients.map((b) => (
-            <div key={`${b.botConfigs.guildId}`}>
+      <div className="mr-6 ml-6 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+        {userGuilds
+          .filter((guild: any) => hasManageGuildPermission(guild.permissions))
+          .map((guild: any) => (
+            <div key={`${guild.id}`}>
               <a
                 className="transition hover:bg-gray-100 durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex "
-                href={`/client/dashboard/${b.id}`}
+                href={`/client/manage/${guild.id}`}
               >
                 <div className="flex w-full flex-row self-center justify-between">
                   <div className="w-full flex flex-row items-center justify-between  p-6">
                     <img
                       className="h-12 w-12 flex-shrink-0 rounded-full"
                       style={{ backgroundColor: `#000000` }}
-                      src={`https://cdn.discordapp.com/avatars/${b.clientInfo.clientId}/${b.clientInfo.botAvatar}.png`}
+                      src={`https://cdn.discordapp.com/avatars//.png`}
                       alt=""
                     />
                     <div className="flex-1 ">
                       <div className="items-center">
                         <h3 className="ml-3 truncate text-md flex items-center font-bold text-gray-900 ">
-                          {b.botName}
-                         
+                          {guild.name}
                         </h3>
-                        {b.botConfigs.isEnterprise === true ? (
-                          <span className="bg-blue-500 0 ml-3 text-blue-50 rounded-full text-xs py-1 px-2 w-fit font-semibold">
-                            ENTERPRISE
-                          </span>
-                        ) : null}
+                       
                       </div>
 
                       <p className=" text-sm text-gray-400 text-left"></p>
@@ -119,66 +147,7 @@ export const ClientsList = () => {
               </a>
             </div>
           ))}
-
-          <a
-            className="transition hover:bg-gray-100 durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border-dashed border border-gray-300 flex "
-            href={`/client/create`}
-          >
-            <div className="flex w-full flex-row self-center justify-between">
-              <div className="w-full flex flex-row items-center justify-between  p-6">
-                <div className="h-12 w-12 bg-gray-100 flex-shrink-0 rounded-full">
-                  <center>
-                    <LinkIcon
-                      className="h-8 w-7 text-gray-600 flex-shrink-0 rounded-full mt-2"
-                      aria-hidden="true"
-                    />
-                  </center>
-                </div>
-                <div className="flex-1 ">
-                  <div className="items-center">
-                    <h3 className="ml-3 truncate text-md font-bold text-gray-900 ">
-                      Create Discord Bot
-                    </h3>
-                    <h3 className="ml-3 truncate text-xs font-medium text-gray-600 ">
-                      Create your very own Discord Bot for free.
-                    </h3>
-                  </div>
-
-                  <p className=" text-sm text-gray-400 text-left"></p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      ) : (
-        <div className="mt-20 text-center">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            {/* SVG path for "No bots" */}
-          </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
-            You do not own any Discord Bots
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Get started with Fireset by creating a new Discord Bot.
-          </p>
-          <div className="mt-4">
-            <Link
-              href="/client/create"
-              type="button"
-              className="inline-flex items-center rounded-md border transition duration-200 border-transparent bg-gray-50 0 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-              Create Discord Bot
-            </Link>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

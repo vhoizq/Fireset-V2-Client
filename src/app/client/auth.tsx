@@ -8,6 +8,7 @@ interface User {
   userId: string;
   isActive: boolean;
   isBeta: boolean;
+  isStaff: boolean;
   email: string;
 }
 

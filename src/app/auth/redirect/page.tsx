@@ -10,7 +10,7 @@ export default function RedirectPage() {
   const router = useRouter();
   const params = useSearchParams();
   useEffect(() => {
-    fetch(`https://fireset.xyz/api/auth/redirect?${params}`)
+    fetch(`http://localhost:3000/api/auth/redirect?${params}`)
       .then(async (response) => {
         let body;
         try {
@@ -37,7 +37,7 @@ export default function RedirectPage() {
   }, []);
 
   return (
-    <div className="flex flex-col w-screen h-screen bg-indigo-100">
+    <div className="flex flex-col w-screen h-screen bg-blue-100">
       <MoonLoader
         size={48}
         className={"flex mx-auto my-auto"}

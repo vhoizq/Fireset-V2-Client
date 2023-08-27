@@ -127,9 +127,17 @@ export default function ClientPage() {
         return;
       }
 
-      const response = await axios
+      console.log("eee");
+
+
+      axios
         .get(`https://checkerforfireset.seryroblox.repl.co`, config)
         .then((response: any) => {
+          if (!response.data) {
+
+           return toast.error(response.code);
+          }
+
           if (response.data === "Success") {
             steps[0].status = "complete";
             steps[1].status = "current";
@@ -137,12 +145,13 @@ export default function ClientPage() {
 
             toast.success("Successfully validated login");
           } else {
+
             toast.error(response.data);
           }
         })
         .catch((error: any) => {
+
           toast.error(error);
-          console.error("An error occurred:", error);
         });
     }
 
@@ -163,30 +172,27 @@ export default function ClientPage() {
       clientToken: `${token}`,
       clientUsername: `${name}`,
       clientColor: `${color}`,
-      syncedGuild: `${guild}`
+      syncedGuild: `${guild}`,
     };
 
     async function createNewClient() {
       try {
-        const newGroupResponse = await fetch(
-          `/api/clients/create`,
-          {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const newGroupResponse = await fetch(`/api/clients/create`, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         const body = await newGroupResponse.json();
 
-        console.log(newGroupResponse)
+        console.log(newGroupResponse);
 
         if (newGroupResponse.status === 200) {
           if (body.success) {
             toast.dismiss();
-            router.replace('/')
+            router.replace("/");
           } else {
             throw Error(
               "Unexpected error while removing status, please try again."
@@ -199,7 +205,7 @@ export default function ClientPage() {
         toast.error((error as Error).message);
       }
     }
-    createNewClient()
+    createNewClient();
   };
 
   return auth.user ? (
@@ -222,7 +228,7 @@ export default function ClientPage() {
 
                 <div className="relative z-10 flex items-center lg:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                     <span className="sr-only">Open menu</span>
                     {open ? (
                       <svg
@@ -260,7 +266,7 @@ export default function ClientPage() {
                 <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                   <button
                     type="button"
-                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                   </button>
@@ -268,7 +274,7 @@ export default function ClientPage() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
                         <Avatar
                           className="w-8 h-8 rounded-full my-auto"
@@ -335,7 +341,7 @@ export default function ClientPage() {
                   </div>
                   <button
                     type="button"
-                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                   </button>
@@ -369,7 +375,7 @@ export default function ClientPage() {
                 {step.status === "complete" ? (
                   <div className="group flex w-full items-center">
                     <span className="flex items-center px-6 py-4 text-sm font-medium">
-                      <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500 group-hover:bg-indigo-600">
+                      <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500 group-hover:bg-blue-600">
                         <CheckIcon
                           className="h-6 w-6 text-white"
                           aria-hidden="true"
@@ -385,10 +391,10 @@ export default function ClientPage() {
                     className="flex items-center px-6 py-4 text-sm font-medium"
                     aria-current="step"
                   >
-                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-500">
-                      <span className="text-indigo-500">{step.id}</span>
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-blue-500">
+                      <span className="text-blue-500">{step.id}</span>
                     </span>
-                    <span className="ml-4 text-sm font-medium text-indigo-500">
+                    <span className="ml-4 text-sm font-medium text-blue-500">
                       {step.name}
                     </span>
                   </div>
@@ -456,7 +462,7 @@ export default function ClientPage() {
                         id="bot-name"
                         onChange={handleNameChange}
                         placeholder="James from Fireset"
-                        className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none sm:text-sm sm:leading-6"
+                        className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 outline-none sm:text-sm sm:leading-6"
                       />
                     </div>
                     <label
@@ -473,7 +479,7 @@ export default function ClientPage() {
                         placeholder="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
                         name="bot-token"
                         id="bot-token"
-                        className="mt-1 transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 outline-none focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        className="mt-1 transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 outline-none focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                       />
                     </div>
 
@@ -483,7 +489,7 @@ export default function ClientPage() {
                     >
                       <button
                         onClick={handleContinueStep01}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                       >
                         Continue Creation
                       </button>
@@ -515,7 +521,7 @@ export default function ClientPage() {
                         id="bot-name"
                         onChange={handleColorChange}
                         placeholder="#c02d2d"
-                        className="transition duration-200 py-2 block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none sm:text-sm sm:leading-6"
+                        className="transition duration-200 py-2 block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 outline-none sm:text-sm sm:leading-6"
                       />
                     </div>
                     <label
@@ -530,7 +536,7 @@ export default function ClientPage() {
                         id="country"
                         name="country"
                         onChange={handleGuildChange}
-                        className="block w-full rounded-md  py-2.5 px-1.5 border-0  text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo-500  sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md  py-2.5 px-1.5 border-0  text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-blue-500  sm:text-sm sm:leading-6"
                       >
                         {userGuilds
                           .filter((guild: any) =>
@@ -550,7 +556,7 @@ export default function ClientPage() {
                     >
                       <button
                         onClick={handleContinueStep02}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                       >
                         Continue Creation
                       </button>
@@ -644,7 +650,7 @@ export default function ClientPage() {
                   >
                     <button
                       onClick={handleCreateWorkspace}
-                      className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                     >
                       Create Discord Client →
                     </button>

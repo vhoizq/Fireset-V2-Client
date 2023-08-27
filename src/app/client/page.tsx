@@ -2,7 +2,8 @@
 
 import useSWR from "swr";
 import { useState, useEffect, Fragment } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import axios from "axios";
 
 import { HiX } from "react-icons/hi";
 import { useAuth } from "./auth";
@@ -19,7 +20,7 @@ const user = {
     "https://images-ext-1.discordapp.net/external/Gu7KcuWl1IpFcMHL3q_lpyX_qLpb83D1yP5vtJ4N7c0/https/cdn.discordapp.com/avatars/914289232061800459/1c26d51680f735a589b815f803dc3124.png?width=281&height=281",
 };
 const navigation = [
-  { name: "Custom Discord Bots", href: "/client", current: true },
+  { name: "Custom Discord Bots", href: "/client/bots", current: false },
   { name: "Member Counters", href: "/client/counters", current: false },
 ];
 const userNavigation = [
@@ -35,6 +36,34 @@ function classNames(...classes: string[]) {
 export default function ClientPage() {
   const auth = useAuth();
 
+  const fetchUserGuilds = async (accessToken: any) => {
+    const response = await axios.get(
+      "https://discord.com/api/v10/users/@me/guilds",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const { data: userGuilds, error: userGuildsError } = useSWR(
+    () => auth.user?.sessionToken,
+    fetchUserGuilds
+  );
+
+  const hasManageGuildPermission = (permissions: any) => {
+    const numericPermissions = parseInt(permissions, 10);
+    const MANAGE_GUILD = 0x00000020; // Replace with the numeric value of MANAGE_GUILD permission
+
+    return (numericPermissions & MANAGE_GUILD) === MANAGE_GUILD;
+  };
+
+  console.log(userGuilds);
+
+  const path = usePathname();
+
   const [state, setState] = useState<boolean>(false);
   const cache = useSWR(`/api`, fetch);
 
@@ -47,11 +76,11 @@ export default function ClientPage() {
     router.replace("/client/notice");
   }
 
+
+
   return auth.user ? (
     <main>
       <Toaster position="bottom-center" reverseOrder={false} />
-
-      
 
       <Disclosure as="header" className="bg-white shadow">
         {({ open }) => (
@@ -70,7 +99,7 @@ export default function ClientPage() {
 
                 <div className="relative z-10 flex items-center lg:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
                     <span className="sr-only">Open menu</span>
                     {open ? (
                       <svg
@@ -108,7 +137,7 @@ export default function ClientPage() {
                 <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                   <button
                     type="button"
-                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                   </button>
@@ -116,7 +145,7 @@ export default function ClientPage() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">
+                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
                         <Avatar
                           className="w-8 h-8 rounded-full my-auto"
@@ -203,7 +232,7 @@ export default function ClientPage() {
                   </div>
                   <button
                     type="button"
-                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                   </button>
@@ -226,6 +255,7 @@ export default function ClientPage() {
         )}
       </Disclosure>
 
+      
       <ClientsList />
 
       <div className="mt-20"></div>

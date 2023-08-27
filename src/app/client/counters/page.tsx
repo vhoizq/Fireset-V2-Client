@@ -70,7 +70,7 @@ export default function ClientPage() {
 
                 <div className="relative z-10 flex items-center lg:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
                     <span className="sr-only">Open menu</span>
                     {open ? (
                       <svg
@@ -108,7 +108,7 @@ export default function ClientPage() {
                 <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                   <button
                     type="button"
-                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                   </button>
@@ -116,7 +116,7 @@ export default function ClientPage() {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">
+                      <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
                         <Avatar
                           className="w-8 h-8 rounded-full my-auto"
@@ -203,7 +203,7 @@ export default function ClientPage() {
                   </div>
                   <button
                     type="button"
-                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                   </button>

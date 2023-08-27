@@ -217,7 +217,7 @@ export default function ClientPage() {
                       </button>
                       <button
                         type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none hover:ring-2 hover:ring-indigo-500 hover:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                         onClick={() => setDelete(false)}
                         ref={cancelButtonRef}
                       >
@@ -259,7 +259,7 @@ export default function ClientPage() {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4">
+                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-blue-700 pt-5 pb-4">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -286,7 +286,7 @@ export default function ClientPage() {
                   <div className="flex flex-shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://media.discordapp.net/attachments/1138634319796117635/1139427171182587954/New_Project_41_2_1.png?width=1014&height=279"
+                      src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
                       alt="Fireset"
                     />
                   </div>
@@ -298,22 +298,22 @@ export default function ClientPage() {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-indigo-800 text-white"
-                              : "transition duration-200 text-indigo-100 hover:bg-indigo-600",
+                              ? "bg-blue-800 text-white"
+                              : "transition duration-200 text-blue-100 hover:bg-blue-600",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
-                            className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300"
+                            className="mr-4 h-6 w-6 flex-shrink-0 text-blue-300"
                             aria-hidden="true"
                           />
                           {item.name}
 
                           {item.isPaid &&
                           client?.data[0].botConfigs.isEnterprise === false ? (
-                            <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                            <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                               <SparklesIcon
-                                className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                                className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                                 aria-hidden="true"
                               />{" "}
                               ENTERPRISE
@@ -335,11 +335,11 @@ export default function ClientPage() {
         {/* Static sidebar for desktop */}
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-grow flex-col overflow-y-auto bg-indigo-700 pt-5">
+          <div className="flex flex-grow flex-col overflow-y-auto bg-blue-700 pt-5">
             <div className="flex flex-shrink-0 items-center px-4">
               <img
                 className="h-8 w-auto"
-                src="https://media.discordapp.net/attachments/1138634319796117635/1139427171182587954/New_Project_41_2_1.png?width=1014&height=279"
+                src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
                 alt="Fireset"
               />
             </div>
@@ -351,21 +351,21 @@ export default function ClientPage() {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? "bg-indigo-800 text-white"
-                        : "transition duration-200 text-indigo-100 hover:bg-indigo-600",
+                        ? "bg-blue-800 text-white"
+                        : "transition duration-200 text-blue-100 hover:bg-blue-600",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
-                      className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                      className="mr-3 h-6 w-6 flex-shrink-0 text-blue-300"
                       aria-hidden="true"
                     />
                     {item.name}
                     {item.isPaid &&
                     client?.data[0].botConfigs.isEnterprise === false ? (
-                      <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                      <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                         <SparklesIcon
-                          className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                          className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                           aria-hidden="true"
                         />{" "}
                         ENTERPRISE
@@ -378,15 +378,15 @@ export default function ClientPage() {
             <a
               key="Billing"
               href="billig"
-              className="text-indigo-100 hover:bg-indigo-600 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+              className="text-blue-100 hover:bg-blue-600 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
             >
               <CreditCardIcon
-                className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                className="mr-3 h-6 w-6 flex-shrink-0 text-blue-300"
                 aria-hidden="true"
               />
               Billing Settings
             </a>
-            <div className="flex flex-shrink-0 border-t border-indigo-800 p-4">
+            <div className="flex flex-shrink-0 border-t border-blue-800 p-4">
               <div className="group block w-full flex-shrink-0">
                 <div className="flex items-center">
                   <div>
@@ -400,7 +400,7 @@ export default function ClientPage() {
                     <p className="text-sm font-medium text-white">
                       {client?.data[0].botName}
                     </p>
-                    <p className="text-xs font-medium text-indigo-200 ">
+                    <p className="text-xs font-medium text-blue-200 ">
                       {client?.data[0].clientInfo.clientId}
                     </p>
                   </div>
@@ -413,7 +413,7 @@ export default function ClientPage() {
           <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow">
             <button
               type="button"
-              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 md:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
@@ -421,13 +421,13 @@ export default function ClientPage() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
@@ -438,7 +438,7 @@ export default function ClientPage() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
                       <Avatar
                         className="w-8 h-8 rounded-full my-auto"
@@ -485,19 +485,19 @@ export default function ClientPage() {
               <div className="py-4">
                 <div className="overflow-hidden bg-white  sm:rounded-lg">
                   {client?.data[0].botConfigs.isEnterprise === false ? (
-                    <div className="mr-3 ml-3 rounded-md bg-indigo-50  p-4">
+                    <div className="mr-3 ml-3 rounded-md bg-blue-50  p-4">
                       <div className="flex">
                         <div className="flex-shrink-0">
                           <ExclamationTriangleIcon
-                            className="h-5 w-5 text-indigo-400"
+                            className="h-5 w-5 text-blue-400"
                             aria-hidden="true"
                           />
                         </div>
                         <div className="ml-3">
-                          <h3 className="text-sm font-medium text-indigo-700">
+                          <h3 className="text-sm font-medium text-blue-700">
                             You are on our Basic Subscription
                           </h3>
-                          <div className="mt-2 text-sm text-indigo-600">
+                          <div className="mt-2 text-sm text-blue-600">
                             <p>
                               You are currently utilizing our Basic Subscription
                               which grants you access to simple features such as
@@ -551,7 +551,7 @@ export default function ClientPage() {
                           </button>
                           <button
                             type="submit"
-                            className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-indigo-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-blue-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                           >
                             Restart Discord Client
                           </button>

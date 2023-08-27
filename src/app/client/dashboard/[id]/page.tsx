@@ -83,11 +83,47 @@ export default function ClientPage() {
     `/api/clients/info/${path.split("/")[3]}`,
     fetchData
   );
+
+  async function fetchPerms() {
+    const response = await axios.get(
+      `/api/clients/perms/${path.split("/")[3]}`
+    );
+    const data = await response;
+    return data;
+  }
+
+  // Use SWR with the fetched data
+  const { data: userPerms, error: ok } = useSWR(
+    `/api/clients/perms/${path.split("/")[3]}`,
+    fetchPerms
+  );
+
   const cache = useSWR(`/api`, fetch);
 
+  
 
-  if (client) {
+  if (client && userPerms) {
     if (!client.data[0]) {
+      return router.replace("/client");
+    } else if (!userPerms.data[0] && auth.user?.isStaff !== true) {
+      return router.replace("/client");
+    }
+  }
+
+  async function restartClient() {
+    toast.success(`Successfully restarte Discord Client`);
+  }
+
+  async function confirmDelete() {
+    setDelete(false);
+    toast.loading(`We are deleting your Discord Client`);
+    const response = await axios.get(
+      `/api/clients/delete/${path.split("/")[3]}`
+    );
+    const data = await response;
+    if (data.status === 200) {
+      toast.dismiss;
+      toast.success(`Successfully deleted your Discord Client`);
       return router.replace("/client");
     }
   }
@@ -209,13 +245,13 @@ export default function ClientPage() {
                       <button
                         type="button"
                         className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={() => setDelete(false)}
+                        onClick={confirmDelete}
                       >
                         Delete Client
                       </button>
                       <button
                         type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none hover:ring-2 hover:ring-indigo-500 hover:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                         onClick={() => setDelete(false)}
                         ref={cancelButtonRef}
                       >
@@ -257,7 +293,7 @@ export default function ClientPage() {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4">
+                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-white shadow pt-5 pb-4">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -284,7 +320,7 @@ export default function ClientPage() {
                   <div className="flex flex-shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://media.discordapp.net/attachments/1138634319796117635/1139427171182587954/New_Project_41_2_1.png?width=1014&height=279"
+                      src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
                       alt="Fireset"
                     />
                   </div>
@@ -296,22 +332,22 @@ export default function ClientPage() {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-indigo-800 text-white"
-                              : "transition duration-200 text-indigo-100 hover:bg-indigo-600",
+                              ? "bg-gray-100 text-gray-900"
+                              : "transition duration-200 text-gray-900 hover:bg-gray-100",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
-                            className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300"
+                            className="mr-4 h-6 w-6 flex-shrink-0 text-gray-900"
                             aria-hidden="true"
                           />
                           {item.name}
 
                           {item.isPaid &&
                           client?.data[0].botConfigs.isEnterprise === false ? (
-                            <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                            <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                               <SparklesIcon
-                                className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                                className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                                 aria-hidden="true"
                               />{" "}
                               ENTERPRISE
@@ -321,6 +357,17 @@ export default function ClientPage() {
                       ))}
                     </nav>
                   </div>
+                  <a
+                    key="Billing"
+                    href="billig"
+                    className="text-gray-900  hover:bg-gray-100 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  >
+                    <CreditCardIcon
+                      className="mr-3 h-6 w-6 flex-shrink-0 text-gray-900"
+                      aria-hidden="true"
+                    />
+                    Billing Settings
+                  </a>
                 </Dialog.Panel>
               </Transition.Child>
               <div className="w-14 flex-shrink-0" aria-hidden="true">
@@ -333,11 +380,11 @@ export default function ClientPage() {
         {/* Static sidebar for desktop */}
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-grow flex-col overflow-y-auto bg-indigo-700 pt-5">
+          <div className="flex flex-grow flex-col overflow-y-auto bg-white border border-r-gray-100 shadow-lg pt-5">
             <div className="flex flex-shrink-0 items-center px-4">
               <img
                 className="h-8 w-auto"
-                src="https://media.discordapp.net/attachments/1138634319796117635/1139427171182587954/New_Project_41_2_1.png?width=1014&height=279"
+                src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
                 alt="Fireset"
               />
             </div>
@@ -349,21 +396,21 @@ export default function ClientPage() {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? "bg-indigo-800 text-white"
-                        : "transition duration-200 text-indigo-100 hover:bg-indigo-600",
+                        ? "bg-gray-100 text-gray-900"
+                        : "transition duration-200 text-gray-900 hover:bg-gray-100",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
-                      className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                      className="mr-3 h-6 w-6 flex-shrink-0 text-gray-900"
                       aria-hidden="true"
                     />
                     {item.name}
                     {item.isPaid &&
                     client?.data[0].botConfigs.isEnterprise === false ? (
-                      <span className="bg-indigo-50 0 ml-3 flex items-center text-indigo-500 rounded text-xs py-1 px-2 w-fit font-semibold">
+                      <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
                         <SparklesIcon
-                          className="mr-1 h-3 w-3 flex-shrink-0 text-indigo-500"
+                          className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
                           aria-hidden="true"
                         />{" "}
                         ENTERPRISE
@@ -376,15 +423,15 @@ export default function ClientPage() {
             <a
               key="Billing"
               href="billig"
-              className="text-indigo-100 hover:bg-indigo-600 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+              className="text-gray-900  hover:bg-gray-100 mr-2 mb-3 ml-2 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
             >
               <CreditCardIcon
-                className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                className="mr-3 h-6 w-6 flex-shrink-0 text-gray-900"
                 aria-hidden="true"
               />
               Billing Settings
             </a>
-            <div className="flex flex-shrink-0 border-t border-indigo-800 p-4">
+            <div className="flex flex-shrink-0 border-t border-gray-100 p-4">
               <div className="group block w-full flex-shrink-0">
                 <div className="flex items-center">
                   <div>
@@ -395,10 +442,10 @@ export default function ClientPage() {
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-white">
+                    <p className="text-sm font-medium text-gray-800">
                       {client?.data[0].botName}
                     </p>
-                    <p className="text-xs font-medium text-indigo-200 ">
+                    <p className="text-xs font-medium text-gray-400 ">
                       {client?.data[0].clientInfo.clientId}
                     </p>
                   </div>
@@ -411,7 +458,7 @@ export default function ClientPage() {
           <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow">
             <button
               type="button"
-              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 md:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
@@ -419,13 +466,13 @@ export default function ClientPage() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
@@ -436,7 +483,7 @@ export default function ClientPage() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
                       <Avatar
                         className="w-8 h-8 rounded-full my-auto"
@@ -483,25 +530,53 @@ export default function ClientPage() {
               <div className="py-4">
                 <div className="overflow-hidden bg-white  sm:rounded-lg">
                   {client?.data[0].botConfigs.isEnterprise === false ? (
-                    <div className="mr-3 ml-3 rounded-md bg-indigo-50  p-4">
+                    <div className="mr-3 ml-3 rounded-md bg-blue-50  p-4">
                       <div className="flex">
                         <div className="flex-shrink-0">
                           <ExclamationTriangleIcon
-                            className="h-5 w-5 text-indigo-400"
+                            className="h-5 w-5 text-blue-400"
                             aria-hidden="true"
                           />
                         </div>
                         <div className="ml-3">
-                          <h3 className="text-sm font-medium text-indigo-700">
+                          <h3 className="text-sm font-medium text-blue-700">
                             You are on our Basic Subscription
                           </h3>
-                          <div className="mt-2 text-sm text-indigo-600">
+                          <div className="mt-2 text-sm text-blue-600">
                             <p>
                               You are currently utilizing our Basic Subscription
                               which grants you access to simple features such as
                               our Moderation Suite, Giveaways, Games, and Roblox
                               Integration. You can upgrade today by going to
                               your Billing Settings.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {!userPerms?.data[0] && auth.user?.isStaff === true ? (
+                    <div className="mr-3 ml-3 mt-1 rounded-md bg-red-50  p-4">
+                      <div className="flex">
+                        <div className="flex-shrink-0">
+                          <ShieldExclamationIcon
+                            className="h-5 w-5 text-red-400"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <div className="ml-3">
+                          <h3 className="text-sm font-medium text-red-700">
+                            You do not have access to this Dashboard
+                          </h3>
+                          <div className="mt-2 text-sm text-red-600">
+                            <p>
+                              You are currently viewing a Client Dashboard that
+                              you do not have access to as a normal user, you
+                              are only to be accessing this dashboard for
+                              troubleshooting purposes. If you are seeing this
+                              message in error, contact one of your Leadership
+                              members.
                             </p>
                           </div>
                         </div>
@@ -535,24 +610,39 @@ export default function ClientPage() {
                           {client?.data[0].botConfigs.guildId}
                         </dd>
                       </div>
+
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">
                           Management Actions
                         </dt>
                         <div className="inline-flex">
-                          <button
-                            onClick={() => setDelete(true)}
-                            type="submit"
-                            className="transition duration-200 mt-1 flex w-auto justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                          >
-                            Delete Discord Client
-                          </button>
-                          <button
-                            type="submit"
-                            className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-indigo-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          >
-                            Restart Discord Client
-                          </button>
+                          {userPerms?.data[0] ? (
+                            <div className="flex">
+                              <button
+                                onClick={() => setDelete(true)}
+                                type="submit"
+                                className="transition duration-200 mt-1 flex w-auto justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                              >
+                                Delete Discord Client
+                              </button>
+                              <button
+                                onClick={restartClient}
+                                type="submit"
+                                className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-blue-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                              >
+                                Restart Discord Client
+                              </button>
+                            </div>
+                          ) : (
+                            <div>
+                              <span className=" text-xs font-medium text-gray-600 ">
+                                Since you are a Staff Member who does not have
+                                full access to this Dashboard, you are unable to
+                                utilize these features. Contact someone within
+                                Leadership if you believe this is an issue.
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </dl>

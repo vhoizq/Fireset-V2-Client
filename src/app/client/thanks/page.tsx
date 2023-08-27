@@ -75,7 +75,7 @@ export default function ClientPage() {
               <div className="mb-3 pt-6 text-base leading-5 font-semibold">
                 <p>
                   <a
-                    className="font-semibold text-indigo-500 hover:text-indigo-600"
+                    className="font-semibold text-blue-500 hover:text-blue-600"
                     href="https://discord.gg/BYPu8EkbW4"
                   >
                     Community Discord →

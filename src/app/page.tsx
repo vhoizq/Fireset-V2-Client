@@ -129,6 +129,7 @@ export default function Home() {
   return (
     <div className="bg-white">
       <header>
+
         <Popover className="relative bg-white">
           <div className="mx-auto flex max-w-7xl items-center justify-between p-4 md:justify-start ">
             <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -142,7 +143,7 @@ export default function Home() {
               </a>
             </div>
             <div className="-my-2 -mr-2 md:hidden">
-              <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-400">
+              <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
                 <span className="sr-only">Open menu</span>
                 <ChartBarIcon className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
@@ -164,7 +165,7 @@ export default function Home() {
             <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
               <a
                 href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https%3A%2F%2Ffireset.xyz%2Fapi%2Fauth%2Fredirect&response_type=code&scope=identify%20email%20guilds"
-                className="transition duration-200 inline-flex rounded-md border border-transparent bg-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
+                className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
               >
                 Login to Dashboard
               </a>
@@ -220,7 +221,7 @@ export default function Home() {
                   <div className="mt-6">
                     <a
                       href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https%3A%2F%2Ffireset.xyz%2Fapi%2Fauth%2Fredirect&response_type=code&scope=identify%20email%20guilds"
-                      className="transition duration-200 inline-flex rounded-md border border-transparent bg-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
+                      className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
                     >
                       Login to Dashboard
                     </a>
@@ -262,8 +263,8 @@ export default function Home() {
                     </p>
                     <div className="mt-6">
                       <a
-                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
-                        className="transition duration-200 inline-flex rounded-md border border-transparent bg-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
+                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=http://localhost:3000/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
+                        className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
                       >
                         Get started today
                       </a>
