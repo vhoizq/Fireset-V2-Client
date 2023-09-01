@@ -84,31 +84,10 @@ export default function ClientPage() {
     fetchData
   );
 
-  async function fetchPerms() {
-    const response = await axios.get(
-      `/api/clients/perms/${path.split("/")[3]}`
-    );
-    const data = await response;
-    return data;
-  }
-
-  // Use SWR with the fetched data
-  const { data: userPerms, error: ok } = useSWR(
-    `/api/clients/perms/${path.split("/")[3]}`,
-    fetchPerms
-  );
 
   const cache = useSWR(`/api`, fetch);
 
-  
-
-  if (client && userPerms) {
-    if (!client.data[0]) {
-      return router.replace("/client");
-    } else if (!userPerms.data[0]) {
-      return router.replace("/client");
-    }
-  }
+ 
 
   async function restartClient() {
     toast.success(`Successfully restarte Discord Client`);
@@ -187,7 +166,7 @@ export default function ClientPage() {
     },
   ];
 
-  return auth.user && userPerms?.data[0] ? (
+  return auth.user  ? (
     <main>
       <Toaster position="bottom-center" reverseOrder={false} />
       <div>
