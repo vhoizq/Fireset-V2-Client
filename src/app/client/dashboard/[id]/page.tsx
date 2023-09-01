@@ -51,7 +51,7 @@ const user = {
 const userNavigation = [
   { name: "Dashboard", href: "/client" },
   { name: "Settings", href: "/client/settings" },
-  { name: "Sign out", href: "/api/auth/logout" },
+  { name: "Sign out", href: "/auth/logout" },
 ];
 
 function classNames(...classes: string[]) {
@@ -105,7 +105,7 @@ export default function ClientPage() {
   if (client && userPerms) {
     if (!client.data[0]) {
       return router.replace("/client");
-    } else if (!userPerms.data[0] && auth.user?.isStaff !== true) {
+    } else if (!userPerms.data[0]) {
       return router.replace("/client");
     }
   }
@@ -187,7 +187,7 @@ export default function ClientPage() {
     },
   ];
 
-  return auth.user ? (
+  return auth.user && userPerms?.data[0] ? (
     <main>
       <Toaster position="bottom-center" reverseOrder={false} />
       <div>
@@ -556,33 +556,7 @@ export default function ClientPage() {
                     </div>
                   ) : null}
 
-                  {!userPerms?.data[0] && auth.user?.isStaff === true ? (
-                    <div className="mr-3 ml-3 mt-1 rounded-md bg-red-50  p-4">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <ShieldExclamationIcon
-                            className="h-5 w-5 text-red-400"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div className="ml-3">
-                          <h3 className="text-sm font-medium text-red-700">
-                            You do not have access to this Dashboard
-                          </h3>
-                          <div className="mt-2 text-sm text-red-600">
-                            <p>
-                              You are currently viewing a Client Dashboard that
-                              you do not have access to as a normal user, you
-                              are only to be accessing this dashboard for
-                              troubleshooting purposes. If you are seeing this
-                              message in error, contact one of your Leadership
-                              members.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
+               
 
                   <div className=" px-4  sm:px-6 mt-5 w-full">
                     <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
@@ -616,33 +590,23 @@ export default function ClientPage() {
                           Management Actions
                         </dt>
                         <div className="inline-flex">
-                          {userPerms?.data[0] ? (
-                            <div className="flex">
-                              <button
-                                onClick={() => setDelete(true)}
-                                type="submit"
-                                className="transition duration-200 mt-1 flex w-auto justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                              >
-                                Delete Discord Client
-                              </button>
-                              <button
-                                onClick={restartClient}
-                                type="submit"
-                                className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-blue-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                              >
-                                Restart Discord Client
-                              </button>
-                            </div>
-                          ) : (
-                            <div>
-                              <span className=" text-xs font-medium text-gray-600 ">
-                                Since you are a Staff Member who does not have
-                                full access to this Dashboard, you are unable to
-                                utilize these features. Contact someone within
-                                Leadership if you believe this is an issue.
-                              </span>
-                            </div>
-                          )}
+                         
+                           <div className="flex">
+                          <button
+                            onClick={() => setDelete(true)}
+                            type="submit"
+                            className="transition duration-200 mt-1 flex w-auto justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                          >
+                            Delete Discord Client
+                          </button>
+                          <button
+                            onClick={restartClient}
+                            type="submit"
+                            className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-blue-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                          >
+                            Restart Discord Client
+                          </button>
+                        </div> 
                         </div>
                       </div>
                     </dl>

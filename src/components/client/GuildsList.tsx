@@ -134,9 +134,9 @@ export const ClientsList = (props: { auth: any }) => {
                     />
                     <div className="flex-1 ">
                       <div className="items-center">
-                        <h3 className="ml-3 truncate text-md flex items-center font-bold text-gray-900 ">
+                        <span className="ml-3 truncate text-md flex items-center font-semibold text-gray-900 ">
                           {guild.name}
-                        </h3>
+                        </span>
                        
                       </div>
 

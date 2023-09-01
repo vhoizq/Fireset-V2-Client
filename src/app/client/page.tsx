@@ -60,7 +60,7 @@ export default function ClientPage() {
     return (numericPermissions & MANAGE_GUILD) === MANAGE_GUILD;
   };
 
-  console.log(userGuilds);
+
 
   const path = usePathname();
 
@@ -146,7 +146,7 @@ export default function ClientPage() {
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
                       <Menu.Button className="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
-                        <span className="sr-only">Open user menu</span>
+                        <span className="sr-only">Open user menus</span>
                         <Avatar
                           className="w-8 h-8 rounded-full my-auto"
                           userId={auth.user!.userId}

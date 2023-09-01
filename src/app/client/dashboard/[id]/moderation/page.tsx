@@ -91,11 +91,35 @@ export default function ClientPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [version, setVersion] = useState<number>(0);
 
+
+  const { data: client, error } = useSWR(
+    `/api/clients/info/${path.split("/")[3]}`,
+    fetchData
+  );
+
+
+  // Use SWR with the fetched data
+  const { data: userPerms, error: ok } = useSWR(
+    `/api/clients/perms/${path.split("/")[3]}`,
+    fetchPerms
+  );
+
+  // Use SWR with the fetched data
+  const { data: guildRoles, error: yes } = useSWR(
+    `/api/guilds/${path.split("/")[3]}/roles`,
+    fetchUserGuilds
+  );
+
+  // Use SWR with the fetched data
+  const { data: guildChannels, error: okk } = useSWR(
+    `/api/guilds/${path.split("/")[3]}/channels`,
+    fetchUserChannels
+  );
+
   const [openDelete, setDelete] = useState(false);
 
   const cancelButtonRef = useRef(null);
 
-  
   const [state, setState] = useState<boolean>(false);
 
   async function fetchData() {
@@ -103,44 +127,6 @@ export default function ClientPage() {
     const data = await response;
     return data;
   }
-
-  async function fetchUserGuilds() {
-    const response = await axios.get(
-      `/api/guilds/${path.split("/")[3]}/roles`,
-      {
-        headers: {
-          Authorization: `Bot ${client?.data[0].botToken}`,
-        },
-      }
-    );
-    const data = await response;
-    return data;
-  }
-
-  // Use SWR with the fetched data
-  const { data: guildRoles, error: userGuildsError } = useSWR(
-    `/api/guilds/${path.split("/")[3]}/roles`,
-    fetchUserGuilds
-  );
-
-  async function fetchUserChannels() {
-    const response = await axios.get(
-      `/api/guilds/${path.split("/")[3]}/channels`,
-      {
-        headers: {
-          Authorization: `Bot ${client?.data[0].botToken}`,
-        },
-      }
-    );
-    const data = await response;
-    return data;
-  }
-
-  // Use SWR with the fetched data
-  const { data: guildChannels, error: userGuildsError2 } = useSWR(
-    `/api/guilds/${path.split("/")[3]}/channels`,
-    fetchUserChannels
-  );
 
   async function addChannel(args: any) {
     const getDocument = document.getElementById(
@@ -276,12 +262,114 @@ export default function ClientPage() {
     }
   }
 
-  // Use SWR with the fetched data
-  const { data: client, error } = useSWR(
-    `/api/clients/info/${path.split("/")[3]}`,
-    fetchData
-  );
+  async function removeRole(args: any) {
+    const selectedRole = "";
 
+    const getDocument = document.getElementById(
+      `${args}-roles`
+    ) as HTMLSelectElement;
+
+    if (args === "admin") {
+      const { data: existingData, error: existingError } = await supabase
+        .from("DiscordBots")
+        .select("*")
+        .eq("id", `${client?.data[0].id}`);
+
+      if (existingError) {
+        console.error("Error fetching existing data:", existingError);
+        return;
+      }
+
+      let newData = existingData.map((bot: any) => ({
+        ...bot,
+        botModules: bot.botModules.map((module: any) => {
+          if (module.name === "Moderation") {
+            // Modify this condition as needed
+            return {
+              ...module,
+              adminRoles: [...module.adminRoles, getDocument.value],
+            };
+          }
+          return module;
+        }),
+      }));
+
+      // Update the data
+      const { data: updatedData, error: updateError } = await supabase
+        .from("DiscordBots")
+        .upsert(newData);
+    }
+
+    if (args === "mod") {
+      const { data: existingData, error: existingError } = await supabase
+        .from("DiscordBots")
+        .select("*")
+        .eq("id", `${client?.data[0].id}`);
+
+      if (existingError) {
+        console.error("Error fetching existing data:", existingError);
+        return;
+      }
+
+      let newData = existingData.map((bot: any) => ({
+        ...bot,
+        botModules: bot.botModules.map((module: any) => {
+          if (module.name === "Moderation") {
+            // Modify this condition as needed
+            return {
+              ...module,
+              modRoles: [...module.modRoles, getDocument.value],
+            };
+          }
+          return module;
+        }),
+      }));
+
+      // Update the data
+      const { data: updatedData, error: updateError } = await supabase
+        .from("DiscordBots")
+        .upsert(newData);
+    }
+
+    if (args === "safe") {
+      const { data: existingData, error: existingError } = await supabase
+        .from("DiscordBots")
+        .select("*")
+        .eq("id", `${client?.data[0].id}`);
+
+      if (existingError) {
+        console.error("Error fetching existing data:", existingError);
+        return;
+      }
+
+      let newData = existingData.map((bot: any) => ({
+        ...bot,
+        botModules: bot.botModules.map((module: any) => {
+          if (module.name === "Moderation") {
+            // Modify this condition as needed
+            return {
+              ...module,
+              safeRoles:
+                args === "safe"
+                  ? module.safeRoles.filter(
+                      (role: any) => role !== selectedRole
+                    )
+                  : module.safenRoles,
+            };
+          }
+          return module;
+        }),
+      }));
+
+      // Update the data
+      const { data: updatedData, error: updateError } = await supabase
+        .from("DiscordBots")
+        .upsert(newData);
+    }
+  }
+
+  // Use SWR with the fetched data
+ 
   function truncateText(text: string, maxLength: number): string {
     if (typeof text === "string") {
       if (text.length > maxLength) {
@@ -319,6 +407,42 @@ export default function ClientPage() {
     if (!client.data[0]) {
       return router.replace("/client");
     }
+  }
+
+  async function fetchUserGuilds() {
+    const response = await axios.get(
+      `/api/guilds/${path.split("/")[3]}/roles`,
+      {
+        headers: {
+          Authorization: `Bot ${client?.data[0].botToken}`,
+        },
+      }
+    );
+    const data = await response;
+    return data;
+  }
+
+  async function fetchPerms() {
+    const response = await axios.get(
+      `/api/clients/perms/${path.split("/")[3]}`
+    );
+    const data = await response;
+    return data;
+  }
+
+
+
+  async function fetchUserChannels() {
+    const response = await axios.get(
+      `/api/guilds/${path.split("/")[3]}/channels`,
+      {
+        headers: {
+          Authorization: `Bot ${client?.data[0].botToken}`,
+        },
+      }
+    );
+    const data = await response;
+    return data;
   }
 
   
@@ -381,6 +505,14 @@ export default function ClientPage() {
       isPaid: false,
     },
   ];
+
+  if (client && userPerms) {
+    if (!client.data[0]) {
+      return router.replace("/client");
+    } else if (!userPerms.data[0]) {
+      return router.replace("/client");
+    }
+  }
 
   return auth.user && guildRoles?.data && guildChannels?.data ? (
     <main>
@@ -1050,7 +1182,11 @@ export default function ClientPage() {
                                         <option
                                           key={index}
                                           defaultValue={guild.id}
-                                          selected={guild.id === client?.data[0].botModules[0].modChannel}
+                                          selected={
+                                            guild.id ===
+                                            client?.data[0].botModules[0]
+                                              .modChannel
+                                          }
                                         >
                                           {guild.name}
                                         </option>

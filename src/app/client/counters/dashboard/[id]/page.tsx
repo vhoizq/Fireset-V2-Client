@@ -51,7 +51,7 @@ const user = {
 const userNavigation = [
   { name: "Dashboard", href: "/client" },
   { name: "Settings", href: "/client/settings" },
-  { name: "Sign out", href: "/api/auth/logout" },
+  { name: "Sign out", href: "/auth/logout" },
 ];
 
 function classNames(...classes: string[]) {

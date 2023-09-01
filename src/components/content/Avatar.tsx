@@ -22,26 +22,28 @@ export const Avatar = (props: {
         } else {
 
             const tryJson = async () => {
-                try {
+                console.log("yes");
+        
                     const discordResponse = await axios.get('https://discord.com/api/v10/users/@me', {
                         headers: {
                             Authorization: `Bearer ${props.sessionToken}`
                         }
                     });
-
-
-                    const body = discordResponse.data
+            
+                    console.log(discordResponse.data);
+            
+                    const body = discordResponse.data;
+                    console.log("Body:", body);
                     if (body) {
-                        setImage(`https://cdn.discordapp.com/avatars/${body.id}/${body.avatar}.png`)
+                        setImage(`https://cdn.discordapp.com/avatars/${body.id}/${body.avatar}.png`);
                         setLoading(false);
-                        window.localStorage.setItem(`avatar-${body.id}`, body.avatar)
+                        window.localStorage.setItem(`avatar-${body.id}`, `https://cdn.discordapp.com/avatars/${body.id}/${body.avatar}.png`);
                     }
-                } catch (error) {
-                    setLoading(false);
-                }
+               
             }
-
+            
             tryJson();
+            
 
 
         }

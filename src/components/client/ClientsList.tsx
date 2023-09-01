@@ -101,7 +101,7 @@ export const ClientsList = () => {
                     />
                     <div className="flex-1 ">
                       <div className="items-center">
-                        <h3 className="ml-3 truncate text-md flex items-center font-bold text-gray-900 ">
+                        <h3 className="ml-3 truncate text-md flex items-center font-semibold text-gray-900 ">
                           {b.botName}
                          
                         </h3>
