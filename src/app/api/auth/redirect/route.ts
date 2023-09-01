@@ -8,9 +8,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://bodxfxgmzdsaxyeqxgbm.supabase.co";
+const supabaseUrl = "https://vfppfrtyvxpuyzwrqxtq.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvZHhmeGdtemRzYXh5ZXF4Z2JtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4OTA5MTIwOSwiZXhwIjoyMDA0NjY3MjA5fQ.wZg90UpLqy6BDL9mO7D1_c4DU05gC2rcmTLgX5dPxL0";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmcHBmcnR5dnhwdXl6d3JxeHRxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MzMyMzQ2MCwiZXhwIjoyMDA4ODk5NDYwfQ.fc3Cmi29xECvvEXmGZW6PPfVLRppnH-MINVuGFJF6bA";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -30,7 +30,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       console.log(`Code: ${code}`);
       const response = await axios.post(
         tokenURL,
-        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=https://fireset.xyz/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
+        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
       );
 
       const accessToken = response.data.access_token;
@@ -50,6 +50,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         .from("User")
         .select("*")
         .eq("userId", user.id);
+
+        console.log(userData)
 
       try {
         if (!error) {
