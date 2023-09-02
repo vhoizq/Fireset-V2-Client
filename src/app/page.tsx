@@ -263,7 +263,7 @@ export default function Home() {
                     </p>
                     <div className="mt-6">
                       <a
-                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=http://localhost:3000/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
+                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
                         className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
                       >
                         Get started today
