@@ -168,13 +168,7 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-row gap-4 mt-12">
-        <Image
-          width={64}
-          height={64}
-          className="my-auto"
-          src={"/branding/TransparentBoltTextDark.png"}
-          alt={"Logo"}
-        />
+       
         <div className="flex flex-col my-auto">
           <span className="text-blue-950 text-lg font-semibold">
             Posted on August 20, 2023 at 10:28 PM Eastern Time
