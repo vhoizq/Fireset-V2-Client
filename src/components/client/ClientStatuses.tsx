@@ -16,20 +16,20 @@ interface Client {
   clientInfo: { clientId: String; botAvatar: String };
 }
 
-const fetchClients = async () => {
-  try {
-    const response = await axios.get(`/`);
-    const body = response.data;
-    if (Array.isArray(body)) {
-      return body as Client[];
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const ClientsList = (props: { client: any }) => {
   const [open, setOpen] = useState(false);
+
+  const fetchClients = async () => {
+    try {
+      const response = await axios.get(`/`);
+      const body = response.data;
+      if (Array.isArray(body)) {
+        return body as Client[];
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const {
     data: clients,
@@ -262,7 +262,6 @@ export const ClientsList = (props: { client: any }) => {
                                   <select
                                     id="status-type"
                                     name="type"
-             
                                     className="transition form-select duration-200   block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600  sm:text-sm sm:leading-6"
                                   >
                                     <option value="PLAYING" selected>

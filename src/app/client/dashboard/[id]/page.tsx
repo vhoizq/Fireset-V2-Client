@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Intercom from '@/components/client/Intercom'
 
 import { HiX } from "react-icons/hi";
 import { useAuth } from "../../auth";
@@ -40,6 +41,7 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
 import ClientStatuses from "@/components/client/ClientStatuses";
+import { Inter } from "next/font/google";
 
 const user = {
   name: "Tom Cook",
@@ -168,6 +170,7 @@ export default function ClientPage() {
 
   return auth.user  ? (
     <main>
+     
       <Toaster position="bottom-center" reverseOrder={false} />
       <div>
         <Transition.Root show={openDelete} as={Fragment}>

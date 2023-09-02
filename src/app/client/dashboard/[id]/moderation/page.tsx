@@ -129,6 +129,7 @@ export default function ClientPage() {
   }
 
   async function addChannel(args: any) {
+    console.log("ok")
     const getDocument = document.getElementById(
       `mod-channel`
     ) as HTMLSelectElement;
@@ -150,7 +151,7 @@ export default function ClientPage() {
           // Modify this condition as needed
           return {
             ...module,
-            modChannel: getDocument.value,
+            modChannel: `${getDocument.value}`,
           };
         }
         return module;
@@ -164,6 +165,7 @@ export default function ClientPage() {
   }
 
   async function addRole(args: any) {
+    console.log("oo")
     const getDocument = document.getElementById(
       `${args}-roles`
     ) as HTMLSelectElement;
@@ -509,7 +511,7 @@ export default function ClientPage() {
   if (client && userPerms) {
     if (!client.data[0]) {
       return router.replace("/client");
-    } else if (!userPerms.data[0]) {
+    } else if (!userPerms.data) {
       return router.replace("/client");
     }
   }
@@ -926,7 +928,7 @@ export default function ClientPage() {
                                     {truncatedAdmins.map((item, index) => (
                                       <span
                                         key={index}
-                                        className="inline-flex items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                        className="inline-flex items-center   whitespace-nowrap justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
                                       >
                                         {item}
                                         <svg
@@ -957,7 +959,7 @@ export default function ClientPage() {
                                     {guildRoles.data
                                       .filter(
                                         (guild: any) =>
-                                          guild.name !== "@everyone"
+                                          guild.name !== "@everyone" 
                                       )
                                       .map((guild: any, index: number) => (
                                         <option
@@ -1012,7 +1014,7 @@ export default function ClientPage() {
                                     {truncatedMods.map((item, index) => (
                                       <span
                                         key={index}
-                                        className="inline-flex items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                        className="inline-flex items-center  whitespace-nowrap justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
                                       >
                                         {item}
                                         <svg
@@ -1097,7 +1099,7 @@ export default function ClientPage() {
                                     {truncatedProtected.map((item, index) => (
                                       <span
                                         key={index}
-                                        className="inline-flex items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                        className="inline-flex whitespace-nowrap items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
                                       >
                                         {item}
                                         <svg
@@ -1181,11 +1183,11 @@ export default function ClientPage() {
                                       (guild: any, index: number) => (
                                         <option
                                           key={index}
-                                          defaultValue={guild.id}
+                                          value={guild.id}
                                           selected={
                                             guild.id ===
-                                            client?.data[0].botModules[0]
-                                              .modChannel
+                                            `${client?.data[0].botModules[0]
+                                              .modChannel}`
                                           }
                                         >
                                           {guild.name}

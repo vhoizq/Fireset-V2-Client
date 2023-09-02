@@ -5,7 +5,6 @@ import useSWR from "swr";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "../../auth";
 import { useEffect } from "react";
-import axios from "axios";
 
 interface User {
   username: string;
@@ -22,42 +21,36 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
   const path = usePathname();
   const router = useRouter();
   const auth = useAuth();
 
-  async function fetchPerms() {
-    const response = await axios.get(
-      `/api/clients/perms/${path.split("/")[3]}`
-    );
-    const data = await response;
-    return data;
-  }
-
-  // Use SWR with the fetched data
-  const { data: userPerms, error: ok } = useSWR(
-    `/api/clients/perms/${path.split("/")[3]}`,
-    fetchPerms
-  );
-
-  const { data, error, isLoading } = useSWR("/api/context", fetch);
+  
+  const { data, error, isLoading } = useSWR(`/api/clients/perms/${path.split("/")[3]}`, fetch);
   if (error) {
     console.log("Got Error");
     router.replace("/");
   }
 
-  if (userPerms && !userPerms.data[0]) {
-    return router.replace("/client");
-  }
+  useEffect(() => {
+    if (data) {
+      const tryJson = async () => {
+        try {
+          const body = await data.json();
+          if(body.error) {
+            router.replace("/client");
+          } 
+        } catch (error) {}
+      };
+      tryJson();
+    }
+  }, [isLoading, data]);
 
   return (
     <div>
-      {pathname.includes("groups") || pathname.includes("apps") ? (
+     
         <>{children}</>
-      ) : (
-        <>{children}</>
-      )}
+
     </div>
   );
 }

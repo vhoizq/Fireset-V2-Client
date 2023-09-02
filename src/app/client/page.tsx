@@ -80,6 +80,7 @@ export default function ClientPage() {
 
   return auth.user ? (
     <main>
+
       <Toaster position="bottom-center" reverseOrder={false} />
 
       <Disclosure as="header" className="bg-white shadow">
