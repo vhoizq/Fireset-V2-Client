@@ -40,11 +40,11 @@ export default function RedirectPage() {
   }, []);
 
   return (
-    <div className="flex flex-col w-screen h-screen bg-blue-100">
+    <div className="flex flex-col w-screen h-screen bg-white">
       <MoonLoader
         size={48}
         className={"flex mx-auto my-auto"}
-        color={"#6366f1"}
+        color={"#607cfa"}
       />
     </div>
   );
