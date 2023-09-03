@@ -13,14 +13,9 @@ import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
 import ClientsList from "@/components/client/ClientsList";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images-ext-1.discordapp.net/external/Gu7KcuWl1IpFcMHL3q_lpyX_qLpb83D1yP5vtJ4N7c0/https/cdn.discordapp.com/avatars/914289232061800459/1c26d51680f735a589b815f803dc3124.png?width=281&height=281",
-};
+
 const navigation = [
-  { name: "Custom Discord Bots", href: "/client/bots", current: false },
+  { name: "Custom Discord Bots", href: "/client/bots", current: true },
   { name: "Member Counters", href: "/client/counters", current: false },
 ];
 const userNavigation = [
@@ -225,10 +220,10 @@ export default function ClientPage() {
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium text-gray-800">
-                      {user.name}
+                      {auth.user?.username}
                     </div>
                     <div className="text-sm font-medium text-gray-500">
-                      {user.email}
+                      {auth.user?.email}
                     </div>
                   </div>
                   <button
@@ -262,7 +257,7 @@ export default function ClientPage() {
       <div className="mt-20"></div>
     </main>
   ) : (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen mt-10">
       <MoonLoader
         size={32}
         className={"flex mx-auto my-auto"}

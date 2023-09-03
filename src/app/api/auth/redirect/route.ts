@@ -60,7 +60,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
               sessionToken: accessToken,
               userId: user.id,
               username: user.username,
-              email: user.email,
+              email:  {auth.user?.email},
               isActive: true,
               isBeta: false
               // Other user data

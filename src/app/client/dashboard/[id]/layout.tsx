@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "../../auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react"; // Import useState
 
 interface User {
   username: string;
@@ -24,33 +24,40 @@ export default function ClientLayout({
   const path = usePathname();
   const router = useRouter();
   const auth = useAuth();
-
   
-  const { data, error, isLoading } = useSWR(`/api/clients/perms/${path.split("/")[3]}`, fetch);
+  const [startTime, setStartTime] = useState<number | null>(null); // Track start time
+
+  const { data, error, isLoading } = useSWR(
+    `/api/clients/perms/${path.split("/")[3]}`,
+    fetch
+  );
+
   if (error) {
     console.log("Got Error");
     router.replace("/");
   }
 
   useEffect(() => {
-    if (data) {
+    if (isLoading) {
+      // Set the start time when the request is initiated
+      setStartTime(Date.now());
+    } else if (data) {
       const tryJson = async () => {
         try {
           const body = await data.json();
-          if(body.error) {
+          if (body.error) {
             router.replace("/client");
-          } 
+          } else if (startTime !== null) {
+            // Calculate and log the elapsed time
+            const endTime = Date.now();
+            const elapsedTime = endTime - startTime;
+            console.log(`Fetching and processing took ${elapsedTime} ms`);
+          }
         } catch (error) {}
       };
       tryJson();
     }
-  }, [isLoading, data]);
+  }, [isLoading, data, startTime, router]);
 
-  return (
-    <div>
-     
-        <>{children}</>
-
-    </div>
-  );
+  return <div>{!isLoading ? <>{children}</> : null}</div>;
 }

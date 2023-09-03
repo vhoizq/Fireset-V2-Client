@@ -30,14 +30,6 @@ export const GET = async (
     const auth = await verifyAuth(req);
     if (auth) {
       const clientCookie = req.cookies.get("fireset-client-id");
-      const response = await axios.get(
-        "https://discord.com/api/v10/users/@me/guilds",
-        {
-          headers: {
-            Authorization: `Bearer ${clientCookie?.value}`,
-          },
-        }
-      );
 
       const { data, error } = await supabase
         .from("DiscordBots")
@@ -47,56 +39,20 @@ export const GET = async (
       if (error) {
         console.error("Error fetching data:", error);
       } else {
-        if (data && data.length > 0) {
-          const bot = data[0]; // Assuming you want to work with the first bot
-          const botToken = bot.botToken;
-
-          try {
-           
-
-            const userGuilds = response.data;
-            const targetGuild = userGuilds.find(
-              (guild: any) => guild.id === bot.botConfigs.guildId
-            );
-
-            if (
-              targetGuild &&
-              hasManageGuildPermission(targetGuild.permissions)
-            ) {
-              console.log(
-                "User has MANAGE_GUILD permission in the specified guild."
-              );
-              return new Response(JSON.stringify(data), { status: 200 });
-            } else {
-              console.log(
-                "User does not have MANAGE_GUILD permission in the specified guild."
-              );
-              const response = new Response(
-                JSON.stringify({ error: "Unauthorized" }),
-                {
-                  status: 200,
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
-
-              return response;
-            }
-          } catch (error) {
-            console.error("Error fetching user guilds:", error);
-            const response = new Response(
-              JSON.stringify({ error: "Unauthorized" }),
-              {
-                status: 500,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-
-            return response;
-          }
+        if (data[0].botOwner === auth.userId) {
+          return new Response(
+            JSON.stringify({
+              msg: "Success",
+            }),
+            { status: 200 }
+          );
+        } else {
+          return new Response(
+            JSON.stringify({
+              error: "Unauthorized",
+            }),
+            { status: 500 }
+          );
         }
       }
     } else {

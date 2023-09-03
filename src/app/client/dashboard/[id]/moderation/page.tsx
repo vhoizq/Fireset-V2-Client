@@ -98,11 +98,7 @@ export default function ClientPage() {
   );
 
 
-  // Use SWR with the fetched data
-  const { data: userPerms, error: ok } = useSWR(
-    `/api/clients/perms/${path.split("/")[3]}`,
-    fetchPerms
-  );
+ 
 
   // Use SWR with the fetched data
   const { data: guildRoles, error: yes } = useSWR(
@@ -424,14 +420,7 @@ export default function ClientPage() {
     return data;
   }
 
-  async function fetchPerms() {
-    const response = await axios.get(
-      `/api/clients/perms/${path.split("/")[3]}`
-    );
-    const data = await response;
-    return data;
-  }
-
+ 
 
 
   async function fetchUserChannels() {
@@ -507,14 +496,6 @@ export default function ClientPage() {
       isPaid: false,
     },
   ];
-
-  if (client && userPerms) {
-    if (!client.data[0]) {
-      return router.replace("/client");
-    } else if (!userPerms.data) {
-      return router.replace("/client");
-    }
-  }
 
   return auth.user && guildRoles?.data && guildChannels?.data ? (
     <main>
@@ -1261,7 +1242,7 @@ export default function ClientPage() {
       </div>
     </main>
   ) : (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen mt-10">
       <MoonLoader
         size={32}
         className={"flex mx-auto my-auto"}

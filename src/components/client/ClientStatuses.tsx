@@ -42,10 +42,10 @@ export const ClientsList = (props: { client: any }) => {
       <div className="mt-20">
         <div className="mt-20 text-center">
           <h3 className="mt-2 text-sm font-medium text-gray-900">
-            We failed to load your Discord Bots
+          We encountered an error while loading
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            We encountered an error while loading your Discord Bots.
+            We are currently unable to load your Client Statuses
           </p>
         </div>
       </div>

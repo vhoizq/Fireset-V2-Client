@@ -17,6 +17,7 @@ export const GET = async (
             const { data, error } = await supabase
                 .from('DiscordBots')
                 .select('*')
+                .eq('botOwner', '914289232061800459');
                
 
             if (data) {

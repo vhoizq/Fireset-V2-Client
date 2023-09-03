@@ -92,7 +92,7 @@ export default function ClientPage() {
  
 
   async function restartClient() {
-    toast.success(`Successfully restarte Discord Client`);
+    toast.success(`Successfully restarted client`);
   }
 
   async function confirmDelete() {
@@ -603,7 +603,7 @@ export default function ClientPage() {
       </div>
     </main>
   ) : (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen mt-10">
       <MoonLoader
         size={32}
         className={"flex mx-auto my-auto"}
