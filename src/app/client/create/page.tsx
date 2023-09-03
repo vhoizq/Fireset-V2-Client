@@ -333,10 +333,10 @@ export default function ClientPage() {
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium text-gray-800">
-                      {  {auth.user?.username}}
+                      {auth.user?.username}
                     </div>
                     <div className="text-sm font-medium text-gray-500">
-                      { {auth.user?.email}}
+                      {user.email}
                     </div>
                   </div>
                   <button

@@ -14,12 +14,8 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-
-
-
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
-  
     const params = req.nextUrl.searchParams;
     console.log(req.nextUrl);
     const code = params.get("code");
@@ -51,7 +47,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         .select("*")
         .eq("userId", user.id);
 
-        console.log(userData)
+      console.log(userData);
 
       try {
         if (!error) {
@@ -60,9 +56,9 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
               sessionToken: accessToken,
               userId: user.id,
               username: user.username,
-              email:  {auth.user?.email},
+              email: user.email,
               isActive: true,
-              isBeta: false
+              isBeta: false,
               // Other user data
             };
             const { data: createdData, error: insertionError } = await supabase
