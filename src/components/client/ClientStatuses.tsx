@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { PlusIcon, LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { Dialog, Transition } from "@headlessui/react";
@@ -16,11 +16,15 @@ interface Client {
   clientInfo: { clientId: String; botAvatar: String };
 }
 
+
 export const ClientsList = (props: { client: any }) => {
   const [open, setOpen] = useState(false);
-  
+  const [clients, setClients] = useState<Client[]>([]);
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchClients = async () => {
+  
+  const fetchData = async () => {
     try {
       const response = await axios.get(`/api/clients/info/${props.client}`);
       const body = response.data;
@@ -31,12 +35,21 @@ export const ClientsList = (props: { client: any }) => {
       throw error;
     }
   };
+  
 
-  const {
-    data: clients,
-    error,
-    isValidating,
-  } = useSWR(`/api/clients/info/${props.client}`, fetchClients);
+  useEffect(() => {
+    setIsLoading(true);
+
+    fetchData()
+      .then((data) => {
+        setClients(data || []);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setIsLoading(false);
+      });
+  }, [props.client]);
 
   if (error) {
     return (
@@ -53,7 +66,7 @@ export const ClientsList = (props: { client: any }) => {
     );
   }
 
-  if (isValidating) {
+  if (isLoading) {
     return (
       <div className="mt-20">
         <center>
