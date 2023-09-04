@@ -43,7 +43,7 @@ export const GET = async (
       );
 
       // Filter out category channels (type: 4)
-      const channels = response.data.filter(channel => channel.type !== 4);
+      const channels = response.data.filter(channel => channel.type !== 4 );
 
       return new Response(JSON.stringify(channels), { status: 200 });
     }

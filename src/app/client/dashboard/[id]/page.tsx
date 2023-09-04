@@ -143,7 +143,7 @@ export default function ClientPage() {
       href: `/client/dashboard/${client?.data[0].id}/giveaways`,
       icon: GiftIcon,
       current: false,
-      isPaid: false,
+      isPaid: true,
     },
     {
       name: "Support Tickets",
@@ -316,7 +316,7 @@ export default function ClientPage() {
                             item.current
                               ? "bg-gray-100 text-gray-900"
                               : "transition duration-200 text-gray-900 hover:bg-gray-100",
-                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                            "group flex items-center px-2 py-2 text-base font-medium rounded-md whitespace-nowrap"
                           )}
                         >
                           <item.icon
@@ -528,7 +528,7 @@ export default function ClientPage() {
                             <p>
                               You are currently utilizing our Basic Subscription
                               which grants you access to simple features such as
-                              our Moderation Suite, Giveaways, Games, and Roblox
+                              our Moderation Suite, Games, and Roblox
                               Integration. You can upgrade today by going to
                               your Billing Settings.
                             </p>

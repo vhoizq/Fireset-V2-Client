@@ -42,6 +42,7 @@ export const POST = async (
       const newUser = {
         botName: `${newRequest.clientUsername}`,
         botToken: `${newRequest.clientToken}`,
+        botOwner: `${auth.userId}`,
         botConfigs: {
           guildId: `${newRequest.syncedGuild}`,
           isEnterprise: false,
@@ -49,8 +50,29 @@ export const POST = async (
           stripeId: "",
           errMessage: "",
         },
-        botModules: {},
-        botStatuses: [],
+        botModules: [
+          {
+            name: "Moderation",
+            modRoles: [],
+            safeRoles: [],
+            adminRoles: [],
+            modChannel: "",
+          },
+          {
+            name: "Roblox",
+            modRoles: [],
+            safeRoles: [],
+            adminRoles: [],
+            modChannel: "",
+          },
+        ],
+        botStatuses: [
+          {
+            statusText: "fireset.xyz",
+            statusType: "LISTENING",
+            statusId: "FIRESET_AUTO_STATUS",
+          },
+        ],
         clientInfo: {
           clientId: `${isValidToken.id}`,
           botAvatar: `${isValidToken.avatar}`,
