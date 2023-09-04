@@ -22,7 +22,7 @@ export default function RedirectPage() {
 
         if (response.status === 200) {
           console.log(response)
-          router.replace("/client");
+          router.replace("/client/thanks");
         } else if (body) {
           toast.error(body.error);
         } else {
@@ -32,7 +32,7 @@ export default function RedirectPage() {
       .catch((error) => {
         console.log("ERRORED")
         setTimeout(() => {
-          router.replace("/client");
+          router.replace("/client/thanks");
         }, 4000);
 
         toast.error("Unable to complete authentications");
