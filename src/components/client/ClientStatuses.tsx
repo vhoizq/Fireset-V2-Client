@@ -18,10 +18,11 @@ interface Client {
 
 export const ClientsList = (props: { client: any }) => {
   const [open, setOpen] = useState(false);
+  
 
   const fetchClients = async () => {
     try {
-      const response = await axios.get(`/`);
+      const response = await axios.get(`/api/clients/info/${props.client}`);
       const body = response.data;
       if (Array.isArray(body)) {
         return body as Client[];
