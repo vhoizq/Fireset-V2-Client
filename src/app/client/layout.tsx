@@ -64,6 +64,7 @@ export default function ClientLayout({
         app_id: "aaljxt5r",
         name: `${auth.user?.username}`,
         email: `${auth.user?.email}`,
+        user_id: `${auth.user?.userId}`,
       };
   
       // Load Intercom widget
