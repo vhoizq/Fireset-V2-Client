@@ -26,7 +26,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       console.log(`Code: ${code}`);
       const response = await axios.post(
         tokenURL,
-        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
+        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=https://fireset.xyz/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
       );
 
       const accessToken = response.data.access_token;
