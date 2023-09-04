@@ -9,12 +9,12 @@ import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import useSWR from "swr"; // Import the useSWR hook
 
-interface Client {
-  botName: String;
-  id: String;
-  botStatuses: [];
-  clientInfo: { clientId: String; botAvatar: String };
-}
+type Client = {
+  id: number;
+  botStatuses: any[]; // Replace any[] with the actual type of botStatuses
+  // Other properties if there are any
+};
+
 
 
 export const ClientsList = (props: { client: any }) => {
@@ -23,34 +23,22 @@ export const ClientsList = (props: { client: any }) => {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`/api/clients/info/${props.client}`);
-      const body = response.data;
-      if (Array.isArray(body)) {
-        return body as Client[];
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
-  
 
   useEffect(() => {
-    setIsLoading(true);
-
-    fetchData()
-      .then((data) => {
-        setClients(data || []);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-      });
+    
+  
+    async function doneLoading() {
+      setIsLoading(false);
+    }
+  
+    if (props.client && props.client.botStatuses && props.client.botStatuses.length > 0) {
+      setClients(props.client.botStatuses)
+      doneLoading();
+    } else {
+      setTimeout(doneLoading, 500);
+    }
   }, [props.client]);
-
+  
   if (error) {
     return (
       <div className="mt-20">
@@ -94,6 +82,8 @@ export const ClientsList = (props: { client: any }) => {
     );
   }
 
+  
+
   const create = async () => {
     toast.loading("We are processing your request...");
     const statusType = document.getElementById(
@@ -134,6 +124,9 @@ export const ClientsList = (props: { client: any }) => {
           toast.success(
             `Successfully added status to ${props.client.botName}.`
           );
+
+          const response = await axios.get(`/api/clients/info/${props.client.id}`)
+          setClients(response.data[0].botStatuses || []);
 
           setOpen(false);
         } else {
@@ -181,6 +174,8 @@ export const ClientsList = (props: { client: any }) => {
           toast.success(
             `Successfully removed status from ${props.client.botName}.`
           );
+          const response = await axios.get(`/api/clients/info/${props.client.id}`)
+          setClients(response.data[0].botStatuses || []);
           setOpen(false);
         } else {
           throw Error(
@@ -318,13 +313,13 @@ export const ClientsList = (props: { client: any }) => {
       <div className=" ">
         <dt className="text-sm font-medium text-gray-500">Custom Statuses</dt>
 
-        {props.client && props.client.botStatuses?.length >= 1 ? (
+        {props.client && clients.length >= 1 ? (
           <div>
             <ul
               role="list"
               className="divide-y  mt-1 divide-gray-200 rounded-md border border-gray-200 mr-10"
             >
-              {props.client.botStatuses.map((b: any) => (
+              {clients.map((b: any) => (
                 <li
                   className="flex items-center justify-between  py-3 pl-3 pr-4 text-sm w-full"
                   key={b.id}
