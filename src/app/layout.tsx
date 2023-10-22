@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata = {
   title: "Fireset Platform - Empowering Security in your Roblox group",
-description: "Keeping your group safe on Roblox is very important, with Fireset, you can manage all of your moderation needs. All of this, in one easy-to-use dashboard.",
+  description: "Keeping your group safe on Roblox is very important, with Fireset, you can manage all of your moderation needs. All of this, in one easy-to-use dashboard.",
   keywords: "Discord bots, server management, custom bots, Discord server, Fireset Platform",
 };
 
