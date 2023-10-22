@@ -19,7 +19,7 @@ export const Logo = (props: {
             setLoading(false);
         } else {
             fetch(
-                `/api/content/group-icon?groupIds=${props.groupId}&size=150x150&format=png`
+                `/api/content/groups?groupIds=${props.groupId}&size=150x150&format=png`
             ).then((response) => {
                 if (
                     response.status === 200

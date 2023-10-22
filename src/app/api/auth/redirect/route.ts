@@ -14,78 +14,80 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+function generateRandomString(length: number): string {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let randomString = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters.charAt(randomIndex);
+  }
+
+  return randomString;
+}
+
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
     const params = req.nextUrl.searchParams;
-    console.log(req.nextUrl);
     const code = params.get("code");
-
-    const tokenURL = "https://discord.com/api/oauth2/token";
+    const session = generateRandomString(32);
 
     if (code) {
-      console.log(`Code: ${code}`);
-      const response = await axios.post(
-        tokenURL,
-        `client_id=1053864556503519312&client_secret=P3kVSLym5OD7QXs9EPjyJORs9-rREHRy&grant_type=authorization_code&code=${code}&redirect_uri=https://fireset.xyz/auth/redirect&scope=identify%20email%20gdm.join%20guilds`
-      );
+      let tokens = await getTokens(code);
+      if (!tokens) {
+        throw Error("Unable to fetch tokens: expired auth code");
+      }
 
-      const accessToken = response.data.access_token;
-
-      const userResponse = await axios.get(
-        "https://discord.com/api/v10/users/@me",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const user = userResponse.data;
-
-      const { data: userData, error } = await supabase
-        .from("User")
-        .select("*")
-        .eq("userId", user.id);
-
-      console.log(userData);
+      let userInfo = await getRobloxContext(tokens.access_token);
+      if (!userInfo) {
+        throw Error("Unable to load user data: insufficient permissions");
+      }
 
       try {
-        if (!error) {
-          if (userData.length === 0) {
-            const newUser = {
-              sessionToken: accessToken,
-              userId: user.id,
-              username: user.username,
-              email: user.email,
-              isActive: true,
-              isBeta: false,
-              // Other user data
-            };
-            const { data: createdData, error: insertionError } = await supabase
-              .from("User")
-              .insert(newUser);
+        let sessionKey = `NONE`;
+        const { data: userData, error } = await supabase
+          .from("User")
+          .select("*")
+          .eq("userId", userInfo.sub);
 
-            if (insertionError) {
-              console.error("Error inserting user:", insertionError);
-            }
+        const session = userData?.[0]?.sessionToken || randomBytes(128).toString("hex");
+        const encrypted = await encryptCookie(session);
+
+        if (userData && userData.length === 0) {
+          const newUser = {
+            sessionToken: session,
+            userId: userInfo.sub,
+            username: userInfo.name,
+            isActive: true,
+            isBeta: false,
+            // Other user data
+          };
+
+          const { data: createdData, error: insertionError } = await supabase
+            .from("User")
+            .insert(newUser);
+
+          if (insertionError) {
+            console.error("Error inserting user:", insertionError);
           }
-
-          return new Response(
-            JSON.stringify({
-              data: "Success!",
-            }),
-            {
-              status: 200,
-              headers: {
-                "Set-Cookie": `fireset-client-id=${accessToken}; Max-Age=${
-                  60 * 60 * 24
-                }; Path=/, fireset-user-id=${accessToken}; Max-Age=${
-                  60 * 60 * 24
-                }; Path=/`,
-              },
-            }
-          );
         }
+
+        return new Response(
+          JSON.stringify({
+            data: "Success!",
+          }),
+          {
+            status: 200,
+            headers: {
+              "Set-Cookie": `fireset-client-id=${
+                session
+              }; Max-Age=${60 * 60 * 24}; Path=/, fireset-user-id=${
+                session
+              }; Max-Age=${60 * 60 * 24}; Path=/`,
+            },
+          }
+        );
       } catch (error) {
         console.log(error);
         console.log("Failed to create account: user already exists");
@@ -96,8 +98,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
           { status: 400 }
         );
       }
-    } else {
-      throw Error("No authorization code provided");
     }
   } catch (error) {
     return new Response(

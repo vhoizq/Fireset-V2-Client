@@ -1,252 +1,125 @@
 "use client";
 
 import useSWR from "swr";
-import React, { useState, useEffect, useRef, Fragment } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import Intercom from '@/components/client/Intercom'
+import { usePathname } from "next/navigation";
+import { useState, Fragment, useEffect } from "react";
+import { Dialog, Menu, Transition, Combobox } from "@headlessui/react";
 
-import { HiX } from "react-icons/hi";
 import { useAuth } from "../../auth";
-import {
-  BriefcaseIcon,
-  BellIcon,
-  XCircleIcon,
-  XMarkIcon,
-  HomeIcon,
-  UsersIcon,
-  FolderIcon,
-  CalendarIcon,
-  InboxIcon,
-  ChartBarIcon,
-  PuzzlePieceIcon,
-  CurrencyDollarIcon,
-  TicketIcon,
-  GiftIcon,
-  CodeBracketIcon,
-  ShieldExclamationIcon,
-  PaperClipIcon,
-  ExclamationCircleIcon,
-  CreditCardIcon,
-  LinkIcon,
-  QuestionMarkCircleIcon,
-  ExclamationTriangleIcon,
-  SparklesIcon,
-  SpeakerWaveIcon,
-  UserIcon,
-} from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/24/solid";
-import { Toaster, toast } from "react-hot-toast";
-import axios from "axios";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Avatar } from "@/components/content/Avatar";
-import { MoonLoader } from "react-spinners";
-import ClientStatuses from "@/components/client/ClientStatuses";
-import { Inter } from "next/font/google";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images-ext-1.discordapp.net/external/Gu7KcuWl1IpFcMHL3q_lpyX_qLpb83D1yP5vtJ4N7c0/https/cdn.discordapp.com/avatars/914289232061800459/1c26d51680f735a589b815f803dc3124.png?width=281&height=281",
-};
+import { GroupDetails, GroupMessageDetails } from "@/util/db/group";
+import { User } from "@/util/db/schemas/schema";
+
+import { toast } from "react-hot-toast";
+
+import { HiChatAlt, HiDotsVertical, HiTrash } from "react-icons/hi";
+import { MoonLoader } from "react-spinners";
+import { Logo } from "@/components/content/Logo";
+
+import { useGroup } from "../group";
+import {
+  Bars2Icon,
+  CalendarIcon,
+  ChartBarIcon,
+  CreditCardIcon,
+  HomeIcon,
+  MapPinIcon,
+  PuzzlePieceIcon,
+  SparklesIcon,
+  UserGroupIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import { Avatar } from "@/components/content/Avatar";
+import { GroupHeader } from "@/components/client/GroupHeader";
 
 const userNavigation = [
   { name: "Dashboard", href: "/client" },
   { name: "Settings", href: "/client/settings" },
-  { name: "Sign out", href: "/auth/logout" },
+  { name: "Sign out", href: "/" },
 ];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export default function ClientPage() {
+export default function GroupPage() {
   const auth = useAuth();
-  const router = useRouter();
-  const path = usePathname();
 
+  const [load, setLoad] = useState<number>(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [messages, setMessages] = useState<GroupMessageDetails[]>([]);
+
   const [version, setVersion] = useState<number>(0);
 
-  const [openDelete, setDelete] = useState(false);
+  const group = useGroup();
+  const path = usePathname();
 
-  const cancelButtonRef = useRef(null);
+  const response = useSWR(`/api/groups/${path.split("/")[3]}`, fetch);
 
-  const [state, setState] = useState<boolean>(false);
-
-  async function fetchData() {
-    const response = await axios.get(`/api/clients/info/${path.split("/")[3]}`);
-    const data = await response;
-    return data;
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(" ");
   }
 
-  // Use SWR with the fetched data
-  const { data: client, error } = useSWR(
-    `/api/clients/info/${path.split("/")[3]}`,
-    fetchData
-  );
+  useEffect(() => {
+    if (!response.isLoading && response.data) {
+      const tryJson = async () => {
+        try {
+          const body = await response.data?.json();
 
+          if (body.group && group.setGroup) {
+            group.setGroup(body.group as GroupDetails);
+          }
 
-  const cache = useSWR(`/api`, fetch);
+          if (body.user && group.setUser) {
+            group.setUser(body.user);
+          }
+        } catch (error) {}
+      };
 
- 
-
-  async function restartClient() {
-    toast.success(`Successfully restarted client`);
-  }
-
-  async function confirmDelete() {
-    setDelete(false);
-    toast.loading(`We are deleting your Discord Client`);
-    const response = await axios.get(
-      `/api/clients/delete/${path.split("/")[3]}`
-    );
-    const data = await response;
-    if (data.status === 200) {
-      toast.dismiss;
-      toast.success(`Successfully deleted your Discord Client`);
-      return router.replace("/client");
+      tryJson();
+    } else if (response.error) {
+      toast.error("Error loading group data");
     }
-  }
+  }, [response]);
 
   const navigation = [
     {
-      name: "Bot Information",
-      href: `/client/dashboard/${client?.data[0].id}`,
+      name: "Workspace Feed",
+      href: `/client/dashboard/${group.group?.id}`,
       icon: HomeIcon,
       current: true,
       isPaid: false,
     },
     {
-      name: "Moderation Suite",
-      href: `/client/dashboard/${client?.data[0].id}/moderation`,
-      icon: ShieldExclamationIcon,
+      name: "Workspace Overview",
+      href: `/client/dashboard/${group.group?.id}/overview`,
+      icon: ChartBarIcon,
       current: false,
       isPaid: false,
     },
     {
-      name: "Roblox Integration",
-      href: `/client/dashboard/${client?.data[0].id}/roblox`,
-      icon: CodeBracketIcon,
+      name: "Session Scheduler",
+      href: `/client/dashboard/${group.group?.id}/sessions`,
+      icon: MapPinIcon,
       current: false,
       isPaid: false,
     },
     {
-      name: "Member Welcomer",
-      href: `/client/dashboard/${client?.data[0].id}/welcomer`,
-      icon: UserIcon,
+      name: "Employee Manager",
+      href: `/client/dashboard/${group.group?.id}/staff`,
+      icon: UserGroupIcon,
       current: false,
       isPaid: false,
     },
     {
-      name: "Giveaways",
-      href: `/client/dashboard/${client?.data[0].id}/giveaways`,
-      icon: GiftIcon,
-      current: false,
-      isPaid: true,
-    },
-    {
-      name: "Support Tickets",
-      href: `/client/dashboard/${client?.data[0].id}/support`,
-      icon: TicketIcon,
-      current: false,
-      isPaid: true,
-    },
-    {
-      name: "Economony",
-      href: `/client/dashboard/${client?.data[0].id}/economony`,
-      icon: CurrencyDollarIcon,
-      current: false,
-      isPaid: false,
-    },
-    {
-      name: "Games",
-      href: `/client/dashboard/${client?.data[0].id}/games`,
-      icon: PuzzlePieceIcon,
+      name: "Employee Vacations",
+      href: `/client/dashboard/${group.group?.id}/vacations`,
+      icon: CalendarIcon,
       current: false,
       isPaid: false,
     },
   ];
 
-  return auth.user  ? (
+  return group.group ? (
     <main>
-     
-      <Toaster position="bottom-center" reverseOrder={false} />
       <div>
-        <Transition.Root show={openDelete} as={Fragment}>
-          <Dialog
-            as="div"
-            className="relative z-10"
-            initialFocus={cancelButtonRef}
-            onClose={setDelete}
-          >
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                      <div className="sm:flex sm:items-start">
-                        <div className="mt-3 text-center sm:mt-0  sm:text-left">
-                          <Dialog.Title
-                            as="h3"
-                            className="text-lg font-medium leading-6 text-gray-900"
-                          >
-                            Delete Discord Client
-                          </Dialog.Title>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Are you sure you want to delete{" "}
-                              {client?.data[0].botName}? All of the data will be
-                              permanently removed. This action cannot be undone.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={confirmDelete}
-                      >
-                        Delete Client
-                      </button>
-                      <button
-                        type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={() => setDelete(false)}
-                        ref={cancelButtonRef}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition.Root>
-
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -316,7 +189,7 @@ export default function ClientPage() {
                             item.current
                               ? "bg-gray-100 text-gray-900"
                               : "transition duration-200 text-gray-900 hover:bg-gray-100",
-                            "group flex items-center px-2 py-2 text-base font-medium rounded-md whitespace-nowrap"
+                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                           )}
                         >
                           <item.icon
@@ -324,17 +197,6 @@ export default function ClientPage() {
                             aria-hidden="true"
                           />
                           {item.name}
-
-                          {item.isPaid &&
-                          client?.data[0].botConfigs.isEnterprise === false ? (
-                            <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
-                              <SparklesIcon
-                                className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
-                                aria-hidden="true"
-                              />{" "}
-                              ENTERPRISE
-                            </span>
-                          ) : null}
                         </a>
                       ))}
                     </nav>
@@ -388,16 +250,6 @@ export default function ClientPage() {
                       aria-hidden="true"
                     />
                     {item.name}
-                    {item.isPaid &&
-                    client?.data[0].botConfigs.isEnterprise === false ? (
-                      <span className="bg-blue-50 0 ml-3 flex items-center text-blue-500 rounded text-xs py-1 px-2 w-fit font-semibold">
-                        <SparklesIcon
-                          className="mr-1 h-3 w-3 flex-shrink-0 text-blue-500"
-                          aria-hidden="true"
-                        />{" "}
-                        ENTERPRISE
-                      </span>
-                    ) : null}
                   </a>
                 ))}
               </nav>
@@ -417,18 +269,20 @@ export default function ClientPage() {
               <div className="group block w-full flex-shrink-0">
                 <div className="flex items-center">
                   <div>
-                    <img
-                      className="inline-block h-9 w-9 rounded-full"
-                      src={`https://cdn.discordapp.com/avatars/${client?.data[0].clientInfo.clientId}/${client?.data[0].clientInfo.botAvatar}.png`}
-                      alt=""
+                    <Logo
+                      groupId={`${group.group.groupId}`}
+                      onError={() => (
+                        <div className="w-12 h-12  bg-indigo-100 my-auto" />
+                      )}
+                      className="inline-block h-9 w-9 rounded-md"
                     />
                   </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-800">
-                      {client?.data[0].botName}
+                  <div className="ml-2">
+                    <p className="text-xs  font-medium text-gray-800">
+                      {group.group.name}
                     </p>
-                    <p className="text-xs font-medium text-gray-400 ">
-                      {client?.data[0].clientInfo.clientId}
+                    <p className="text-xs font-normal text-gray-400 ">
+                      {group.group.groupId}
                     </p>
                   </div>
                 </div>
@@ -470,7 +324,6 @@ export default function ClientPage() {
                       <Avatar
                         className="w-8 h-8 rounded-full my-auto"
                         userId={auth.user!.userId}
-                        sessionToken={auth.user!.sessionToken}
                         onError={() => <></>}
                       />
                     </Menu.Button>
@@ -506,104 +359,14 @@ export default function ClientPage() {
               </div>
             </div>
           </div>
-
-          <main>
-            <div className="">
-              <div className="py-4">
-                <div className="overflow-hidden bg-white  sm:rounded-lg">
-                  {client?.data[0].botConfigs.isEnterprise === false ? (
-                    <div className="mr-3 ml-3 rounded-md bg-blue-50  p-4">
-                      <div className="flex">
-                        <div className="flex-shrink-0">
-                          <ExclamationTriangleIcon
-                            className="h-5 w-5 text-blue-400"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div className="ml-3">
-                          <h3 className="text-sm font-medium text-blue-700">
-                            You are on our Basic Subscription
-                          </h3>
-                          <div className="mt-2 text-sm text-blue-600">
-                            <p>
-                              You are currently utilizing our Basic Subscription
-                              which grants you access to simple features such as
-                              our Moderation Suite, Games, and Roblox
-                              Integration. You can upgrade today by going to
-                              your Billing Settings.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-
-               
-
-                  <div className=" px-4  sm:px-6 mt-5 w-full">
-                    <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                      <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Client Username
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900">
-                          {client?.data[0].botName}
-                        </dd>
-                      </div>
-                      <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Client ID
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900">
-                          {client?.data[0].clientInfo.clientId}
-                        </dd>
-                      </div>
-                      <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Synced Community ID
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900">
-                          {client?.data[0].botConfigs.guildId}
-                        </dd>
-                      </div>
-
-                      <div className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Management Actions
-                        </dt>
-                        <div className="inline-flex">
-                         
-                           <div className="flex">
-                          <button
-                            onClick={() => setDelete(true)}
-                            type="submit"
-                            className="transition duration-200 mt-1 flex w-auto justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                          >
-                            Delete Discord Client
-                          </button>
-                          <button
-                            onClick={restartClient}
-                            type="submit"
-                            className="transition duration-200 mt-1 flex ml-2 w-auto justify-center rounded-md bg-blue-500 0 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                          >
-                            Restart Discord Client
-                          </button>
-                        </div> 
-                        </div>
-                      </div>
-                    </dl>
-                  </div>
-
-                  <ClientStatuses client={client?.data[0]} />
-                </div>
-              </div>
-            </div>
-          </main>
+          <div className="ml-6 mr-6 mt-5">
+            <GroupHeader group={group.group} groupOwner="Fluxtev" />
+          </div>
         </div>
       </div>
     </main>
   ) : (
-    <div className="w-full h-screen mt-10">
+    <div className="w-full h-screen">
       <MoonLoader
         size={32}
         className={"flex mx-auto my-auto"}

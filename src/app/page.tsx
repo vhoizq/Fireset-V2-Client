@@ -2,6 +2,8 @@
 import { useState, Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import {
+  Bars2Icon,
+  Bars3Icon,
   ChartBarIcon,
   HeartIcon,
   InboxIcon,
@@ -13,6 +15,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 
 const solutions = [
   {
@@ -104,11 +107,11 @@ const metrics = [
 ];
 const footerNavigation = {
   solutions: [
-    { name: "Staff Management", href: "/client" },
-    { name: "Custom Discord Bots", href: "/client" },
+    { name: "Login to Dashboard", href: "/client" },
+    { name: "Register for Free", href: "/client" },
   ],
   support: [
-    { name: "Contact Us", href: "https://discord.gg/mYEkZBVwZK" },
+    { name: "Contact our Team", href: "mailto:hello@fireset.xyz" },
     { name: "Discord Server", href: "https://discord.gg/mYEkZBVwZK" },
   ],
 
@@ -129,45 +132,47 @@ export default function Home() {
   return (
     <div className="bg-white">
       <header>
-
         <Popover className="relative bg-white">
           <div className="mx-auto flex max-w-7xl items-center justify-between p-4 md:justify-start ">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <a href="#">
-                <span className="sr-only">Your Company</span>
-                <img
-                  className="h-7 w-auto sm:h-8"
-                  src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
-                  alt=""
+                <span className="sr-only">Fireset</span>
+                <Image
+                  width={146}
+                  height={2}
+                  className={"object-contain"}
+                  src={"/branding/NewLogoFinal.png"}
+                  alt="logo"
                 />
               </a>
             </div>
             <div className="-my-2 -mr-2 md:hidden">
-              <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
-                <span className="sr-only">Open menu</span>
-                <ChartBarIcon className="h-6 w-6" aria-hidden="true" />
-              </Popover.Button>
-            </div>
-            <Popover.Group as="nav" className="hidden space-x-10 md:flex">
               <a
-                href="#"
-                className="text-base font-medium text-gray-500 hover:text-gray-900"
+                href="/pricing"
+                className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Our Pricing
               </a>
               <a
-                href="#"
-                className="text-base font-medium text-gray-500 hover:text-gray-900"
+                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=http://localhost:3000/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
+                className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
-                Discord Community
+                Sign In
               </a>
-            </Popover.Group>
+            </div>
+
             <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
               <a
-                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
-                className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
+                href="/pricing"
+                className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
-                Login to Dashboard
+                Our Pricing
+              </a>
+              <a
+                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
+              >
+                Sign In
               </a>
             </div>
           </div>
@@ -204,26 +209,18 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="py-6 px-5">
-                  <div className="grid grid-cols-2 gap-4">
-                    <a
-                      href="#"
-                      className="text-base font-medium text-gray-900 hover:text-gray-700"
-                    >
-                      Our Pricing
-                    </a>
-                    <a
-                      href="#"
-                      className="text-base font-medium text-gray-900 hover:text-gray-700"
-                    >
-                      Discord Server
-                    </a>
-                  </div>
                   <div className="mt-6">
                     <a
-                       href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
-                      className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
+                      href="/pricing"
+                      className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
                     >
-                      Login to Dashboard
+                      Pricing
+                    </a>
+                    <a
+                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                      className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
+                    >
+                      Sign In
                     </a>
                   </div>
                 </div>
@@ -245,42 +242,47 @@ export default function Home() {
         <div className="relative overflow-hidden pt-16 pb-32">
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-gray-100"
+            className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-white"
           />
           <div className="relative">
             <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
               <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
                 <div>
                   <div className="mt-6">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-                      Powerful industry leading Discord Bots
-                    </h2>
-                    <p className="mt-4 text-lg text-gray-500">
-                      Fireset is the industry leader in providing Custom Discord
-                      Bots, with our advanced technology you will have the
-                      ability to efficentlly manage your Discord Community,
-                      whilist also integrating other platforms.
+                    
+                    <h3 className="text-4xl font-bold tracking-tight text-gray-900">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-500 to-blue-800">
+                        Innovating
+                      </span>{" "}
+                      the world of group safety & security on Roblox
+                    </h3>
+                    <p className="mt-4 text-md text-gray-500">
+                      Keeping your group safe on Roblox is very important, with
+                      Fireset, you can manage all of your moderation needs. All
+                      of this, in one easy-to-use dashboard.
                     </p>
                     <div className="mt-6">
                       <a
-                        href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
-                        className="transition duration-200 inline-flex rounded-md border border-transparent bg-blue-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-blue-500 hover:to-blue-800"
+                        href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                        className="transition duration-200 inline-flex rounded-xl border border-transparent bg-purple-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-600 hover:to-purple-800"
                       >
-                        Get started today
+                        Join the waitlist
                       </a>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0">
-                <div className="-mr-48 pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                  {/* 
-<img
-className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-src=""
-alt="Fireset Dashboard"
-/> 
-*/}
+              <div className="mx-auto  flex max-w-2xl  lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">
+                <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
+                 
+                <Image
+                  width={592}
+                  height={442}
+                  className={"object-contain"}
+                  src={"/branding/New Project (100).png"}
+                  alt="logo"
+                />
+                 
                 </div>
               </div>
             </div>
@@ -297,8 +299,8 @@ alt="Fireset Dashboard"
             <div className="grid grid-cols-2 gap-8 xl:col-span-2">
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
-                  <h3 className="text-base font-medium text-gray-900">
-                    Our Services
+                  <h3 className="text-base font-normal text-gray-900">
+                    Our Product
                   </h3>
                   <ul role="list" className="mt-4 space-y-4">
                     {footerNavigation.solutions.map((item) => (
@@ -314,7 +316,7 @@ alt="Fireset Dashboard"
                   </ul>
                 </div>
                 <div className="mt-12 md:mt-0">
-                  <h3 className="text-base font-medium text-gray-900">
+                  <h3 className="text-base font-normal text-gray-900">
                     Support
                   </h3>
                   <ul role="list" className="mt-4 space-y-4">
@@ -333,7 +335,7 @@ alt="Fireset Dashboard"
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div className="mt-12 md:mt-0">
-                  <h3 className="text-base font-medium text-gray-900">Legal</h3>
+                  <h3 className="text-base font-normal text-gray-900">Legal</h3>
                   <ul role="list" className="mt-4 space-y-4">
                     {footerNavigation.legal.map((item) => (
                       <li key={item.name}>

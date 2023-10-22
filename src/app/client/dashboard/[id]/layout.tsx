@@ -1,63 +1,52 @@
 "use client";
 
 import useSWR from "swr";
+import { useState, useEffect } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "../../auth";
-import { useEffect, useState } from "react"; // Import useState
+import { useGroup } from "../group"
+import { usePathname } from "next/navigation";
 
-interface User {
-  username: string;
-  sessionToken: string;
-  userId: string;
-  isActive: boolean;
-  isBeta: boolean;
-  isStaff: boolean;
-  email: string;
-}
+import { GroupDetails } from "@/util/db/group";
+import { User } from "@/util/db/schemas/schema";
+import toast from "react-hot-toast";
 
-export default function ClientLayout({
-  children,
-}: {
-  children: React.ReactNode;
+export default function GroupLayout({ children }: {
+    children: React.ReactNode
 }) {
-  const path = usePathname();
-  const router = useRouter();
-  const auth = useAuth();
-  
-  const [startTime, setStartTime] = useState<number | null>(null); // Track start time
+    const group = useGroup();
+    const path = usePathname();
 
-  const { data, error, isLoading } = useSWR(
-    `/api/clients/perms/${path.split("/")[3]}`,
-    fetch
-  );
+    const response = useSWR(`/api/groups/${path.split("/")[3]}`, fetch);
 
-  if (error) {
-    console.log("Got Error");
-    router.replace("/");
-  }
+    useEffect(() => {
+        if (
+            !response.isLoading
+            && response.data
+        ) {
+            const tryJson = async () => {
+                try {
+                    const body = await response.data?.json();
+                    if (body.group && group.setGroup) {
+                        group.setGroup(body.group as GroupDetails);
+                    }
 
-  useEffect(() => {
-    if (isLoading) {
-      // Set the start time when the request is initiated
-      setStartTime(Date.now());
-    } else if (data) {
-      const tryJson = async () => {
-        try {
-          const body = await data.json();
-          if (body.error) {
-            router.replace("/client");
-          } else if (startTime !== null) {
-            // Calculate and log the elapsed time
-            const endTime = Date.now();
-            const elapsedTime = endTime - startTime;
-            console.log(`Fetching and processing took ${elapsedTime} ms`);
-          }
-        } catch (error) {}
-      };
-      tryJson();
-    }
-  }, [isLoading, data, startTime, router]);
+                 
 
-  return <div>{!isLoading ? <>{children}</> : null}</div>;
+                    if (body.user && group.setUser) {
+                        group.setUser(body.user);
+                    }
+                } catch (error) {
+
+                }
+            }
+
+            tryJson();
+        } else if (response.error) {
+            toast.error("Error loading group data");
+        }
+    }, [response]);
+
+    return (
+        <div>{children}</div>
+    )
 }

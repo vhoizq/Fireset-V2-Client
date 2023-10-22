@@ -63,7 +63,7 @@ export default function ClientPage() {
   const cache = useSWR(`/api`, fetch);
 
   const router = useRouter();
-  if (auth!.user?.isBeta === false) {
+  if (auth!.user?.beta === false) {
     router.replace("/client/thanks");
   }
 
@@ -146,7 +146,7 @@ export default function ClientPage() {
                         <Avatar
                           className="w-8 h-8 rounded-full my-auto"
                           userId={auth.user!.userId}
-                          sessionToken={auth.user!.sessionToken}
+                        
                           onError={() => <></>}
                         />
                       </Menu.Button>
@@ -181,26 +181,7 @@ export default function ClientPage() {
                   </Menu>
                 </div>
               </div>
-              <nav
-                className="hidden lg:flex lg:space-x-8 lg:py-2"
-                aria-label="Global"
-              >
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-900 hover:bg-gray-50 hover:text-gray-900",
-                      "rounded-md py-2 px-3 inline-flex items-center text-sm font-medium"
-                    )}
-                    aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </nav>
+             
             </div>
 
             <Disclosure.Panel
@@ -214,13 +195,12 @@ export default function ClientPage() {
                     <Avatar
                       className="w-8 h-8 rounded-full my-auto"
                       userId={auth.user!.userId}
-                      sessionToken={auth.user!.sessionToken}
                       onError={() => <></>}
                     />
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium text-gray-800">
-                      {auth.user?.username}
+                      {auth.user?.preferredUsername}
                     </div>
                     <div className="text-sm font-medium text-gray-500">
                       {auth.user?.email}

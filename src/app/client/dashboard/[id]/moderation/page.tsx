@@ -5,6 +5,15 @@ import React, { useState, useEffect, useRef, Fragment } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
+const faqs = [
+  {
+    question: "Chief Executive Officer",
+    answer:
+      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+  },
+  // More questions...
+];
+
 import { HiX } from "react-icons/hi";
 import { useAuth } from "../../../auth";
 import {
@@ -33,12 +42,21 @@ import {
   SparklesIcon,
   SpeakerWaveIcon,
   UserIcon,
+  PlusSmallIcon,
+  MinusSmallIcon,
   FlagIcon,
 } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
-import { Dialog, Menu, Transition, Combobox } from "@headlessui/react";
+import {
+  Dialog,
+  Menu,
+  Switch,
+  Transition,
+  Combobox,
+  Disclosure,
+} from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
 import IncidentReports from "@/components/client/IncidentReports";
@@ -364,7 +382,6 @@ export default function ClientPage() {
 
   // Use SWR with the fetched data
 
-
   // Assuming you have a client object that may be undefined or null
   const clientData = client?.data[0]?.botModules[0] || {};
 
@@ -380,7 +397,9 @@ export default function ClientPage() {
 
   // Truncate the role names
   const maxLength = 9; // Change this to your desired max length
-  const truncatedAdmins = admins.map((admin: any) => truncateText(admin, maxLength));
+  const truncatedAdmins = admins.map((admin: any) =>
+    truncateText(admin, maxLength)
+  );
   const truncatedMods = mods.map((mod: any) => truncateText(mod, maxLength));
   const truncatedProtected = protectedRoles.map((role: any) =>
     truncateText(role, maxLength)
@@ -865,319 +884,6 @@ export default function ClientPage() {
             </div>
           </div>
 
-          <main>
-            <div className="">
-              <div className="py-4">
-                <div className="overflow-hidden bg-white  sm:rounded-lg">
-                  <div className="mr-6 ml-6  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2">
-                    <div>
-                      <div className="transition  durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
-                        <div className="flex w-full flex-row self-center justify-between">
-                          <div className="w-full flex flex-row items-center justify-between  p-6">
-                            <div className="flex-1 ">
-                              <div className="items-center">
-                                <h3 className="truncate text-md font-bold text-gray-900 ">
-                                  Administrator Permission Roles
-                                </h3>
-                                <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who obtains any roles listed here will
-                                  be granted administrative permissions.
-                                </span>
-                                {client?.data[0].botModules[0].adminRoles
-                                  .length === 0 ? (
-                                  <div className="mt-1">
-                                    <span className="text-xs font-medium text-gray-400 ">
-                                      You have not yet selected any{" "}
-                                      <b>Administrator Roles</b>.
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <div className="grid mt-1 grid-cols-3 lg:grid-cols-4 gap-2">
-                                    {truncatedAdmins.map((item: any, index: any) => (
-                                      <span
-                                        key={index}
-                                        className="inline-flex items-center   whitespace-nowrap justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
-                                      >
-                                        {item}
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          className="h-4 w-4 hover:text-red-400 transition-colors duration-200 cursor-pointer"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke="currentColor"
-                                        >
-                                          <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                          />
-                                        </svg>
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-
-                                <div className="mt-1 flex items-center">
-                                  <select
-                                    id="admin-roles"
-                                    name="type"
-                                    className="transition form-select duration-200 block w-full font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                  >
-                                    {guildRoles.data
-                                      .filter(
-                                        (guild: any) =>
-                                          guild.name !== "@everyone"
-                                      )
-                                      .map((guild: any, index: number) => (
-                                        <option
-                                          key={index}
-                                          defaultValue={guild.name}
-                                        >
-                                          {guild.name}
-                                        </option>
-                                      ))}
-                                  </select>
-                                  <button
-                                    type="button"
-                                    onClick={() => addRole("admin")}
-                                    className="cursor-pointer ml-2 flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-xs whitespace-nowrap font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 mt-1 focus:ring-blue-500 focus:ring-offset-2"
-                                  >
-                                    Add Role
-                                  </button>
-                                </div>
-                              </div>
-
-                              <p className=" text-sm text-gray-400 text-left"></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="transition  durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
-                        <div className="flex w-full flex-row self-center justify-between">
-                          <div className="w-full flex flex-row items-center justify-between  p-6">
-                            <div className="flex-1 ">
-                              <div className="items-center">
-                                <h3 className="truncate text-md font-bold text-gray-900 ">
-                                  Moderator Permission Roles
-                                </h3>
-                                <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who obtains any roles listed here will
-                                  be granted moderator permissions.
-                                </span>
-
-                                {client?.data[0].botModules[0].modRoles
-                                  .length === 0 ? (
-                                  <div className="mt-1">
-                                    <span className="text-xs font-medium text-gray-400 ">
-                                      You have not yet selected any{" "}
-                                      <b>Moderator Roles</b>.
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <div className="grid mt-1 grid-cols-3 lg:grid-cols-4 gap-2">
-                                    {truncatedMods.map((item: any, index: any) => (
-                                      <span
-                                        key={index}
-                                        className="inline-flex items-center  whitespace-nowrap justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
-                                      >
-                                        {item}
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          className="h-4 w-4 hover:text-red-400 transition-colors duration-200 cursor-pointer"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke="currentColor"
-                                        >
-                                          <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                          />
-                                        </svg>
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-
-                                <div className="mt-1 flex items-center">
-                                  <select
-                                    id="mod-roles"
-                                    name="type"
-                                    className="transition form-select duration-200 block w-full  font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                  >
-                                    {guildRoles.data
-                                      .filter(
-                                        (guild: any) =>
-                                          guild.name !== "@everyone"
-                                      )
-                                      .map((guild: any, index: number) => (
-                                        <option
-                                          key={index}
-                                          defaultValue={guild.name}
-                                        >
-                                          {guild.name}
-                                        </option>
-                                      ))}
-                                  </select>
-                                  <button
-                                    type="button"
-                                    onClick={() => addRole("mod")}
-                                    className="cursor-pointer ml-2 flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-xs whitespace-nowrap font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 mt-1 focus:ring-blue-500 focus:ring-offset-2"
-                                  >
-                                    Add Role
-                                  </button>
-                                </div>
-                              </div>
-
-                              <p className=" text-sm text-gray-400 text-left"></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="transition  durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
-                        <div className="flex w-full flex-row self-center justify-between">
-                          <div className="w-full flex flex-row items-center justify-between  p-6">
-                            <div className="flex-1 ">
-                              <div className="items-center">
-                                <h3 className="truncate text-md font-bold text-gray-900 ">
-                                  Safeguarded Roles
-                                </h3>
-                                <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who has a <b>Safeguarded Role</b> will
-                                  not be effected by moderation actions.
-                                </span>
-                                {client?.data[0].botModules[0].safeRoles
-                                  .length === 0 ? (
-                                  <div className="mt-1">
-                                    <span className="text-xs font-medium text-gray-400 ">
-                                      You have not yet selected any{" "}
-                                      <b>Safeguarded Roles</b>.
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <div className="grid mt-1 grid-cols-3 lg:grid-cols-4 gap-2">
-                                    {truncatedProtected.map((item: any, index: any) => (
-                                      <span
-                                        key={index}
-                                        className="inline-flex whitespace-nowrap items-center justify-between rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
-                                      >
-                                        {item}
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          className="h-4 w-4 hover:text-red-400 transition-colors duration-200 cursor-pointer"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke="currentColor"
-                                        >
-                                          <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                          />
-                                        </svg>
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-
-                                <div className="mt-1 flex items-center">
-                                  <select
-                                    id="safe-roles"
-                                    name="type"
-                                    className="transition form-select duration-200 block w-full  font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                  >
-                                    {guildRoles.data
-                                      .filter(
-                                        (guild: any) =>
-                                          guild.name !== "@everyone"
-                                      )
-                                      .map((guild: any, index: number) => (
-                                        <option
-                                          key={index}
-                                          defaultValue={guild.name}
-                                        >
-                                          {guild.name}
-                                        </option>
-                                      ))}
-                                  </select>
-                                  <button
-                                    type="button"
-                                    onClick={() => addRole("safe")}
-                                    className="cursor-pointer ml-2 flex justify-center rounded-md border border-transparent bg-blue-500 py-2 px-4 text-xs whitespace-nowrap font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 mt-1 focus:ring-blue-500 focus:ring-offset-2"
-                                  >
-                                    Add Role
-                                  </button>
-                                </div>
-                              </div>
-
-                              <p className=" text-sm text-gray-400 text-left"></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="transition durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
-                        <div className="flex w-full flex-row self-center justify-between">
-                          <div className="w-full flex flex-row items-center justify-between  p-6">
-                            <div className="flex-1 ">
-                              <div className="items-center">
-                                <h3 className=" truncate text-md font-bold text-gray-900 ">
-                                  Moderation Logging Channel
-                                </h3>
-                                <span className=" text-xs font-medium text-gray-600 ">
-                                  Your <b>Moderation Logging Channel</b> will
-                                  house all of your moderation case logs.
-                                </span>
-
-                                <div className="mt-1 flex items-center">
-                                  <select
-                                    id="mod-channel"
-                                    name="type"
-                                    onChange={() => addChannel("admin")}
-                                    className="transition form-select duration-200 block w-full  font-medium rounded-md border-0 py-1.5   px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                  >
-                                    {guildChannels?.data.map(
-                                      (guild: any, index: number) => (
-                                        <option
-                                          key={index}
-                                          value={guild.id}
-                                          selected={
-                                            guild.id ===
-                                            `${client?.data[0].botModules[0].modChannel}`
-                                          }
-                                        >
-                                          {guild.name}
-                                        </option>
-                                      )
-                                    )}
-                                  </select>
-                                </div>
-                              </div>
-
-                              <p className=" text-sm text-gray-400 text-left"></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                 
-                </div>
-              </div>
-            </div>
-          </main>
         </div>
       </div>
     </main>

@@ -2,15 +2,7 @@
 
 import { createContext, useState, useContext } from "react";
 
-interface User {
-  username: string;
-  sessionToken: string;
-  userId: string;
-  isActive: boolean;
-  isBeta: boolean;
-  isStaff: boolean;
-  email: string;
-}
+import { User } from "@/util/db/schemas/schema";
 
 export type userContext = {
   user: User | null;

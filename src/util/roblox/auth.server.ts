@@ -99,6 +99,8 @@ export const getRobloxContext = async (
             }
         })
 
+        console.log('ok')
+
         if (response.status === 200) {
             const data = await response.json() as any;
             if (data.sub) {

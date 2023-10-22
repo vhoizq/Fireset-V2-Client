@@ -1,19 +1,8 @@
-
-
-interface User {
-    username: string;
-    sessionToken: string;
-    userId: string;
-    isActive: boolean;
-    isBeta: boolean;
-    isStaff: boolean;
-    email: string;
-  }
+import { User } from "@/util/db/schemas/schema";
 
 import { NextRequest } from "next/server";
 
-
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://vfppfrtyvxpuyzwrqxtq.supabase.co";
 const supabaseKey =
@@ -22,31 +11,29 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const verifyAuth = async (
-    req: NextRequest,
-    noBeta?: true
+  req: NextRequest,
+  noBeta?: true
 ): Promise<User | false> => {
-    try {
-        const clientCookie = req.cookies.get("fireset-client-id");
-       
-        if (clientCookie) {
-            console.log("Got Data")
-            const { data: user, error: userError } = await supabase
-                .from("User")
-                .select("*")
-                .eq("sessionToken", clientCookie.value)
-                .single();
+  try {
+    const clientCookie = req.cookies.get("fireset-client-id");
 
-          
-            if (user) {
-                return user;
-            } else {
-                return false;
-            }
+    if (clientCookie) {
+      console.log("Got Data");
+      const { data: user, error: userError } = await supabase
+        .from("User")
+        .select("*")
+        .eq("sessionToken", clientCookie.value)
+        .single();
 
-        } else {
-            return false;
-        }
-    } catch (error) {
+      if (user) {
+        return user;
+      } else {
         return false;
+      }
+    } else {
+      return false;
     }
-}
+  } catch (error) {
+    return false;
+  }
+};

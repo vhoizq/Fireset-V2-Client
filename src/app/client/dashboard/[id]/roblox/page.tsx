@@ -866,15 +866,13 @@ export default function ClientPage() {
                                   Command Permissions
                                 </h3>
                                 <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who has any roles listed below can use
-                                  these commands listed in this module.
+                                  Granting anyone these roles will have permission to utilize sensetive commands within this module.
                                 </span>
                                 {client?.data[0].botModules[0].adminRoles
                                   .length === 0 ? (
                                   <div className="mt-1">
                                     <span className="text-xs font-medium text-gray-400 ">
-                                      You have not yet selected any roles
-                                      selected.
+                                      You have not yet selected any roles.
                                     </span>
                                   </div>
                                 ) : (
@@ -943,7 +941,33 @@ export default function ClientPage() {
                       </div>
                     </div>
 
-                    <div>
+                    
+
+
+                  <div>
+                    <div className="transition durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
+                      <div className="flex w-full flex-row self-center justify-between">
+                        <div className="w-full flex flex-row items-center justify-between  p-6">
+                          <div className="flex-1 ">
+                            <div className="items-center">
+                              <h3 className="truncate text-md font-bold text-gray-900 ">
+                                Roblox Security Cookie
+                              </h3>
+                              <span className=" text-xs font-medium text-gray-600 ">
+                                We require you to set your Roblox Security Cookie prior to utilizing commands such as <b>Promote</b>, <b>Demote</b>, <b>Shout</b>, etc. Any questions can be asked via Intercom.
+                              </span>
+                             
+
+                            </div>
+
+                            <p className=" text-sm text-gray-400 text-left"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
                       <div className="transition  durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
                         <div className="flex w-full flex-row self-center justify-between">
                           <div className="w-full flex flex-row items-center justify-between  p-6">
@@ -953,8 +977,7 @@ export default function ClientPage() {
                                   Verified Account Role
                                 </h3>
                                 <span className=" text-xs font-medium text-gray-600 ">
-                                  Anyone who verifies their Roblox Account will
-                                  be granted this role.
+                                 Anyone who sycns their Roblox Account to your Discord Server will be granted this role.
                                 </span>
 
                                 <div className="mt-1 flex items-center">
@@ -988,28 +1011,6 @@ export default function ClientPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <div className="transition mt-3 ml-6 mr-6 durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex ">
-                      <div className="flex w-full flex-row self-center justify-between">
-                        <div className="w-full flex flex-row items-center justify-between  p-6">
-                          <div className="flex-1 ">
-                            <div className="items-center">
-                              <h3 className="truncate text-md font-bold text-gray-900 ">
-                                Roblox Security Cookie
-                              </h3>
-                              <span className=" text-xs font-medium text-gray-600 ">
-                                We require you to set your Roblox Security Cookie prior to utilizing commands such as <b>Promote</b>, <b>Demote</b>, <b>Shout</b>, etc. Any questions can be asked via Intercom.
-                              </span>
-                             
-
-                            </div>
-
-                            <p className=" text-sm text-gray-400 text-left"></p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

@@ -11,6 +11,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
 
+
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -38,10 +39,7 @@ export default function ClientPage() {
   const cache = useSWR(`/api`, fetch);
 
   const router = useRouter();
-  if (auth.user?.isBeta === true) {
-    router.replace("/client");
-  }
-
+ 
   if (auth!.user?.isActive === false) {
     router.replace("/client/notice");
   }
@@ -58,27 +56,22 @@ export default function ClientPage() {
             <div className="divide-y divide-gray-300/50 text-gray-600">
               <div className="mt-5 py-4 text-base leading-7 space-y-6 text-gray-600">
                 <p>
-                  👋 Hi there, <b>{auth!.user.username}</b>! Thanks for joining
-                  the waitlist.
-                </p>
-                <p>
-                  <b>Fireset</b> is a platform for you to easily manage your
-                  community, and look professional with your very own{" "}
-                  <b>Custom Discord Bot.</b> We take the hassle out of coding
-                  your own bot, with our simple to use dashboard.
-                </p>
-                <p>
-                  We have some exciting things to bring to the table, so stay
-                  tuned for something huge!
+                  <span >👋</span> Hi there, <b>{auth!.user.username}</b>! Thanks for joining
+                  the waitlist. We are thrilled to show you what is currently on
+                  the table for{" "}
+                  <span className="font-semibold text-indigo-500">
+                    Fireset
+                  </span>
+                  .
                 </p>
               </div>
               <div className="mb-3 pt-6 text-base leading-5 font-semibold">
                 <p>
                   <a
-                    className="font-semibold text-blue-500 hover:text-blue-600"
+                    className="font-semibold text-violet-500 hover:text-blue-600"
                     href="https://discord.gg/BYPu8EkbW4"
                   >
-                    Community Discord →
+                    Join our Community →
                   </a>
                 </p>
               </div>

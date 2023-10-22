@@ -1,113 +1,110 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { PlusIcon, LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { useAuth } from "@/app/client/auth";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
+import { MoonLoader } from "react-spinners";
 import useSWR from "swr"; // Import the useSWR hook
-import { SparklesIcon } from "@heroicons/react/24/outline";
+import { CheckBadgeIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { HiDotsVertical } from "react-icons/hi";
+import { Logo } from "../content/Logo";
 
-interface Client {
-  botName: String;
-  id: String;
-  botConfigs: {
-    guildId: String;
-    isEnterprise: Boolean;
-    colorScheme: String;
-    stripeId: String;
-    errMessage: String;
+interface Group {
+  group: {
+    id: String;
+    primaryColor: String;
+    name: String;
+    groupId: String;
+    verified: Boolean;
   };
-  clientInfo: { clientId: String; botAvatar: String };
 }
 
-const fetchClients = async () => {
-  try {
-    const response = await axios.get("/api/clients");
-    const body = response.data;
-    if (Array.isArray(body)) {
-      return body as Client[];
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const ClientsList = () => {
-  const {
-    data: clients,
-    error,
-    isValidating,
-  } = useSWR("/api/clients", fetchClients);
+  const auth = useAuth();
+  const response = useSWR("/api/groups", fetch);
+  const [userGroups, setUserGroups] = useState<
+    {
+      id: Number;
+      name: string;
+    }[]
+  >([]);
+  const groupsCache = useSWR(`/api/proxy/groups/${auth.user?.userId}`, fetch);
+  const [groups, setGroups] = useState<Group[]>([]);
 
-  if (error) {
-    return (
-      <div className="mt-20">
-        <div className="mt-20 text-center">
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
-            We failed to load your Discord Bots
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            We encountered an error while loading your Discord Bots.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!groupsCache.isLoading && groupsCache.data) {
+      const tryJson = async () => {
+        try {
+          const body = await groupsCache.data?.json();
+          if (body.groups) {
+            setUserGroups(body.groups);
+          }
+        } catch (error) {}
+      };
 
-  if (isValidating) {
-    return (
-      <div className="mt-20">
-        <center>
-          <div role="status">
-            <svg
-              aria-hidden="true"
-              className="w-8 h-8 mr-2 text-gray-200 animate-spin fill-blue-600"
-              viewBox="0 0 100 101"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                fill="currentColor"
-              />
-              <path
-                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                fill="currentFill"
-              />
-            </svg>
-            <span className="sr-only">Loading...</span>
-          </div>
-        </center>
-      </div>
-    );
-  }
+      tryJson();
+    }
+  }, [groupsCache, auth]);
+
+  useEffect(() => {
+    if (response.data && !response.isLoading) {
+      const tryJson = async () => {
+        try {
+          const body = await response.data?.json();
+
+          if (Array.isArray(body)) {
+            setGroups(body as Group[]);
+          }
+        } catch (error) {}
+      };
+
+      tryJson();
+    }
+  }, [response]);
 
   return (
     <div className="flex-wrap gap-2 w-full">
-      {clients && clients.length > 0 ? (
+      {groups.length > 0 ? (
         <div className="mr-6 ml-6 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-          {clients.map((b) => (
-            <div key={`${b.botConfigs.guildId}`}>
+          {groups.map((g) => (
+            <div key={`${g.group.id}`}>
               <a
-                className="transition hover:bg-gray-100 durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex "
-                href={`/client/dashboard/${b.id}`}
+                className="transition hover:bg-gray-100 durintation-500 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border  flex "
+                href={`/client/dashboard/${g.group.id}`}
               >
                 <div className="flex w-full flex-row self-center justify-between">
                   <div className="w-full flex flex-row items-center justify-between  p-6">
-                    <img
-                      className="h-12 w-12 flex-shrink-0 rounded-full"
-                      style={{ backgroundColor: `#000000` }}
-                      src={`https://cdn.discordapp.com/avatars/${b.clientInfo.clientId}/${b.clientInfo.botAvatar}.png`}
-                      alt=""
+                    <Logo
+                      groupId={`${g.group.groupId}`}
+                      onError={() => (
+                        <div className="w-12 h-12 rounded-md bg-indigo-100 my-auto" />
+                      )}
+                      className="w-12 h-12 rounded-md my-auto"
                     />
                     <div className="flex-1 ">
                       <div className="items-center">
                         <h3 className="ml-3 truncate text-md flex items-center font-semibold text-gray-900 ">
-                          {b.botName}
-                         
+                          {g.group.name}
                         </h3>
-                        {b.botConfigs.isEnterprise === true ? (
-                          <span className="bg-blue-500 0 ml-3 text-blue-50 rounded-full text-xs py-1 px-2 w-fit font-semibold">
-                            ENTERPRISE
+
+                        {g.group.verified === true ? (
+                          <span className="inline-flex ml-3 items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 mr-1"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+                              />
+                            </svg>
+                            Verified
                           </span>
                         ) : null}
                       </div>
@@ -119,64 +116,51 @@ export const ClientsList = () => {
               </a>
             </div>
           ))}
-
-          <a
-            className="transition hover:bg-gray-100 durintation-200 col-span-1 divide-y divide-gray-200 rounded-lg bg-white  border-dashed border border-gray-300 flex "
-            href={`/client/create`}
-          >
-            <div className="flex w-full flex-row self-center justify-between">
-              <div className="w-full flex flex-row items-center justify-between  p-6">
-                <div className="h-12 w-12 bg-gray-100 flex-shrink-0 rounded-full">
-                  <center>
-                    <LinkIcon
-                      className="h-8 w-7 text-gray-600 flex-shrink-0 rounded-full mt-2"
-                      aria-hidden="true"
+        </div>
+      ) : (
+        <div className="mx-auto mt-20 max-w-lg">
+          {response.isLoading ? ( // Show MoonLoader while loading
+            <div className="flex justify-center">
+              <MoonLoader size={30} color={"#6366f1"} />
+            </div>
+          ) : (
+            <div className="mx-auto mt-20 max-w-lg">
+              <div>
+                <div className="text-center">
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z"
                     />
-                  </center>
-                </div>
-                <div className="flex-1 ">
-                  <div className="items-center">
-                    <h3 className="ml-3 truncate text-md font-bold text-gray-900 ">
-                      Create Discord Bot
-                    </h3>
-                    <h3 className="ml-3 truncate text-xs font-medium text-gray-600 ">
-                      Create your very own Discord Bot for free.
-                    </h3>
+                  </svg>
+                  <h2 className="mt-2 text-base font-medium leading-6 text-gray-900">
+                    Create a brand new workspace
+                  </h2>
+                  <p className="mt-1 text-sm text-gray-500">
+                    You haven't created any workspaces yet, we recommend you to
+                    go ahead and create a new workspace to get the most out of
+                    Fireset.
+                  </p>
+                  <div className="mt-6">
+                    <a
+                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                      className="transition duration-200 inline-flex rounded-full border border-transparent bg-blue-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 hover:to-emerald-800"
+                    >
+                      Get started for Free
+                    </a>
                   </div>
-
-                  <p className=" text-sm text-gray-400 text-left"></p>
                 </div>
               </div>
             </div>
-          </a>
-        </div>
-      ) : (
-        <div className="mt-20 text-center">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            {/* SVG path for "No bots" */}
-          </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
-            You do not own any Discord Bots
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Get started with Fireset by creating a new Discord Bot.
-          </p>
-          <div className="mt-4">
-            <Link
-              href="/client/create"
-              type="button"
-              className="inline-flex items-center rounded-md border transition duration-200 border-transparent bg-blue-500 0 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-              Create Discord Bot
-            </Link>
-          </div>
+          )}
         </div>
       )}
     </div>

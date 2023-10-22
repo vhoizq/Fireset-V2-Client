@@ -8,15 +8,7 @@ import { useEffect } from "react";
 import IntercomWidget from "@/components/client/Intercom";
 import axios from "axios";
 
-interface User {
-  username: string;
-  sessionToken: string;
-  userId: string;
-  isActive: boolean;
-  isBeta: boolean;
-  isStaff: boolean;
-  email: string;
-}
+import { User } from "@/util/db/schemas/schema";
 
 export default function ClientLayout({
   children,
@@ -54,15 +46,15 @@ export default function ClientLayout({
   }, [isLoading, data]);
 
   useEffect(() => {
-    console.log(`Username: ${auth.user?.username}`);
+    console.log(`Username: ${auth.user?.preferredUsername}`);
   
     // Check if username is defined before loading Intercom
-    if (auth.user?.username) {
+    if (auth.user?.preferredUsername) {
       // Intercom settings
       const intercomSettings = {
         api_base: "https://api-iam.intercom.io",
         app_id: "aaljxt5r",
-        name: `${auth.user?.username}`,
+        name: `${auth.user?.preferredUsername}`,
         email: `${auth.user?.email}`,
         user_id: `${auth.user?.userId}`,
       };
