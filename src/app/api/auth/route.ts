@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 const ROBLOX_APPID = "6559552435031738282"
 
-const HOST = "http://localhost:3000"
+const HOST = "https://fireset.xyz"
 
 export const GET = () => {
     return new Response(
