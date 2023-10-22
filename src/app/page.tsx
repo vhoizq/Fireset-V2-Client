@@ -274,14 +274,9 @@ export default function Home() {
               </div>
               <div className="mx-auto  flex max-w-2xl  lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">
                 <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-                 
-                <Image
-                  width={592}
-                  height={442}
-                  className={"object-contain"}
-                  src={"/branding/New Project (100).png"}
-                  alt="logo"
-                />
+                 <img src="https://pub-b9da3062b2994df38277c6ff9e81a3fb.r2.dev/New Project (100).png"   width={592}
+                  height={442} alt="GUHGUHG" />
+               
                  
                 </div>
               </div>
