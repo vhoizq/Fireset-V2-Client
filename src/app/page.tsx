@@ -154,7 +154,7 @@ export default function Home() {
                 Our Pricing
               </a>
               <a
-                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=http://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
+                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
                 className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Sign In
@@ -169,7 +169,7 @@ export default function Home() {
                 Our Pricing
               </a>
               <a
-                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                 className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Sign In
@@ -217,7 +217,7 @@ export default function Home() {
                       Pricing
                     </a>
                     <a
-                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                       className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
                     >
                       Sign In
@@ -263,7 +263,7 @@ export default function Home() {
                     </p>
                     <div className="mt-6">
                       <a
-                        href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                        href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                         className="transition duration-200 inline-flex rounded-xl border border-transparent bg-purple-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-600 hover:to-purple-800"
                       >
                         Join the waitlist
