@@ -11,8 +11,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Fireset Platform - Custom Discord Bots and Server Management",
-  description: "Create and manage custom Discord bots to streamline your server's administration. Simplify server management with Fireset.",
+  title: "Fireset Platform - Empowering Security in your Roblox group",
+description: "Keeping your group safe on Roblox is very important, with Fireset, you can manage all of your moderation needs. All of this, in one easy-to-use dashboard.",
   keywords: "Discord bots, server management, custom bots, Discord server, Fireset Platform",
 };
 
