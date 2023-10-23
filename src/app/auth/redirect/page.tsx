@@ -11,7 +11,7 @@ export default function RedirectPage() {
   const params = useSearchParams();
   useEffect(() => {
     console.log("Success")
-    fetch(`https://fireset-v2-client.vercel.app/api/auth/redirect?${params}`)
+    fetch(`http://localhost:3000/api/auth/redirect?${params}`)
       .then(async (response) => {
         let body;
         try {

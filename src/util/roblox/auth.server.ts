@@ -54,7 +54,7 @@ export const getTokens = async (
         console.log(error);
         return null;
     }
-}
+} 
 
 export const refreshTokens = async (
     refresh: string
