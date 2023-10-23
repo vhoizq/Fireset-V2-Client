@@ -5,15 +5,15 @@ export default function TermsPage() {
   return (
     <div className="flex flex-col gap-4 w-screen min-h-screen bg-gray-50  py-36 px-64">
       <div className="absolute inset-0 bg-[url(https://play.tailwindcss.com/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-      <span className="text-blue-950 text-3xl font-bold">
+      <span className="text-purple-950 text-3xl font-bold">
         Terms of Service
       </span>
-      <span className="text-blue-950 text-sm mb-12">{`Please read these Terms of Service ("Terms") carefully before using our website. These Terms constitute a legal agreement between you ("User" or "you") and Fireset ("we," "us," or "our"). By accessing or using our website, you agree to be bound by these Terms.`}</span>
+      <span className="text-purple-950 text-sm mb-12">{`Please read these Terms of Service ("Terms") carefully before using our website. These Terms constitute a legal agreement between you ("User" or "you") and Fireset ("we," "us," or "our"). By accessing or using our website, you agree to be bound by these Terms.`}</span>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 1: User Eligibility
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           1.1 Age Restriction: You must be at least 13 years old to use our
           website. By accessing or using our website, you represent and warrant
           that you are 13 years of age or older. If you are under 13 years old,
@@ -25,10 +25,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 2: Intellectual Property
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           2.1 Ownership: The intellectual property rights associated with the
           website and its content, including but not limited to copyrights,
           trademarks, and patents, are owned by Fireset, the user, and Discord,
@@ -42,10 +42,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 3: User Responsibilities
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           3.1 Content Generation: Our website does not allow users to generate
           or upload content. You agree not to generate or attempt to generate
           any content on our website. This includes, but is not limited to,
@@ -59,13 +59,13 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 4: Privacy Policy
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           4.1 Data Privacy: Our data privacy practices are outlined in our
           Privacy Policy, which can be found{" "}
-          <Link className="text-blue-500" href="/privacy">
+          <Link className="text-purple-500" href="/privacy">
             here
           </Link>
           . The Privacy Policy provides detailed information on how we collect,
@@ -78,10 +78,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 5: Billing and Financial Transactions
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           5.1 No Billing: Our website does not involve any billing or financial
           transactions. You will not be charged for using our website, and we do
           not store or process any payment information. We may offer certain
@@ -93,10 +93,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 6: Dispute Resolution
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           6.1 Contact Support: In the event of any dispute arising from or
           relating to these Terms or your use of our website, please email our
           support team at support@theFireset.io. We value your satisfaction and
@@ -109,10 +109,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 7: Modification
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           7.1 Changes to the Terms: We reserve the right to modify or update
           these Terms at any time, without prior notice. Any changes will be
           effective immediately upon posting on our website. It is your
@@ -125,10 +125,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 8: Severability
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           8.1 Enforceability: If any provision of these Terms is found to be
           unenforceable or invalid, that provision will be limited or eliminated
           to the minimum extent necessary, and the remaining provisions will
@@ -140,10 +140,10 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 9: Governing Law
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           9.1 Jurisdiction: These Terms shall be governed by and construed in
           accordance with the laws of the United States of America. Any legal
           action or proceeding arising out of or relating to these Terms shall
@@ -156,24 +156,24 @@ export default function TermsPage() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-blue-950 text-lg font-semibold ml-8">
+        <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 10: Contact Information
         </span>
-        <span className="text-blue-950 text-sm">
+        <span className="text-purple-950 text-sm">
           10.1 Support Email: If you have any questions, concerns, or inquiries
-          regarding these Terms, please contact our support team via our Community Discord. We are here to assist you and address any
-          issues you may encounter while using our website. We aim to provide
-          prompt and reliable support, and we appreciate your feedback as it
-          helps us improve our services and enhance your experience.
+          regarding these Terms, please contact our support team via our
+          Community Discord. We are here to assist you and address any issues
+          you may encounter while using our website. We aim to provide prompt
+          and reliable support, and we appreciate your feedback as it helps us
+          improve our services and enhance your experience.
         </span>
       </div>
       <div className="flex flex-row gap-4 mt-12">
-       
         <div className="flex flex-col my-auto">
-          <span className="text-blue-950 text-lg font-semibold">
+          <span className="text-purple-950 text-lg font-semibold">
             Posted on August 20, 2023 at 10:28 PM Eastern Time
           </span>
-          <span className="text-blue-950 text-sm">
+          <span className="text-purple-950 text-sm">
             Approved by Fireset Leadership
           </span>
         </div>

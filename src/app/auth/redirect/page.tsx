@@ -10,18 +10,18 @@ export default function RedirectPage() {
   const router = useRouter();
   const params = useSearchParams();
   useEffect(() => {
-    console.log("Success")
-    fetch(`https://fireset-v2-client.vercel.app/api/auth/redirect?${params}`)
+    console.log("Success");
+    fetch(`http://localhost:3000/api/auth/redirect?${params}`)
       .then(async (response) => {
         let body;
         try {
           body = await response.json();
         } catch (error) {
-          console.log(`Errored: `, error);
+          console.log(error);
         }
 
         if (response.status === 200) {
-          console.log(response)
+          console.log(response);
           router.replace("/client/thanks");
         } else if (body) {
           toast.error(body.error);
@@ -30,7 +30,7 @@ export default function RedirectPage() {
         }
       })
       .catch((error) => {
-        console.log("ERRORED")
+        console.log("ERRORED");
         setTimeout(() => {
           router.replace("/client/thanks");
         }, 4000);

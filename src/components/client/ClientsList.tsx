@@ -124,40 +124,40 @@ export const ClientsList = () => {
               <MoonLoader size={30} color={"#6366f1"} />
             </div>
           ) : (
-            <div className="mx-auto mt-20 max-w-lg">
-              <div>
-                <div className="text-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 48 48"
+            <div className="text-center">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  vectorEffect="non-scaling-stroke"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                />
+              </svg>
+              <h3 className="mt-2 text-sm font-medium text-gray-900">
+                We couldn't find any workspaces
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                You are not in any workspaces or you have not created any
+                workspaces yet. Get started by creating a new workspace.
+              </p>
+              <div className="mt-3">
+                <a
+                  href="/client/workspaces/"
+                  className="cursor-pointer inline-flex items-center rounded-md bg-purple-500 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-pruple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+                >
+                  <PlusIcon
+                    className="-ml-0.5 mr-1.5 h-5 w-5"
                     aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                  <h2 className="mt-2 text-base font-medium leading-6 text-gray-900">
-                    Create a brand new workspace
-                  </h2>
-                  <p className="mt-1 text-sm text-gray-500">
-                    You haven't created any workspaces yet, we recommend you to
-                    go ahead and create a new workspace to get the most out of
-                    Fireset.
-                  </p>
-                  <div className="mt-6">
-                    <a
-                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=https://fireset-v2-client.vercel.app/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
-                      className="transition duration-200 inline-flex rounded-full border border-transparent bg-blue-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 hover:to-emerald-800"
-                    >
-                      Get started for Free
-                    </a>
-                  </div>
-                </div>
+                  />
+                  Create new workspace
+                </a>
               </div>
             </div>
           )}

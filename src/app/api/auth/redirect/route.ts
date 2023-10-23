@@ -36,7 +36,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     if (code) {
       let tokens = await getTokens(code);
       if (!tokens) {
-        throw Error(`Unable to fetch tokens: expired auth code `);
+        throw Error("Unable to fetch tokens: expired auth code");
       }
 
       let userInfo = await getRobloxContext(tokens.access_token);
