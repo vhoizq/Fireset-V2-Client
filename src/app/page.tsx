@@ -154,7 +154,7 @@ export default function Home() {
                 Our Pricing
               </a>
               <a
-                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=http://localhost:3000client.vercel.app/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
+                href="https://discord.com/api/oauth2/authorize?client_id=1053864556503519312&redirect_uri=https://fireset.xyz/auth/redirect&response_type=code&scope=identify%20connections%20email%20guilds"
                 className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Sign In
@@ -169,7 +169,7 @@ export default function Home() {
                 Our Pricing
               </a>
               <a
-                href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=http://localhost:3000client.vercel.app/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                 className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Sign In
@@ -201,7 +201,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="-mr-2">
-                      <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-400">
+                      <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
                         <span className="sr-only">Close menu</span>
                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
@@ -217,7 +217,7 @@ export default function Home() {
                       Pricing
                     </a>
                     <a
-                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=http://localhost:3000client.vercel.app/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                       className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
                     >
                       Sign In
@@ -249,7 +249,9 @@ export default function Home() {
               <div className="mx-auto max-w-xl px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
                 <div>
                   <div className="mt-6">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-500 to-purple-800">
+                    
+                    <h3 className="text-4xl font-bold tracking-tight text-gray-900">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-500 to-blue-800">
                         Innovating
                       </span>{" "}
                       the world of group safety & security on Roblox
@@ -261,8 +263,8 @@ export default function Home() {
                     </p>
                     <div className="mt-6">
                       <a
-                        href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=https://fireset-v2-client.vercel.app/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
-                        classNhttps://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789
+                        href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                        className="transition duration-200 inline-flex rounded-xl border border-transparent bg-purple-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-600 hover:to-purple-800"
                       >
                         Join the waitlist
                       </a>
@@ -272,14 +274,10 @@ export default function Home() {
               </div>
               <div className="mx-auto  flex max-w-2xl  lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">
                 <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-                  <img
-                     s
-r                   c="https://pub-b9da3062b2994df38277c6ff9e81a3fb.r2.dev/New Project (100).png"
- 
-                                      width={592
-}         alt="GUHG"     height={442}
-                  />   alt="GUHG"
-                  />
+                 <img src="https://pub-b9da3062b2994df38277c6ff9e81a3fb.r2.dev/New Project (100).png"   width={592}
+                  height={442} alt="GUHG" />
+               
+                 
                 </div>
               </div>
             </div>
