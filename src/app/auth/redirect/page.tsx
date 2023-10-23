@@ -17,7 +17,7 @@ export default function RedirectPage() {
         try {
           body = await response.json();
         } catch (error) {
-          console.log(error);
+          console.log(`Errored: `, error);
         }
 
         if (response.status === 200) {

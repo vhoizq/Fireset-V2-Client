@@ -26,13 +26,9 @@ export const getTokens = async (code: string): Promise<tokenObject | null> => {
     const form = new URLSearchParams();
     form.set("code", code);
 
-    if (process.env.NODE_ENV === "development") {
-      form.set("client_id", process.env.DEV_CLIENT as string);
-      form.set("client_secret", process.env.DEV_SECRET as string);
-    } else {
-      form.set("client_id", process.env.ROBLOX_APP as string);
-      form.set("client_secret", process.env.ROBLOX_SECRET as string);
-    }
+    form.set("client_id", process.env.ROBLOX_APP as string);
+    form.set("client_secret", process.env.ROBLOX_SECRET as string);
+
     form.set("grant_type", "authorization_code");
     console.log(form.get("grant_type"));
 
@@ -66,13 +62,10 @@ export const refreshTokens = async (
   try {
     const form = new URLSearchParams();
     form.append("refresh_token", refresh);
-    if (process.env.NODE_ENV === "development") {
-      form.set("client_id", process.env.DEV_CLIENT as string);
-      form.set("client_secret", process.env.DEV_SECRET as string);
-    } else {
+    
       form.set("client_id", process.env.ROBLOX_APP as string);
       form.set("client_secret", process.env.ROBLOX_SECRET as string);
-    }
+    
     form.append("grant_type", "refresh_token");
 
     let response = await fetch("https://apis.roblox.com/oauth/v1/token", {
