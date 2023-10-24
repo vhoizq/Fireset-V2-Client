@@ -60,7 +60,7 @@ export default function ClientPage() {
                   <span >👋</span> Hi there, <b>{auth!.user.username}</b>! Thanks for joining
                   the waitlist. We are thrilled to show you what is currently on
                   the table for{" "}
-                  <span className="font-semibold text-indigo-500">
+                  <span className="font-semibold text-purple-500">
                     Fireset
                   </span>
                   .
@@ -69,7 +69,7 @@ export default function ClientPage() {
               <div className="mb-3 pt-6 text-base leading-5 font-semibold">
                 <p>
                   <a
-                    className="font-semibold text-violet-500 hover:text-blue-600"
+                    className="font-semibold text-violet-500 hover:text-purple-600"
                     href="https://discord.gg/BYPu8EkbW4"
                   >
                     Join our Community →

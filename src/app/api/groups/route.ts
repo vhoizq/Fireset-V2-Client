@@ -43,7 +43,7 @@ export const POST = async (req: NextRequest) => {
           .from("groupUser")
           .select("groupId")
           .eq("userId", auth.userId)
-          .eq("role.level", 1000);
+          .eq("role", 255);
 
         if (groupError) {
           throw groupError;

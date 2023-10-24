@@ -18,10 +18,10 @@ export const GroupHeader = (props: { group: GroupDetails }) => {
           onError={() => <></>}
         />
         <div className="flex flex-col my-auto">
-          <span className="text-indigo-950 text-lg font-bold">
+          <span className="text-purple-950 text-lg font-bold">
             {props.group.name}
           </span>
-          <span className="text-indigo-950 text-sm">
+          <span className="text-purple-950 text-sm">
             Created by {props.group.name} on{" "}
             {new Date(props.group.createdAt).toLocaleDateString()}
           </span>

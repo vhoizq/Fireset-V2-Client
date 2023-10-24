@@ -210,7 +210,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="-mr-2">
-                      <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400">
+                      <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-400">
                         <span className="sr-only">Close menu</span>
                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
@@ -260,7 +260,7 @@ export default function Home() {
                   <div className="mt-6">
 
                     <h3 className="text-4xl font-bold tracking-tight text-gray-900">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-500 to-blue-800">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-500 to-purple-800">
                         Innovating
                       </span>{" "}
                       the world of group safety & security on Roblox
