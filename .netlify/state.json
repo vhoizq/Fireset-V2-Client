@@ -1,0 +1,19 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Fort Myers",
+			"country": {
+				"code": "US",
+				"name": "United States"
+			},
+			"subdivision": {
+				"code": "FL",
+				"name": "Florida"
+			},
+			"timezone": "America/New_York",
+			"latitude": 26.5544,
+			"longitude": -81.9021
+		},
+		"timestamp": 1697997231521
+	}
+}
