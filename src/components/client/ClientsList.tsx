@@ -108,12 +108,15 @@ export const ClientsList = () => {
 
   return (
     <div className="flex-wrap gap-2 w-full">
-      <h1 className="ml-6 mt-6 truncate text-lg flex items-center font-semibold text-gray-900">
+      <h1 className="ml-6 mt-6 truncate text-md flex items-center font-semibold text-gray-900">
         Welcome to your personalized dashboard, <span className="text-purple-700">&nbsp;{auth.user?.username}</span>!
       </h1 >
-      <h3 className="ml-6 truncate text-sm flex items-center font-medium text-gray-900">
-        Here at your <span className="text-purple-700">&nbsp;workspaces</span>, {auth.user?.username}, you have complete control over all your current workspaces.
+      <h3 className="ml-6 truncate text-xs text-nowrap flex items-center font-medium text-gray-900" style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+        Here at your <span className="text-purple-700" style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+          &nbsp;workspaces
+        </span>, {auth.user?.username}, you have complete control over all your current workspaces.
       </h3>
+
       <hr className="mt-4 mr-[25px] ml-[25px]" />
       {groups.length > 0 ? (
         <div className="mr-6 ml-6 mt-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
