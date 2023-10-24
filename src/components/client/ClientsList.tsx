@@ -108,12 +108,13 @@ export const ClientsList = () => {
 
   return (
     <div className="flex-wrap gap-2 w-full">
-      <h3 className="ml-6 mt-6 truncate text-lg flex items-center font-semibold text-gray-900">
-        Welcome to your personalized dashboard, {auth.user?.username}!
-      </h3>
+      <h1 className="ml-6 mt-6 truncate text-lg flex items-center font-semibold text-gray-900">
+        Welcome to your personalized dashboard, <span className="text-purple-700">&nbsp;{auth.user?.username}</span>!
+      </h1 >
       <h3 className="ml-6 truncate text-sm flex items-center font-medium text-gray-900">
-        Here at your workspaces, {auth.user?.username}, you have complete control over all your current workspaces.
+        Here at your <span className="text-purple-700">&nbsp;workspaces</span>, {auth.user?.username}, you have complete control over all your current workspaces.
       </h3>
+      <hr className="mt-4 mr-[25px] ml-[25px]" />
       {groups.length > 0 ? (
         <div className="mr-6 ml-6 mt-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
           {groups.map((g) => (
@@ -198,7 +199,7 @@ export const ClientsList = () => {
                 <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
               </svg>
               <h3 className="mt-2 text-sm font-medium text-gray-900">We couldn't find any workspaces</h3>
-              <p className="mt-1 text-sm text-gray-500">You can get started with Fireset by creating a workspace. It's simple, easy, and free to get started.</p>
+              <p className="mt-1 text-sm text-gray-500">You can get started with <span className="text-purple-700 font-medium">Fireset</span> by creating a workspace. It's simple, easy, and <span className="underline font-medium">free</span> to get started.</p>
               <div className="mt-3">
                 <button onClick={() => {
                   setAddModal(true)
