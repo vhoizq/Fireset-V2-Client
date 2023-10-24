@@ -61,7 +61,7 @@ export const ClientsList = (props: { client: any }) => {
           <div role="status">
             <svg
               aria-hidden="true"
-              className="w-8 h-8 mr-2 text-gray-200 animate-spin fill-blue-600"
+              className="w-8 h-8 mr-2 text-gray-200 animate-spin fill-purple-600"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@ export const ClientsList = (props: { client: any }) => {
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                     <form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
                       <div className="h-0 flex-1 overflow-y-auto">
-                        <div className="bg-blue-700 py-6 px-4 sm:px-6">
+                        <div className="bg-purple-700 py-6 px-4 sm:px-6">
                           <div className="flex items-center justify-between">
                             <Dialog.Title className="text-lg font-bold text-white">
                               Add Custom Status
@@ -221,7 +221,7 @@ export const ClientsList = (props: { client: any }) => {
                             <div className="ml-3 flex h-7 items-center">
                               <button
                                 type="button"
-                                className="rounded-md bg-blue-700 text-blue-200 hover:text-white focus:outline-none hover:ring-2 hover:ring-white"
+                                className="rounded-md bg-purple-700 text-purple-200 hover:text-white focus:outline-none hover:ring-2 hover:ring-white"
                                 onClick={() => setOpen(false)}
                               >
                                 <span className="sr-only">Close panel</span>
@@ -233,7 +233,7 @@ export const ClientsList = (props: { client: any }) => {
                             </div>
                           </div>
                           <div className="mt-1">
-                            <p className="text-sm text-blue-300">
+                            <p className="text-sm text-purple-300">
                               Adding a custom status will change your clients
                               status weather it be <b>Playing</b>,{" "}
                               <b>Watching</b>, or <b>Listening</b>
@@ -256,7 +256,7 @@ export const ClientsList = (props: { client: any }) => {
                                     name="text"
                                     id="status-text"
                                     placeholder="fireset.xyz"
-                                    className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 outline-none sm:text-sm sm:leading-6"
+                                    className="transition duration-200 block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 outline-none sm:text-sm sm:leading-6"
                                   />
                                 </div>
                               </div>
@@ -271,7 +271,7 @@ export const ClientsList = (props: { client: any }) => {
                                   <select
                                     id="status-type"
                                     name="type"
-                                    className="transition form-select duration-200   block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-blue-600  sm:text-sm sm:leading-6"
+                                    className="transition form-select duration-200   block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset mt-1 ring-gray-300 focus:ring-2 focus:ring-inset outline-none focus:ring-purple-600  sm:text-sm sm:leading-6"
                                   >
                                     <option value="PLAYING" selected>
                                       PLAYING
@@ -288,7 +288,7 @@ export const ClientsList = (props: { client: any }) => {
                       <div className="flex flex-shrink-0 justify-end px-4 py-4">
                         <button
                           type="button"
-                          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                           onClick={() => setOpen(false)}
                         >
                           Cancel
@@ -296,7 +296,7 @@ export const ClientsList = (props: { client: any }) => {
                         <button
                           onClick={create}
                           type="button"
-                          className="cursor-pointer ml-4 inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="cursor-pointer ml-4 inline-flex justify-center rounded-md border border-transparent bg-purple-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                         >
                           Save Status
                         </button>
@@ -346,7 +346,7 @@ export const ClientsList = (props: { client: any }) => {
                   <div className="ml-4 flex-shrink-0">
                     <a
                       onClick={() => remove(`${b.statusId}`)}
-                      className="cursor-pointer font-medium text-blue-500 hover:text-blue-600"
+                      className="cursor-pointer font-medium text-purple-500 hover:text-purple-600"
                     >
                       Remove
                     </a>
@@ -358,7 +358,7 @@ export const ClientsList = (props: { client: any }) => {
             <button
               type="submit"
               onClick={() => setOpen(true)}
-              className="transition duration-200 mt-2 flex  w-auto justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              className="transition duration-200 mt-2 flex  w-auto justify-center rounded-md bg-purple-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
             >
               Add Custom Status
             </button>
@@ -376,7 +376,7 @@ export const ClientsList = (props: { client: any }) => {
               <button
                 type="submit"
                 onClick={() => setOpen(true)}
-                className="transition duration-200   w-auto justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                className="transition duration-200   w-auto justify-center rounded-md bg-purple-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
               >
                 Add Custom Status
               </button>

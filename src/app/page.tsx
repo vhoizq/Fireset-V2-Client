@@ -16,6 +16,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { useAuth } from "./client/auth";
 
 const solutions = [
   {
@@ -128,6 +129,8 @@ function classNames(...classes: string[]): string {
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const auth = useAuth()
 
   return (
     <div className="bg-white">
