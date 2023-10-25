@@ -60,7 +60,7 @@ export default function ClientPage() {
     const router = useRouter();
 
     console.log(auth)
-    if (auth!.user?.isActive === false) {
+    if (auth.user?.isActive === false) {
         router.replace("/client/notice");
     }
 
@@ -233,14 +233,14 @@ export default function ClientPage() {
                                         href={item.href}
                                         className={classNames(
                                             item.current
-                                                ? 'bg-gray-50 text-indigo-600'
-                                                : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                                ? 'bg-gray-50 text-purple-600'
+                                                : 'text-gray-700 hover:text-purple-600 hover:bg-gray-50',
                                             'group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-medium'
                                         )}
                                     >
                                         <item.icon
                                             className={classNames(
-                                                item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                                item.current ? 'text-purple-600' : 'text-gray-400 group-hover:text-purple-600',
                                                 'h-6 w-6 shrink-0'
                                             )}
                                             aria-hidden="true"

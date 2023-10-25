@@ -20,7 +20,7 @@ export const Dropdown = (props: {
             props.options.map(o => (
                 <div
                     key={o.key}
-                    className="flex flex-row p-2 text-indigo-950 hover:bg-indigo-500 hover:text-indigo-50 transition duration-200"
+                    className="flex flex-row p-2 text-purple-950 hover:bg-purple-500 hover:text-purple-50 transition duration-200"
                     onClick={() => {
                         o.onClick(props.onClose);
                     }}

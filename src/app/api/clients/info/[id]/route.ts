@@ -21,7 +21,7 @@ export const GET = async (
         const auth = await verifyAuth(req);
         if (auth) {
             const { data, error } = await supabase
-                .from('DiscordBots')
+                .from('group')
                 .select('*')
                 .eq('id', `${params.id}`)
 

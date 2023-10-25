@@ -67,7 +67,7 @@ export default function ClientPage() {
     router.replace("/client/thanks");
   }
 
-  if (auth!.user?.isActive === false) {
+  if (auth.user?.isActive === false) {
     router.replace("/client/notice");
   }
 

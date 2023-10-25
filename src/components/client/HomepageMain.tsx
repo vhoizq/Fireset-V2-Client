@@ -28,14 +28,14 @@ export const HomePageMain = () => {
     return (
         <div>
             {auth.user ? (
-                <a href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                <a href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                     className="transition duration-200 inline-flex rounded-xl border border-transparent bg-purple-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-600 hover:to-purple-800"
                 >
                     Welcome back, {auth.user.username}
                 </a>
             ) : (
 
-                <a href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                <a href="https://apis.roblox.com/oauth/v1/authorize?client_id=2682885889385043103&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                     className="transition duration-200 inline-flex rounded-xl border border-transparent bg-purple-500 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-600 hover:to-purple-800"
                 >
                     Join the waitlist

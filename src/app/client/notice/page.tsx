@@ -64,7 +64,7 @@ export default function ClientPage() {
               <div className="py-8 text-base leading-7 text-gray-600">
                 <p>
                   You have been suspended from Fireset due to violation of our
-                  Terms of Service. We are deciated to keeping our services safe
+                  Terms of Service. We are dedicated to keeping our services safe
                   and secure from people who attempt to violate our Terms of
                   Service.
                 </p>

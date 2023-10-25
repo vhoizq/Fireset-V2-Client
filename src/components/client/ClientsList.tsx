@@ -5,11 +5,11 @@ import { useAuth } from "@/app/client/auth";
 import { Toaster, toast } from "react-hot-toast";
 import { Modal } from "../form/Modal";
 import axios from "axios";
-import Circle from '@uiw/react-color-circle';
+import Circle from "@uiw/react-color-circle";
 import { Input, Select, TextArea } from "../form/TextInput";
 import { MoonLoader } from "react-spinners";
 import useSWR from "swr"; // Import the useSWR hook
-import { CheckBadgeIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { CheckBadgeIcon, PaperClipIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { HiDotsVertical } from "react-icons/hi";
 import { Logo } from "../content/Logo";
 import { NewGroup } from "@/util/db/group";
@@ -25,7 +25,7 @@ interface Group {
 }
 
 export const ClientsList = () => {
-  const [hex, setHex] = useState('#F44E3B');
+  const [hex, setHex] = useState("#F44E3B");
   const auth = useAuth();
   const response = useSWR("/api/groups", fetch);
   const [userGroups, setUserGroups] = useState<
@@ -43,16 +43,13 @@ export const ClientsList = () => {
     if (!creating) {
       setCreating(true);
       try {
-        const newGroupResponse = await fetch(
-          `/api/groups`,
-          {
-            method: "POST",
-            body: JSON.stringify(newGroup),
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        );
+        const newGroupResponse = await fetch(`/api/groups`, {
+          method: "POST",
+          body: JSON.stringify(newGroup),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         const body = await newGroupResponse.json();
         setCreating(false);
@@ -63,7 +60,9 @@ export const ClientsList = () => {
             setNewGroup({});
             setAddModal(false);
           } else {
-            throw Error("Unexpected error while submitting group, please try again.");
+            throw Error(
+              "Unexpected error while submitting group, please try again."
+            );
           }
         } else {
           throw Error(body.error);
@@ -73,7 +72,7 @@ export const ClientsList = () => {
         toast.error(`${error}`);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (!groupsCache.isLoading && groupsCache.data) {
@@ -107,15 +106,17 @@ export const ClientsList = () => {
   }, [response]);
 
   return (
-    <div className="flex-wrap gap-2 w-full">
-      <h1 className="ml-6 mt-6 truncate text-md flex items-center font-semibold text-gray-900">
-        Welcome to your personalized dashboard, <span className="text-purple-700">&nbsp;{auth.user?.username}</span>!
-      </h1 >
-      <h3 className="ml-6 truncate text-xs text-nowrap flex items-center font-medium text-gray-900" style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
-        Here at your <span className="text-purple-700" style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
-          &nbsp;workspaces
-        </span>, {auth.user?.username}, you have complete control over all your current workspaces.
-      </h3>
+    <div className="flex-wrap gap-2 w-full ">
+      <h1 className="ml-6 mt-6 truncate text-lg flex items-center font-semibold text-gray-900">
+        Welcome to your personalized dashboard,{" "}
+        <span className="text-purple-700">&nbsp;{auth.user?.username}</span>!
+      </h1>
+
+      <div className="ml-6 flex">
+        <div className="items-center text-sm  font-medium text-gray-900">
+          Here at your <span className="text-purple-700">workspaces</span>, {auth.user?.username}, you have complete control over all your current workspaces.
+        </div>
+      </div>
 
       <hr className="mt-4 mr-[25px] ml-[25px]" />
       {groups.length > 0 ? (
@@ -189,6 +190,34 @@ export const ClientsList = () => {
               </a>
             </div>
           ))}
+          <div key={`newWorkspace`}>
+            <a
+              className="transition hover:bg-gray-100 cursor-pointer duration-500 col-span-1 divide-y h-[100px] divide-gray-200 rounded-lg bg-white border border-dashed flex"
+              onClick={() => {
+                setAddModal(true);
+              }}
+            >
+              <div className="flex w-full flex-row self-center justify-between">
+                <div className="w-full flex flex-row items-center justify-between p-6">
+                  <LinkIcon className="h-12 " />
+                  <div className="flex-1 ">
+                    <div className="items-center">
+                      <h3 className="ml-3 truncate text-md flex items-center font-semibold text-gray-900">
+                        Create a new <span className="text-purple-700">&nbsp;workspace</span>
+                      </h3>
+                      <div className="ml-3 flex">
+                        <div className="items-center text-xs  font-normal text-gray-900">
+                         Create a new <span className="text-purple-700 font-medium">Fireset</span> workspace to secure your group and assets
+                        </div>
+                      </div>
+
+                    </div>
+                    <p className="text-sm text-gray-400 text-left"></p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       ) : (
         <div className="mx-auto mt-20 max-w-lg">
@@ -198,15 +227,39 @@ export const ClientsList = () => {
             </div>
           ) : (
             <div className="text-center">
-              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  vector-effect="non-scaling-stroke"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                />
               </svg>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">We couldn't find any workspaces</h3>
-              <p className="mt-1 text-sm text-gray-500">You can get started with <span className="text-purple-700 font-medium">Fireset</span> by creating a workspace. It's simple, easy, and <span className="underline font-medium">free</span> to get started.</p>
+              <h3 className="mt-2 text-sm font-medium text-gray-900">
+                We couldn't find any workspaces
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                You can get started with{" "}
+                <span className="text-purple-700 font-medium">Fireset</span> by
+                creating a workspace. It's simple, easy, and{" "}
+                <span className="underline font-medium">free</span> to get
+                started.
+              </p>
               <div className="mt-3">
-                <button onClick={() => {
-                  setAddModal(true)
-                }} type="button" className="transition duration-300 inline-flex items-center rounded-md border border-transparent bg-purple-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                <button
+                  onClick={() => {
+                    setAddModal(true);
+                  }}
+                  type="button"
+                  className="transition duration-300 inline-flex items-center rounded-md border border-transparent bg-purple-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                >
                   <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                   Create new workspace
                 </button>
@@ -219,65 +272,60 @@ export const ClientsList = () => {
         <Modal
           isOpen={addModal}
           title={"Create a new workspace"}
-          desc={"Create your brand new workspace on Fireset today to better secure your group"}
+          desc={
+            "Create your brand new workspace on Fireset today to better secure your group"
+          }
           body={
             <>
-              <div
-                className="grid grid-cols-2 w-full gap-4"
-              >
+              <div className="grid grid-cols-2 w-full gap-4">
                 <Input
                   label={"Workspace Name"}
                   type={"name"}
-
                   value={newGroup.name || ""}
                   onChange={(event) => {
                     setNewGroup({
                       ...newGroup,
-                      name: event.target.value
-                    })
+                      name: event.target.value,
+                    });
                   }}
                 />
 
                 <Input
                   label={"Roblox Group ID"}
                   type={"groupId"}
-
                   value={newGroup.groupId?.toString() || ""}
                   onChange={(event) => {
                     setNewGroup({
                       ...newGroup,
-                      groupId: Number(event.target.value)
-                    })
+                      groupId: Number(event.target.value),
+                    });
                   }}
                 />
 
                 <div className="">
-                  <label className="text-purple-950 text-sm mt-2">Choose a workspace theme</label>
+                  <label className="text-purple-950 text-sm mt-2">
+                    Choose a workspace theme
+                  </label>
                   <Circle
-
-
                     colors={[
-                      '#fabebe',  // Red
+                      "#fabebe", // Red
 
-
-                      '#b1fac5',  // Lime
-                      '#d4fb86',  // Green
-                      '#9bf2fd',  // Blue
-                      '#d5bbff'   // Purple
+                      "#b1fac5", // Lime
+                      "#d4fb86", // Green
+                      "#9bf2fd", // Blue
+                      "#d5bbff", // Purple
                     ]}
-
                     color={hex}
                     className="mt-2"
                     onChange={(color) => {
                       setHex(color.hex);
                       setNewGroup({
                         ...newGroup,
-                        description: color.hex
-                      })
+                        description: color.hex,
+                      });
                     }}
-
-                  /></div>
-
+                  />
+                </div>
               </div>
             </>
           }
@@ -288,7 +336,9 @@ export const ClientsList = () => {
                 className="flex flex-col px-4 py-2 text-sm border-0 ring-0 outline-0 rounded-md bg-purple-500 text-purple-50 hover:bg-purple-600 disabled:bg-purple-800 disabled:cursor-default transition duration-200"
                 onClick={create}
                 disabled={creating}
-              >Create Workspace</button>
+              >
+                Create Workspace
+              </button>
               <button
                 type="button"
                 className="flex flex-col px-4 py-2 text-sm border-0 rounded-md bg-inherit text-purple-950 hover:bg-purple-200 transition duration-200"
@@ -296,7 +346,9 @@ export const ClientsList = () => {
                   setAddModal(false);
                   setNewGroup({});
                 }}
-              >Cancel</button>
+              >
+                Cancel
+              </button>
             </>
           }
           onClose={() => {
