@@ -15,13 +15,6 @@ export const GET = async (req: NextRequest) => {
   try {
     const auth = await verifyAuth(req);
     if (auth) {
-      const groupUser = await supabase
-        .from("groupUser")
-        .select("*")
-        .eq("userId", auth.userId)
-        .eq("groupId", "4334990")
-        .limit(1)
-        .single();
       const group = await supabase
         .from("group")
         .select("*")

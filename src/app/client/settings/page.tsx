@@ -294,7 +294,7 @@ export default function ClientPage() {
             <MoonLoader
                 size={32}
                 className={"flex mx-auto my-auto"}
-                color={"#6366f1"}
+                color={"#974dff"}
             />
         </div>
     );

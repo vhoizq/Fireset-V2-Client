@@ -50,7 +50,7 @@ export const Logo = (props: {
             <MoonLoader
                 size={8}
                 className={props.className}
-                color={"#6366f1"}
+                color={"#974dff"}
             />
         </>
         : <>

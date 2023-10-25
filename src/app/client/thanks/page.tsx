@@ -39,8 +39,13 @@ export default function ClientPage() {
   const cache = useSWR(`/api`, fetch);
 
   const router = useRouter();
- 
+
   console.log(auth)
+
+  if (auth.user?.isBeta === true) {
+    router.replace("/client");
+  }
+
   if (auth.user?.isActive === false) {
     router.replace("/client/notice");
   }
@@ -55,8 +60,15 @@ export default function ClientPage() {
         <div className="relative px-9 pt-3 pb-8 bg-white shadow ring-1 ring-gray-200 sm:max-w-lg sm:mx-auto sm:rounded-lg sm:px-10">
           <div className="max-w-md mx-auto">
             <div className="divide-y divide-gray-300/50 text-gray-600">
-              <div className="mt-5 py-4 text-base leading-7 space-y-6 text-gray-600">
+
+              <div className="py-4 text-base leading-7 space-y-6 text-gray-600">
+                <img
+                  className="block mr-4 h-8 w-auto"
+                  src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
+                  alt="Fireset Platform"
+                />
                 <p>
+
                   <span >👋</span> Hi there, <b>{auth!.user.username}</b>! Thanks for joining
                   the waitlist. We are thrilled to show you what is currently on
                   the table for{" "}
@@ -86,7 +98,7 @@ export default function ClientPage() {
       <MoonLoader
         size={32}
         className={"flex mx-auto my-auto"}
-        color={"#6366f1"}
+        color={"#974dff"}
       />
     </div>
   );

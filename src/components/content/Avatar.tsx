@@ -46,7 +46,7 @@ export const Avatar = (props: {
 
   return loading ? (
     <>
-      <MoonLoader size={24} className={props.className} color={"#6366f1"} />
+      <MoonLoader size={24} className={props.className} color={"#974dff"} />
     </>
   ) : (
     <>

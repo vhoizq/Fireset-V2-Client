@@ -50,7 +50,7 @@ export const Icon = (props: {
             <MoonLoader
                 size={8}
                 className={props.className}
-                color={"#6366f1"}
+                color={"#974dff"}
             />
         </>
         : <>

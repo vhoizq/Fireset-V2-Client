@@ -109,12 +109,12 @@ export const ClientsList = () => {
     <div className="flex-wrap gap-2 w-full ">
       <h1 className="ml-6 mt-6 truncate text-lg flex items-center font-semibold text-gray-900">
         Welcome to your personalized dashboard,{" "}
-        <span className="text-purple-700">&nbsp;{auth.user?.username}</span>!
+        <span className="text-purple-500">&nbsp;{auth.user?.username}</span>!
       </h1>
 
       <div className="ml-6 flex">
         <div className="items-center text-sm  font-medium text-gray-900">
-          Here at your <span className="text-purple-700">workspaces</span>, {auth.user?.username}, you have complete control over all your current workspaces.
+          Here at your <span className="text-purple-500">workspaces</span>, {auth.user?.username}, you have complete control over all your current workspaces.
         </div>
       </div>
 
@@ -199,15 +199,15 @@ export const ClientsList = () => {
             >
               <div className="flex w-full flex-row self-center justify-between">
                 <div className="w-full flex flex-row items-center justify-between p-6">
-                  <LinkIcon className="h-12 " />
+                  <LinkIcon className="h-12 text-gray-400" />
                   <div className="flex-1 ">
                     <div className="items-center">
                       <h3 className="ml-3 truncate text-md flex items-center font-semibold text-gray-900">
-                        Create a new <span className="text-purple-700">&nbsp;workspace</span>
+                        Create a new <span className="text-purple-500">&nbsp;workspace</span>
                       </h3>
                       <div className="ml-3 flex">
                         <div className="items-center text-xs  font-normal text-gray-900">
-                         Create a new <span className="text-purple-700 font-medium">Fireset</span> workspace to secure your group and assets
+                         Create a new <span className="text-purple-500 font-medium">Fireset</span> workspace to secure your group and assets
                         </div>
                       </div>
 
@@ -223,7 +223,7 @@ export const ClientsList = () => {
         <div className="mx-auto mt-20 max-w-lg">
           {response.isLoading ? ( // Show MoonLoader while loading
             <div className="flex justify-center">
-              <MoonLoader size={30} color={"#6366f1"} />
+              <MoonLoader size={30} color={"#974dff"} />
             </div>
           ) : (
             <div className="text-center">
@@ -247,7 +247,7 @@ export const ClientsList = () => {
               </h3>
               <p className="mt-1 text-sm text-gray-500">
                 You can get started with{" "}
-                <span className="text-purple-700 font-medium">Fireset</span> by
+                <span className="text-purple-500 font-medium">Fireset</span> by
                 creating a workspace. It's simple, easy, and{" "}
                 <span className="underline font-medium">free</span> to get
                 started.
@@ -308,12 +308,11 @@ export const ClientsList = () => {
                   </label>
                   <Circle
                     colors={[
-                      "#fabebe", // Red
-
-                      "#b1fac5", // Lime
-                      "#d4fb86", // Green
-                      "#9bf2fd", // Blue
-                      "#d5bbff", // Purple
+                      "#ff6680", // Red
+                      "#ff66f5", // Lime
+                      "#82ff69", // Green
+                      "#57b9fa", // Blue
+                      "#9657fa", // Purple
                     ]}
                     color={hex}
                     className="mt-2"

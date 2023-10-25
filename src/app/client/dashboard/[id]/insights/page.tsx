@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 import { HiX } from "react-icons/hi";
-import { useAuth } from "../../auth";
+import { useAuth } from "../../../auth";
 import { Toaster, toast } from "react-hot-toast";
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
@@ -36,8 +36,8 @@ import ClientsList from "@/components/client/ClientsList";
 
 
 const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true, paid: false },
-    { name: 'Community Insights', href: '#', icon: GlobeAltIcon, current: false, paid: true },
+    { name: 'Dashboard', href: '#', icon: HomeIcon, current: false, paid: false },
+    { name: 'Community Insights', href: '#', icon: GlobeAltIcon, current: true, paid: true },
     { name: 'Security Actions', href: '#', icon: LockClosedIcon, current: false, paid: false },
     { name: 'Audit Logging', href: '#', icon: ClipboardDocumentIcon, current: false, paid: false },
     { name: 'Community Backups', href: '#', icon: CpuChipIcon, current: false, paid: true },
@@ -298,42 +298,36 @@ export default function ClientPage() {
                         <div className="py-6">
                             <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
                                 <h1 className="text-2xl font-semibold text-gray-900">🌙 Good evening, <span style={{ color: `${workspaceInformation.group.description}` }}>{auth.user.username}</span>! Good to see you.</h1>
-                                <h1 className="text-md font-medium text-gray-900">Welcome to the <span style={{ color: `${workspaceInformation.group.description}` }}>{workspaceInformation.group.name}</span> Dashboard</h1>
+                                <h1 className="text-md font-medium text-gray-900">Let's take a look at the Community Insights for <span style={{ color: `${workspaceInformation.group.description}` }}>{workspaceInformation.group.name}</span></h1>
                             </div>
                             <div className="mx-auto max-w-7xl">
 
 
                                 <div className="mr-6 ml-8 mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                                     <div className="relative w-full text-left  rounded-lg p-6 border border-gray-300">
-                                        <p className="text-lg sm:text-base font-semibold">Active Moderation Cases</p>
-                                        <p className="font-normal text-gray-700 text-lg dark:text-dark-content-emphasis mt-1 text-inherit">0</p>
+                                        <p className="text-lg sm:text-base font-semibold">Concurrent Members</p>
+                                        <p className="font-normal text-gray-700 text-lg dark:text-dark-content-emphasis mt-1 text-inherit">25,000</p>
                                     </div>
                                     <div className="relative w-full text-left  rounded-lg p-6 border border-gray-300">
-                                        <p className="text-lg sm:text-base font-semibold">Community Threat Level</p>
-                                        <p className="font-medium text-lg dark:text-dark-content-emphasis mt-1 text-inherit" style={{ color: `#a866ff` }}>All Clear</p>
-                                    </div>
-                                    <div className="relative w-full text-left  rounded-lg p-6 border border-gray-300">
-                                        <p className="text-lg sm:text-base font-semibold">Avaliable Backups</p>
-                                        <p className="font-normal text-lg text-gray-700 dark:text-dark-content-emphasis mt-1 text-inherit" >1</p>
+                                        <p className="text-lg sm:text-base font-semibold">Members Gained Yesterday</p>
+                                        <p className="font-normal text-lg text-gray-700 dark:text-dark-content-emphasis mt-1 text-inherit" >0</p>
                                     </div>
 
-                                </div>
-                                <div className="mr-6 ml-8 mt-2 grid grid-cols-1  gap-2">
-
                                     <div className="relative w-full text-left  rounded-lg p-6 border border-gray-300">
-                                        <p className="text-lg sm:text-base font-semibold">Inspirational Quote</p>
-                                        <p className="font-serif text-gray-700 text-lg dark:text-dark-content-emphasis mt-1 text-inherit">"Just one small positive thought in the morning can change your whole day."</p>
+                                        <p className="text-lg sm:text-base font-semibold">Members Lost Yesterday</p>
+                                        <p className="font-normal text-lg text-gray-700 dark:text-dark-content-emphasis mt-1 text-inherit" >0</p>
                                     </div>
+
 
 
                                 </div>
-
+                              
                                 <div className="mr-6 ml-8 mt-2 grid grid-cols-1  gap-2">
 
                                     <div className="relative w-full text-left  rounded-lg p-6 border border-gray-300">
                                         <p className="text-lg sm:text-base font-semibold">Visualise your community</p>
                                         <div className="text-center mt-5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"   className="mx-auto h-10 w-10 text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="mx-auto h-10 w-10 text-gray-400">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
                                             </svg>
 

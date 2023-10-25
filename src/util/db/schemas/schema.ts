@@ -11,7 +11,7 @@ export interface User {
   verified: boolean;
   createdAt: Date;
   isActive: boolean;
-  beta: boolean;
+  isBeta: boolean;
   access: boolean;
   admin: boolean;
   banned: boolean;
