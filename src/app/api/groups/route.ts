@@ -58,9 +58,8 @@ export const POST = async (req: NextRequest) => {
                 {
                   name: data.name,
                   groupId: data.groupId.toString(),
-                  description: data.description,
-                  discordUrl: data.discordUrl,
-                  syncedAt: new Date(Date.now() - 1000 * 60 * 60 * 4),
+                  color: data.description,
+               
                 },
               ]);
 

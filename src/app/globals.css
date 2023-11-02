@@ -8,6 +8,14 @@ body {
   overscroll-behavior-x: none;
 }
 
+#chart-container {
+  width: 1090px; /* Set the desired fixed width */
+  height: 300px; /* Set the desired fixed height */
+
+  overflow: hidden; /* Hide overflow content */
+}
+
+
 .wave {
   animation-name: wave-animation; /* Refers to the name of your @keyframes element below */
   animation-duration: 2.5s; /* Change to speed up or slow down */

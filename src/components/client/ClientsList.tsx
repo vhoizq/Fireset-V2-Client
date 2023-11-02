@@ -207,7 +207,7 @@ export const ClientsList = () => {
                       </h3>
                       <div className="ml-3 flex">
                         <div className="items-center text-xs  font-normal text-gray-900">
-                         Create a new <span className="text-purple-500 font-medium">Fireset</span> workspace to secure your group and assets
+                          Create a new <span className="text-purple-500 font-medium">Fireset</span> workspace to secure your group and assets
                         </div>
                       </div>
 
@@ -302,29 +302,31 @@ export const ClientsList = () => {
                   }}
                 />
 
-                <div className="">
-                  <label className="text-purple-950 text-sm mt-2">
-                    Choose a workspace theme
-                  </label>
-                  <Circle
-                    colors={[
-                      "#ff6680", // Red
-                      "#ff66f5", // Lime
-                      "#82ff69", // Green
-                      "#57b9fa", // Blue
-                      "#9657fa", // Purple
-                    ]}
-                    color={hex}
-                    className="mt-2"
-                    onChange={(color) => {
-                      setHex(color.hex);
-                      setNewGroup({
-                        ...newGroup,
-                        description: color.hex,
-                      });
-                    }}
-                  />
-                </div>
+              </div>
+
+              <div className="mt-3">
+                <label className="text-purple-950 text-sm mt-2">
+                  Choose a workspace theme
+                </label>
+                <Circle
+                  colors={[
+                    "#ff6680", // Red
+                    "#ff66f5", // Lime
+                    "#82ff69", // Green
+                    "#57b9fa", // Blue
+                    "#9657fa", // Purple
+                    "#000000", // Black
+                  ]}
+                  color={hex}
+                  className="mt-2 w-160"
+                  onChange={(color) => {
+                    setHex(color.hex);
+                    setNewGroup({
+                      ...newGroup,
+                      description: color.hex,
+                    });
+                  }}
+                />
               </div>
             </>
           }
