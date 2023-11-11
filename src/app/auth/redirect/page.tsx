@@ -11,7 +11,7 @@ export default function RedirectPage() {
   const params = useSearchParams();
   useEffect(() => {
     console.log("Success");
-    fetch(`http://fireset.xyz/api/auth/redirect?${params}`)
+    fetch(`https://fireset.xyz/api/auth/redirect?${params}`)
       .then(async (response) => {
         let body;
         try {
