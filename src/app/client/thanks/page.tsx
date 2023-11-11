@@ -46,10 +46,7 @@ export default function ClientPage() {
     router.replace("/client");
   }
 
-  if (auth.user?.isActive === false) {
-    router.replace("/client/notice");
-  }
-
+ 
   return auth.user ? (
     <main>
       <Toaster position="bottom-center" reverseOrder={false} />

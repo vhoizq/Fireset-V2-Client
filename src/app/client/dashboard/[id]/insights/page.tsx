@@ -26,6 +26,7 @@ import {
     LockClosedIcon,
     PlusIcon,
     ShieldExclamationIcon,
+    UserGroupIcon,
     UsersIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline'
@@ -56,15 +57,49 @@ export default function ClientPage() {
     const path = usePathname();
 
     const navigation = [
-        { name: 'Dashboard', href: `/client/dashboard/${path.split("/")[3]}`, icon: HomeIcon, current: false, paid: false },
-        { name: 'Community Insights', href: `/client/dashboard/${path.split("/")[3]}/insights`, icon: GlobeAltIcon, current: true, paid: true },
-        { name: 'Security Actions', href: `/client/dashboard/${path.split("/")[3]}/security`, icon: LockClosedIcon, current: false, paid: false },
-        { name: 'Audit Logging', href: `/client/dashboard/${path.split("/")[3]}/audits`, icon: ClipboardDocumentIcon, current: false, paid: false },
-        { name: 'Community Backups', href: `/client/dashboard/${path.split("/")[3]}/backups`, icon: CpuChipIcon, current: false, paid: true },
-        { name: 'Moderation Suite', href: `/client/dashboard/${path.split("/")[3]}/moderation`, icon: ShieldExclamationIcon, current: false, paid: false },
-        { name: 'Workspace Settings', href: `/client/dashboard/${path.split("/")[3]}/settings`, icon: Cog6ToothIcon, current: false, paid: false },
-
-    ]
+        {
+            name: "Dashboard",
+            href: `/client/dashboard/${path.split("/")[3]}`,
+            icon: HomeIcon,
+            current: false,
+            paid: false,
+        },
+        {
+            name: "Community Insights",
+            href: `/client/dashboard/${path.split("/")[3]}/insights`,
+            icon: GlobeAltIcon,
+            current: true,
+            paid: true,
+        },
+        {
+            name: "Group Members",
+            href: `/client/dashboard/${path.split("/")[3]}/members`,
+            icon: UserGroupIcon,
+            current: false,
+            paid: false,
+        },
+        {
+            name: "Audit Logging",
+            href: `/client/dashboard/${path.split("/")[3]}/audits`,
+            icon: ClipboardDocumentIcon,
+            current: false,
+            paid: false,
+        },
+        {
+            name: "Moderation Suite",
+            href: `/client/dashboard/${path.split("/")[3]}/moderation`,
+            icon: ShieldExclamationIcon,
+            current: false,
+            paid: false,
+        },
+        {
+            name: "Workspace Settings",
+            href: `/client/dashboard/${path.split("/")[3]}/settings`,
+            icon: Cog6ToothIcon,
+            current: false,
+            paid: false,
+        },
+    ];
 
     const fetchWorkspaceInformation = async (accessToken: any) => {
         try {
@@ -96,10 +131,7 @@ export default function ClientPage() {
         router.replace("/client/thanks");
     }
 
-    if (auth.user?.isActive === false) {
-        router.replace("/client/notice");
-    }
-    
+   
 
 
     return auth.user && workspaceInformation ? (
@@ -323,7 +355,7 @@ export default function ClientPage() {
 
 
                                 </div>
-                              
+
                                 <div className="mr-6 ml-8 mt-2 grid grid-cols-1  gap-2">
 
                                     <div className="relative w-full text-left  rounded-lg p-6 border border-gray-300">

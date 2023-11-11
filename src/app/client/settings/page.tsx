@@ -60,9 +60,7 @@ export default function ClientPage() {
     const router = useRouter();
 
     console.log(auth)
-    if (auth.user?.isActive === false) {
-        router.replace("/client/notice");
-    }
+    
 
     return auth.user ? (
         <main>

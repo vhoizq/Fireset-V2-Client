@@ -17,6 +17,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useAuth } from "./client/auth";
+import Intercom from '../components/client/Intercom'
 import HomePageMain from "@/components/client/HomepageMain";
 
 
@@ -260,18 +261,16 @@ export default function Home() {
                   <div className="mt-6">
 
                     <h3 className="text-4xl font-bold tracking-tight text-gray-900">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-500 to-purple-800">
+                      We're  <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-500 to-gray-800">
                         Innovating
-                      </span>{" "}
-                      the world of group safety & security on Roblox
+                      </span> the world of community security
                     </h3>
                     <p className="mt-4 text-md text-gray-500">
-                      Keeping your group safe on Roblox is very important, with
-                      Fireset, you can manage all of your moderation needs. All
-                      of this, in one easy-to-use dashboard.
+                      Fireset is a security solution which helps Roblox communities remediate abuse and threats quickly and efficently. Our team of professionals will always guard your back day and night.
                     </p>
                     <div className="mt-6">
 
+                      <Intercom user={false} />
                       <HomePageMain />
 
 
@@ -282,8 +281,6 @@ export default function Home() {
               </div>
               <div className="mx-auto  flex max-w-2xl  lg:ml-10 lg:mt-0 lg:mr-0 lg:max-w-none lg:flex-none xl:ml-32">
                 <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-                  <img src="https://pub-b9da3062b2994df38277c6ff9e81a3fb.r2.dev/New Project (100).png" width={592}
-                    height={442} alt="GUHG" />
 
 
                 </div>

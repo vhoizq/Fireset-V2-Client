@@ -59,8 +59,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
             sessionToken: session,
             userId: userInfo.sub,
             username: userInfo.name,
-            isActive: true,
-            isBeta: false,
+            isActive: false,
+            isBeta: true,
             // Other user data
           };
 

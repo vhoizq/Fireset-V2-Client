@@ -27,6 +27,7 @@ import {
     LockClosedIcon,
     PlusIcon,
     ShieldExclamationIcon,
+    UserGroupIcon,
     UsersIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -151,9 +152,9 @@ export default function ClientPage() {
             paid: true,
         },
         {
-            name: "Security Actions",
-            href: `/client/dashboard/${path.split("/")[3]}/security`,
-            icon: LockClosedIcon,
+            name: "Group Members",
+            href: `/client/dashboard/${path.split("/")[3]}/members`,
+            icon: UserGroupIcon,
             current: false,
             paid: false,
         },
@@ -163,13 +164,6 @@ export default function ClientPage() {
             icon: ClipboardDocumentIcon,
             current: false,
             paid: false,
-        },
-        {
-            name: "Community Backups",
-            href: `/client/dashboard/${path.split("/")[3]}/backups`,
-            icon: CpuChipIcon,
-            current: false,
-            paid: true,
         },
         {
             name: "Moderation Suite",
@@ -263,9 +257,7 @@ export default function ClientPage() {
         router.replace("/client/thanks");
     }
 
-    if (auth.user?.isActive === false) {
-        router.replace("/client/notice");
-    }
+
 
     return auth.user && workspaceInformation ? (
         <main>

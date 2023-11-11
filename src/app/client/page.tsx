@@ -7,11 +7,14 @@ import axios from "axios";
 
 import { HiX } from "react-icons/hi";
 import { useAuth } from "./auth";
+import Intercom from '../../components/client/Intercom'
 import { Toaster, toast } from "react-hot-toast";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Avatar } from "@/components/content/Avatar";
 import { MoonLoader } from "react-spinners";
 import ClientsList from "@/components/client/ClientsList";
+import { Widget } from "discord.js";
+import { user } from "@nextui-org/react";
 
 
 const navigation = [
@@ -66,11 +69,63 @@ export default function ClientPage() {
   if (auth.user?.isBeta === false) {
     router.replace("/client/thanks");
   }
+  useEffect(() => {
+    // Intercom settings
+    const intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "aaljxt5r",
+      name: `${auth.user?.username}`,
+      user_id: `${auth.user?.userId}`
+    };
 
-  if (auth.user?.isActive === false) {
-    router.replace("/client/notice");
-  }
+    // Load Intercom widget
+    const intercomScript = `
 
+      window.intercomSettings = ${JSON.stringify(intercomSettings)};
+
+      (function () {
+        var w = window;
+        var ic = w.Intercom;
+        if (typeof ic === "function") {
+          ic('reattach_activator');
+          ic('update', w.intercomSettings);
+        } else {
+          var d = document;
+          var i = function () {
+            i.c(arguments);
+          };
+          i.q = [];
+          i.c = function (args) {
+            i.q.push(args);
+          };
+          w.Intercom = i;
+          var l = function () {
+            var s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'https://widget.intercom.io/widget/aaljxt5r';
+            var x = d.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          };
+          if (document.readyState === 'complete') {
+            l();
+          } else if (w.attachEvent) {
+            w.attachEvent('onload', l);
+          } else {
+            w.addEventListener('load', l, false);
+          }
+        }
+      })();
+
+  `;
+
+    // Create a div to inject the script
+    const scriptContainer = document.createElement('script');
+    scriptContainer.innerHTML = intercomScript;
+
+    // Append the script to the body
+    document.body.appendChild(scriptContainer);
+  }, []);
 
 
   return auth.user ? (
@@ -232,7 +287,52 @@ export default function ClientPage() {
       </Disclosure>
 
 
-      <ClientsList />
+
+      {
+        auth.user.isActive === true ? (
+          <div className="text-center">
+            <svg
+              className="mx-auto h-12 w-12 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                vector-effect="non-scaling-stroke"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+              />
+            </svg>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">
+              You are already registered!
+            </h3>
+
+          </div>
+        ) : (
+
+          <div className="min-h-full sm:mx-auto mx-6 mt-40 max-w-xl space-y-4 text-gray-800">
+            <span className="flex items-center">
+
+
+            </span>
+            <p className="text-sm">
+              Fireset couldn't find an active account with the user <b>{auth.user.username}</b>, if you are interested in getting started with an account on Fireset you can always check if you are eligable by clicking the button below to complete our application. As Fireset is a application-based software you must first apply to be granted access.
+            </p>
+            <p className="text-sm">
+              Please contact us <a className="text-gray-900 font-semibold" href="https://discord.gg/fkzBMFPVmt">via our Community Server</a> to get in touch about our application process or pricing.
+            </p>
+
+            <button
+              className="transition duration-200 inline-flex rounded-xl border border-transparent bg-gray-900 bg-origin-border px-4 py-2 text-sm text-base font-medium text-white shadow-sm hover:from-gray-600 hover:to-gray-800"
+            >
+              Let's see if your eligable
+            </button>
+
+          </div>)
+      }
 
       <div className="mt-20"></div>
     </main>
