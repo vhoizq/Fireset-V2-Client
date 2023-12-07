@@ -33,13 +33,22 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const code = params.get("code");
     const session = generateRandomString(32);
 
+    console.log(req.body);
+
     if (code) {
       let tokens = await getTokens(code);
+      console.log(tokens);
       if (!tokens) {
         throw Error("Unable to fetch tokens: expired auth code");
       }
 
-      let userInfo = await getRobloxContext(tokens.access_token);
+      let userInfo = await axios.get("https://discord.com/api/users/@me", {
+        headers: {
+          authorization: `Bearer ${tokens.access_token}`,
+        },
+      });
+
+      console.log(userInfo.data.username);
       if (!userInfo) {
         throw Error("Unable to load user data: insufficient permissions");
       }
@@ -48,17 +57,16 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         let sessionKey = `NONE`;
         const { data: userData, error } = await supabase
           .from("User")
-          .select("*")
-          .eq("userId", userInfo.sub);
+          .select("*");
 
-        const session = userData?.[0]?.sessionToken || randomBytes(128).toString("hex");
+        const session =
+          userData?.[0]?.sessionToken || randomBytes(128).toString("hex");
         const encrypted = await encryptCookie(session);
 
         if (userData && userData.length === 0) {
           const newUser = {
             sessionToken: session,
-            userId: userInfo.sub,
-            username: userInfo.name,
+
             isActive: false,
             isBeta: true,
             // Other user data
@@ -80,11 +88,11 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
           {
             status: 200,
             headers: {
-              "Set-Cookie": `fireset-client-id=${
-                session
-              }; Max-Age=${60 * 60 * 24}; Path=/, fireset-user-id=${
-                session
-              }; Max-Age=${60 * 60 * 24}; Path=/`,
+              "Set-Cookie": `fireset-client-id=${session}; Max-Age=${
+                60 * 60 * 24
+              }; Path=/, fireset-user-id=${session}; Max-Age=${
+                60 * 60 * 24
+              }; Path=/`,
             },
           }
         );

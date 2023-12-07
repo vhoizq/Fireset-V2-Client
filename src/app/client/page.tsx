@@ -143,7 +143,7 @@ export default function ClientPage() {
                     <img
                       className="block h-8 w-auto"
                       src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
-                      alt="Fireset Platform"
+                      alt="Fireshit Platform"
                     />
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export default function ClientPage() {
 
             </span>
             <p className="text-sm">
-              Fireset couldn't find an active account with the user <b>{auth.user.username}</b>, if you are interested in getting started with an account on Fireset you can always check if you are eligable by clicking the button below to complete our application. As Fireset is a application-based software you must first apply to be granted access.
+              Fireshit couldn't find an active account with the user <b>{auth.user.username}</b>, if you are interested in getting started with an account on Fireshit you can always check if you are eligable by clicking the button below to complete our application. As Fireshit is a application-based software you must first apply to be granted access.
             </p>
             <p className="text-sm">
               Please contact us <a className="text-gray-900 font-semibold" href="https://discord.gg/fkzBMFPVmt">via our Community Server</a> to get in touch about our application process or pricing.

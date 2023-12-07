@@ -9,9 +9,10 @@ module.exports = {
   ],
   theme: {},
   tailwindAttributes: ["className"],
-  plugins: ["prettier-plugin-tailwindcss", nextui(),  require("@tailwindcss/forms")({
+  plugins: ["prettier-plugin-tailwindcss", nextui(), require("daisyui"),  require("@tailwindcss/forms")({
     strategy: 'base', // only generate global styles
     strategy: 'class', // only generate classes
+    
   }),],
   
 };

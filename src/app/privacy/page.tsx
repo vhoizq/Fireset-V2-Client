@@ -64,7 +64,7 @@ export default function PrivacyPage() {
                 >Section 5: User Rights</span>
                 <span
                     className="text-purple-950 text-sm"
-                >5.1 Access and Control: You have the right to access, modify, or delete your personal information held by us. If you wish to exercise any of these rights, use the settings page on Fireset&apos;s client portal.</span>
+                >5.1 Access and Control: You have the right to access, modify, or delete your personal information held by us. If you wish to exercise any of these rights, use the settings page on Fireshit&apos;s client portal.</span>
             </div>
             <div
                 className="flex flex-col gap-2"
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
                     >Posted on August 20, 2023 at 10:00 AM Eastern Time</span>
                     <span
                         className="text-purple-950 text-sm"
-                    >Approved by Fireset Leadership</span>
+                    >Approved by Fireshit Leadership</span>
                 </div>
                 
             </div>

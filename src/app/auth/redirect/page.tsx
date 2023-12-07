@@ -4,39 +4,30 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { MoonLoader } from "react-spinners";
+import { createClient } from "@supabase/supabase-js";
+
 import { toast } from "react-hot-toast";
+
+const supabaseUrl = "https://vfppfrtyvxpuyzwrqxtq.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmcHBmcnR5dnhwdXl6d3JxeHRxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MzMyMzQ2MCwiZXhwIjoyMDA4ODk5NDYwfQ.fc3Cmi29xECvvEXmGZW6PPfVLRppnH-MINVuGFJF6bA";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 
 export default function RedirectPage() {
   const router = useRouter();
   const params = useSearchParams();
   useEffect(() => {
     console.log("Success");
-    fetch(`https://fireset.xyz/api/auth/redirect?${params}`)
-      .then(async (response) => {
-        let body;
-        try {
-          body = await response.json();
-        } catch (error) {
-          console.log(error);
-        }
-
-        if (response.status === 200) {
-          console.log(response);
-          router.replace("/client/thanks");
-        } else if (body) {
-          toast.error(body.error);
-        } else {
-          toast.error(`${params.toString()}`);
-        }
+    async function signInWithDiscord() {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'discord',
       })
-      .catch((error) => {
-        console.log("ERRORED");
-        setTimeout(() => {
-          router.replace("/client/thanks");
-        }, 4000);
+    }
 
-        toast.error("Unable to complete authentications");
-      });
+    signInWithDiscord()
+
   }, []);
 
   return (

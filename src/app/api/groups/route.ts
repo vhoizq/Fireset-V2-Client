@@ -81,7 +81,7 @@ export const POST = async (req: NextRequest) => {
             throw Error("You must be a member of this group");
           }
         } else {
-          throw Error("You may only create two Fireset groups at this time.");
+          throw Error("You may only create two Fireshit groups at this time.");
         }
       } else {
         throw Error("Both `groupId` and `name` are required");

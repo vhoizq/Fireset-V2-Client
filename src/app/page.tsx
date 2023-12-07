@@ -1,6 +1,7 @@
 "use client";
 import { useState, Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
+import { useNavigate } from 'react-router-dom'
 import {
   Bars2Icon,
   Bars3Icon,
@@ -19,6 +20,14 @@ import Image from "next/image";
 import { useAuth } from "./client/auth";
 import Intercom from '../components/client/Intercom'
 import HomePageMain from "@/components/client/HomepageMain";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = "https://vfppfrtyvxpuyzwrqxtq.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmcHBmcnR5dnhwdXl6d3JxeHRxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MzMyMzQ2MCwiZXhwIjoyMDA4ODk5NDYwfQ.fc3Cmi29xECvvEXmGZW6PPfVLRppnH-MINVuGFJF6bA";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 
 
 const solutions = [
@@ -130,10 +139,12 @@ function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
+
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-
+  
 
   const { user } = useAuth();
 
@@ -146,7 +157,7 @@ export default function Home() {
           <div className="mx-auto flex max-w-7xl items-center justify-between p-4 md:justify-start ">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <a href="#">
-                <span className="sr-only">Fireset</span>
+                <span className="sr-only">Fireshit</span>
                 <Image
                   width={146}
                   height={2}
@@ -164,7 +175,7 @@ export default function Home() {
                 Our Pricing
               </a>
               <a
-                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                 className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Sign In
@@ -179,7 +190,7 @@ export default function Home() {
                 Our Pricing
               </a>
               <a
-                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                 className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
               >
                 Sign In
@@ -227,7 +238,7 @@ export default function Home() {
                       Pricing
                     </a>
                     <a
-                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=https://fireset.xyz/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
+                      href="https://apis.roblox.com/oauth/v1/authorize?client_id=6559552435031738282&redirect_uri=http://localhost:3000/auth/redirect&scope=openid+profile&response_type=Code&prompts=login+consent&nonce=12345&state=6789"
                       className="transition duration-200 inline-flex  px-4 py-2 text-base font-normal text-gray-800  hover:text-gray-600"
                     >
                       Sign In
@@ -261,12 +272,12 @@ export default function Home() {
                   <div className="mt-6">
 
                     <h3 className="text-4xl font-bold tracking-tight text-gray-900">
-                      We're  <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-500 to-gray-800">
-                        Innovating
-                      </span> the world of community security
+                      We're  <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-600 to-gray-800">
+                        shitting
+                      </span> the way you handle support tickets
                     </h3>
                     <p className="mt-4 text-md text-gray-500">
-                      Fireset is a security solution which helps Roblox communities remediate abuse and threats quickly and efficently. Our team of professionals will always guard your back day and night.
+                      Fireshit is innovating the way you handle your support tickets withing your Discord community. It's a struggle having a bot create multiple channels for each ticket, with Fireshit you are able to easily manage and view your support requests all within a singular dashboard.
                     </p>
                     <div className="mt-6">
 
@@ -354,7 +365,7 @@ export default function Home() {
           </div>
           <div className="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16">
             <p className="mt-8 text-base text-gray-400 md:order-1 md:mt-0">
-              &copy; 2023 Fireset. All rights reserved.
+              &copy; 2023 Fireshit. All rights reserved.
             </p>
           </div>
         </div>

@@ -112,7 +112,7 @@ export const IncidentReports =  async (props: { client: any }) => {
             You do not own any Discord Bots
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            Get started with Fireset by creating a new Discord Bot.
+            Get started with Fireshit by creating a new Discord Bot.
           </p>
           <div className="mt-4">
             <Link

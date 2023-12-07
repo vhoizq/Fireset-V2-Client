@@ -207,7 +207,7 @@ export const ClientsList = () => {
                       </h3>
                       <div className="ml-3 flex">
                         <div className="items-center text-xs  font-normal text-gray-900">
-                          Create a new <span className="text-purple-500 font-medium">Fireset</span> workspace to secure your group and assets
+                          Create a new <span className="text-purple-500 font-medium">Fireshit</span> workspace to secure your group and assets
                         </div>
                       </div>
 
@@ -247,7 +247,7 @@ export const ClientsList = () => {
               </h3>
               <p className="mt-1 text-sm text-gray-500">
                 You can get started with{" "}
-                <span className="text-purple-500 font-medium">Fireset</span> by
+                <span className="text-purple-500 font-medium">Fireshit</span> by
                 creating a workspace. It's simple, easy, and{" "}
                 <span className="underline font-medium">free</span> to get
                 started.
@@ -273,7 +273,7 @@ export const ClientsList = () => {
           isOpen={addModal}
           title={"Create a new workspace"}
           desc={
-            "Create your brand new workspace on Fireset today to better secure your group"
+            "Create your brand new workspace on Fireshit today to better secure your group"
           }
           body={
             <>

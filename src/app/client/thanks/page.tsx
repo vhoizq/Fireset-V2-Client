@@ -62,7 +62,7 @@ export default function ClientPage() {
                 <img
                   className="block mr-4 h-8 w-auto"
                   src="https://media.discordapp.net/attachments/1109372391043375234/1130028056187252767/New_Project_41.png"
-                  alt="Fireset Platform"
+                  alt="Fireshit Platform"
                 />
                 <p>
 
@@ -70,7 +70,7 @@ export default function ClientPage() {
                   the waitlist. We are thrilled to show you what is currently on
                   the table for{" "}
                   <span className="font-semibold text-purple-500">
-                    Fireset
+                    Fireshit
                   </span>
                   .
                 </p>

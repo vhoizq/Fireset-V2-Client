@@ -11,7 +11,7 @@ export default function TermsPage() {
             >Code of Conduct</span>
             <span
                 className="text-purple-950 text-sm mb-12"
-            >{`Welcome to Fireset! We are committed to fostering a vibrant and inclusive community where individuals can connect, chat, create content, and freely interact. To ensure a positive and respectful environment for all users, we have established this Code of Conduct. By using our website and participating in our community, you agree to abide by the following guidelines:`}</span>
+            >{`Welcome to Fireshit! We are committed to fostering a vibrant and inclusive community where individuals can connect, chat, create content, and freely interact. To ensure a positive and respectful environment for all users, we have established this Code of Conduct. By using our website and participating in our community, you agree to abide by the following guidelines:`}</span>
             <div
                 className="flex flex-col gap-2"
             >
@@ -130,7 +130,7 @@ export default function TermsPage() {
                     >Posted on August 20, 2023 at 11:00 AM Eastern Time</span>
                     <span
                         className="text-purple-950 text-sm"
-                    >Approved by Fireset Leadership</span>
+                    >Approved by Fireshit Leadership</span>
                 </div>
             </div>
         </div>

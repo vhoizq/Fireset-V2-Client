@@ -8,7 +8,7 @@ export default function TermsPage() {
       <span className="text-purple-950 text-3xl font-bold">
         Terms of Service
       </span>
-      <span className="text-purple-950 text-sm mb-12">{`Please read these Terms of Service ("Terms") carefully before using our website. These Terms constitute a legal agreement between you ("User" or "you") and Fireset ("we," "us," or "our"). By accessing or using our website, you agree to be bound by these Terms.`}</span>
+      <span className="text-purple-950 text-sm mb-12">{`Please read these Terms of Service ("Terms") carefully before using our website. These Terms constitute a legal agreement between you ("User" or "you") and Fireshit ("we," "us," or "our"). By accessing or using our website, you agree to be bound by these Terms.`}</span>
       <div className="flex flex-col gap-2">
         <span className="text-purple-950 text-lg font-semibold ml-8">
           Section 1: User Eligibility
@@ -31,7 +31,7 @@ export default function TermsPage() {
         <span className="text-purple-950 text-sm">
           2.1 Ownership: The intellectual property rights associated with the
           website and its content, including but not limited to copyrights,
-          trademarks, and patents, are owned by Fireset, the user, and Discord,
+          trademarks, and patents, are owned by Fireshit, the user, and Discord,
           as applicable. These intellectual property rights are protected by
           applicable laws and international treaties. You acknowledge and agree
           that you do not acquire any ownership rights or licenses to the
@@ -174,7 +174,7 @@ export default function TermsPage() {
             Posted on August 20, 2023 at 10:28 PM Eastern Time
           </span>
           <span className="text-purple-950 text-sm">
-            Approved by Fireset Leadership
+            Approved by Fireshit Leadership
           </span>
         </div>
       </div>
